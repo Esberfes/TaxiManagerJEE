@@ -3,7 +3,6 @@ package business;
 import datamodels.LazyLoad;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortMeta;
-import pojos.Employee;
 import pojos.License;
 import singletons.MockerSingleton;
 
@@ -30,5 +29,13 @@ public class LicensesBean implements LazyLoad<License> {
     @Override
     public int getTotal(Map<String, FilterMeta> filterMeta) {
         return mockerSingleton.getLicenseTotal(filterMeta);
+    }
+
+    public void insertLicense(String code) {
+        mockerSingleton.insertLicense(code);
+    }
+
+    public void deleteLicense(Long id) {
+        mockerSingleton.deleteLicense(id);
     }
 }

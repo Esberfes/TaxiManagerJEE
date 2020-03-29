@@ -10,6 +10,19 @@
       xmlns:f="http://java.sun.com/jsf/core">
 
 <ui:composition>
+    <p:panel id="insertLicense" header="Nuevo empleado" style="margin-bottom: 25px">
+        <p:outputPanel styleClass="p-grid">
+            <p:outputPanel styleClass="p-col">
+                <p:outputLabel>Code</p:outputLabel>
+                <p:inputText style="width: 100%" value="#{LicensesFace.code}"/>
+            </p:outputPanel>
+            <p:outputPanel styleClass="p-col" style="justify-content: center;align-items: flex-end;display: flex;">
+                <p:commandButton value="Insertar" ajax="true" update=":form:messages insertLicense licensesTable"
+                                 action="#{LicensesFace.insertLicense()}"/>
+            </p:outputPanel>
+        </p:outputPanel>
+    </p:panel>
+
     <p:dataTable id="licensesTable" var="license" value="#{LicensesFace.lazyModel}"
                  lazy="true"
                  editable="true"
@@ -33,6 +46,14 @@
                                                    style="width:100%"/></f:facet>
             </p:cellEditor>
         </p:column>
+
+        <p:column headerText="" style="text-align: center">
+            <p:commandButton icon="fas fa-trash-alt" ajax="true" update=":form:messages licensesTable"
+                             action="#{LicensesFace.deleteLicense(license.id)}">
+                <p:confirm header="Confirmation" message="Estás seguro?" icon="pi pi-exclamation-triangle"/>
+            </p:commandButton>
+        </p:column>
+
     </p:dataTable>
 </ui:composition>
 

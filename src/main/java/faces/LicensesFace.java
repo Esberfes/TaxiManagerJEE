@@ -1,8 +1,6 @@
 package faces;
 
-import business.EmployeesBean;
 import business.LicensesBean;
-import datamodels.LazyEmployeeDataModel;
 import datamodels.LazyLicenseDataModel;
 import org.apache.log4j.Logger;
 import org.primefaces.event.CellEditEvent;
@@ -18,7 +16,6 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.List;
 
 @ViewScoped
 @Named(LicensesFace.BEAN_NAME)
@@ -34,6 +31,8 @@ public class LicensesFace implements Serializable {
 
     private LazyDataModel<License> lazyModel;
 
+    private String code;
+
     @PostConstruct
     public void init() {
         lazyModel = new LazyLicenseDataModel(licensesBean);
@@ -44,7 +43,7 @@ public class LicensesFace implements Serializable {
     }
 
     public void onRowEdit(RowEditEvent<Employee> event) {
-        FacesMessage msg = new FacesMessage("Car Edited", String.valueOf(event.getObject().getId()));
+        FacesMessage msg = new FacesMessage("License Edited", String.valueOf(event.getObject().getId()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
@@ -61,5 +60,24 @@ public class LicensesFace implements Serializable {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
+    }
+
+    public void insertLicense() {
+        licensesBean.insertLicense(code);
+        code = null;
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Nuevo licencia insertada", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void deleteLicense(Long id) {
+        licensesBean.deleteLicense(id);
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

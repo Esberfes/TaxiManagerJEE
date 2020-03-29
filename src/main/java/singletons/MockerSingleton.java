@@ -104,6 +104,15 @@ public class MockerSingleton {
         return filterData(filterMeta, licenses).size();
     }
 
+    public void insertLicense(String code) {
+        Faker faker = new Faker();
+        licenses.add(new License(faker.number().randomNumber(), code));
+    }
+
+    public void deleteLicense(Long id) {
+        licenses.removeIf(e -> e.getId().equals(id));
+    }
+
     private <T> void sortData(Map<String, SortMeta> sortMeta, List<T> data) {
         if (sortMeta != null && !sortMeta.isEmpty()) {
             for (SortMeta meta : sortMeta.values()) {

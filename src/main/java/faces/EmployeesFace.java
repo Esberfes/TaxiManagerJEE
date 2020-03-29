@@ -15,7 +15,6 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.List;
 
 @ViewScoped
 @Named(EmployeesFace.BEAN_NAME)
@@ -46,7 +45,7 @@ public class EmployeesFace implements Serializable {
     }
 
     public void onRowEdit(RowEditEvent<Employee> event) {
-        FacesMessage msg = new FacesMessage("Car Edited", String.valueOf(event.getObject().getId()));
+        FacesMessage msg = new FacesMessage("Employee Edited", String.valueOf(event.getObject().getId()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
