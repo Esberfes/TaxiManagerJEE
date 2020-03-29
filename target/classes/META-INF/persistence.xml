@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+    <persistence-unit name="sch-micro-firmware-persistence">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <jta-data-source>java:/TaxyManagerDS</jta-data-source>
+        <jar-file></jar-file>
+        <properties>
+            <!-- Show SQL -->
+            <property name="hibernate.show_sql" value="false"/>
+            <property name="hibernate.format_sql" value="false"/>
+
+            <!-- Poner comillas en todas las palabras reservadas de MySQL, como trigger -->
+            <property name="hibernate.globally_quoted_identifiers" value="true"/>
+        </properties>
+    </persistence-unit>
+</persistence>
