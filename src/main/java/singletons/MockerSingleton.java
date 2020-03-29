@@ -2,19 +2,21 @@ package singletons;
 
 import com.github.javafaker.Faker;
 import datamodels.LazySorter;
+import enums.ShiftType;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortMeta;
 import pojos.Employee;
+import pojos.Income;
 import pojos.License;
+import pojos.WorkShift;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @Startup
 @Singleton(name = MockerSingleton.BEAN_NAME)
@@ -23,8 +25,8 @@ public class MockerSingleton {
     public static final String BEAN_NAME = "Mocker";
 
     private List<Employee> employees;
-
     private List<License> licenses;
+    private List<WorkShift> workShifts;
 
     @PostConstruct
     public void init() {
@@ -43,6 +45,25 @@ public class MockerSingleton {
         licenses = new ArrayList<>();
         for (int i = 0; i < 50; i++)
             licenses.add(new License(faker.number().randomNumber(), faker.idNumber().valid()));
+
+        workShifts = new ArrayList<>();
+        for (int i = 0; i < 500; i++) {
+            WorkShift workShift = new WorkShift();
+            workShift.setId(faker.number().randomNumber());
+            workShift.setShiftType(Math.random() > 0.5 ? ShiftType.afternoon : ShiftType.morning);
+            Date start = faker.date().birthday();
+            workShift.setStart(start);
+            workShift.setEnd(faker.date().future(8, TimeUnit.HOURS, start));
+            Random rand = new Random();
+            workShift.setEmployee(employees.get(rand.nextInt(employees.size())));
+            workShift.setLicense(licenses.get(rand.nextInt(licenses.size())));
+
+            for (int x = 0; x < rand.nextInt(20); x++)
+                workShift.addIncome(new Income(faker.number().randomNumber(), faker.number().randomDouble(2, 5, 180), workShift));
+
+            workShifts.add(workShift);
+        }
+
     }
 
     public void deleteEmployee(Long id) {
@@ -111,6 +132,31 @@ public class MockerSingleton {
 
     public void deleteLicense(Long id) {
         licenses.removeIf(e -> e.getId().equals(id));
+    }
+
+    public List<WorkShift> getWorkShiftData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
+        List<WorkShift> data = filterData(filterMeta, workShifts);
+
+        // sort
+        sortData(sortMeta, data);
+
+        //rowCount
+        int dataSize = data.size();
+
+        //paginate
+        if (dataSize > pageSize) {
+            try {
+                return data.subList(first, first + pageSize);
+            } catch (IndexOutOfBoundsException e) {
+                return data.subList(first, first + (dataSize % pageSize));
+            }
+        } else {
+            return data;
+        }
+    }
+
+    public int getWorkShiftTotal(Map<String, FilterMeta> filterMeta) {
+        return filterData(filterMeta, workShifts).size();
     }
 
     private <T> void sortData(Map<String, SortMeta> sortMeta, List<T> data) {

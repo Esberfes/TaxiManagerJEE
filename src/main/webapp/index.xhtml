@@ -59,6 +59,11 @@
                         <ui:include src="./views/licenses.xhtml"/>
                     </p:outputPanel>
 
+                    <!-- WorkShifts -->
+                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.workShift}">
+                        <ui:include src="./views/workshifts.xhtml"/>
+                    </p:outputPanel>
+
                 </p:outputPanel>
             </p:outputPanel>
 

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+>
+
+<ui:composition>
+
+    <p:dataTable id="workShiftsTable" var="workShift" value="#{WorkShiftsFace.lazyModel}"
+                 lazy="true"
+                 editable="true"
+                 editMode="cell"
+                 rows="10"
+                 paginator="true"
+                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                 rowsPerPageTemplate="10,15,20,25,30">
+
+        <p:ajax event="cellEdit" listener="#{WorkShiftsFace.onCellEdit}" update=":form:messages"/>
+
+        <p:column headerText="Id" filterBy="#{workShift.id}" sortBy="#{workShift.id}">
+            <h:outputText value="#{workShift.id}"/>
+        </p:column>
+
+        <p:column headerText="Turno" filterBy="#{workShift.shiftType}" sortBy="#{workShift.shiftType}">
+            <h:outputText value="#{workShift.shiftType}"/>
+        </p:column>
+
+        <p:column headerText="Entrada" filterBy="#{workShift.start}" sortBy="#{workShift.start}">
+            <h:outputText value="#{workShift.start}"/>
+        </p:column>
+
+        <p:column headerText="Salida" filterBy="#{workShift.end}" sortBy="#{workShift.end}">
+            <h:outputText value="#{workShift.end}"/>
+        </p:column>
+
+        <p:column headerText="Empleado" filterBy="#{workShift.employee}" sortBy="#{workShift.employee}">
+            <h:outputText
+                    value="#{workShift.employee.name} #{workShift.employee.firstLastName} #{workShift.employee.secondLastName}"/>
+        </p:column>
+
+        <p:column headerText="Licencia" filterBy="#{workShift.license}" sortBy="#{workShift.license}">
+            <h:outputText value="#{workShift.license.code}"/>
+        </p:column>
+        <!--
+                <p:column headerText="" style="text-align: center">
+                    <p:commandButton icon="fas fa-trash-alt" ajax="true" update=":form:messages employeesTable"
+                                     action="#{WorkShiftsFace.deleteEmployee(employee.id)}">
+                        <p:confirm header="Confirmation" message="Estás seguro?" icon="pi pi-exclamation-triangle"/>
+                    </p:commandButton>
+                </p:column>
+        -->
+    </p:dataTable>
+
+</ui:composition>
+
+</html>

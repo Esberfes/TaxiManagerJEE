@@ -19,9 +19,9 @@ public class LazyLicenseDataModel extends LazyDataModel<License> {
 
     @Override
     public License getRowData(String rowKey) {
-        for (License License : datasource) {
-            if (String.valueOf(License.getId()).equals(rowKey)) {
-                return License;
+        for (License license : datasource) {
+            if (String.valueOf(license.getId()).equals(rowKey)) {
+                return license;
             }
         }
 
@@ -29,8 +29,8 @@ public class LazyLicenseDataModel extends LazyDataModel<License> {
     }
 
     @Override
-    public Object getRowKey(License License) {
-        return License.getId();
+    public Object getRowKey(License license) {
+        return license.getId();
     }
 
     @Override
