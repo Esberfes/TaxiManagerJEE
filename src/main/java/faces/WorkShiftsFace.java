@@ -5,8 +5,8 @@ import datamodels.LazyWorkShiftDataModel;
 import org.apache.log4j.Logger;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
+import org.primefaces.event.SelectEvent;
 import org.primefaces.model.LazyDataModel;
-import pojos.Employee;
 import pojos.WorkShift;
 
 import javax.annotation.PostConstruct;
@@ -30,6 +30,7 @@ public class WorkShiftsFace implements Serializable {
     private transient Logger logger;
 
     private LazyDataModel<WorkShift> lazyModel;
+    private WorkShift selectedWorkShift;
 
     @PostConstruct
     public void init() {
@@ -40,12 +41,12 @@ public class WorkShiftsFace implements Serializable {
         return lazyModel;
     }
 
-    public void onRowEdit(RowEditEvent<Employee> event) {
+    public void onRowEdit(RowEditEvent<WorkShift> event) {
         FacesMessage msg = new FacesMessage("License Edited", String.valueOf(event.getObject().getId()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
-    public void onRowCancel(RowEditEvent<Employee> event) {
+    public void onRowCancel(RowEditEvent<WorkShift> event) {
         FacesMessage msg = new FacesMessage("Edit Cancelled", String.valueOf(event.getObject().getId()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
@@ -60,4 +61,17 @@ public class WorkShiftsFace implements Serializable {
         }
     }
 
+    public WorkShift getSelectedWorkShift() {
+        return selectedWorkShift;
+    }
+
+    public void onRowSelected(SelectEvent<WorkShift> event) {
+        FacesMessage msg = new FacesMessage("Turno seleccionado: ", String.valueOf(selectedWorkShift.getId()));
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+        // PrimeFaces.current().ajax().update(":form");
+    }
+
+    public void setSelectedWorkShift(WorkShift selectedWorkShift) {
+        this.selectedWorkShift = selectedWorkShift;
+    }
 }

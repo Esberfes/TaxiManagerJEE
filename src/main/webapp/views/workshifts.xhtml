@@ -11,7 +11,9 @@
 
 <ui:composition>
 
-    <p:dataTable id="workShiftsTable" var="workShift" value="#{WorkShiftsFace.lazyModel}"
+    <p:dataTable id="workShiftsTable" var="workShift" value="#{WorkShiftsFace.lazyModel}" style="margin-bottom: 25px"
+                 selection="#{WorkShiftsFace.selectedWorkShift}"
+                 selectionMode="single"
                  lazy="true"
                  editable="true"
                  editMode="cell"
@@ -22,9 +24,15 @@
                  rowsPerPageTemplate="10,15,20,25,30">
 
         <p:ajax event="cellEdit" listener="#{WorkShiftsFace.onCellEdit}" update=":form:messages"/>
+        <p:ajax event="rowSelect" listener="#{WorkShiftsFace.onRowSelected}" update=":form"/>
 
         <p:column headerText="Id" filterBy="#{workShift.id}" sortBy="#{workShift.id}">
             <h:outputText value="#{workShift.id}"/>
+        </p:column>
+
+        <p:column headerText="Empleado" filterBy="#{workShift.employee}" sortBy="#{workShift.employee}">
+            <h:outputText
+                    value="#{workShift.employee.name} #{workShift.employee.firstLastName} #{workShift.employee.secondLastName}"/>
         </p:column>
 
         <p:column headerText="Turno" filterBy="#{workShift.shiftType}" sortBy="#{workShift.shiftType}">
@@ -39,11 +47,6 @@
             <h:outputText value="#{workShift.end}"/>
         </p:column>
 
-        <p:column headerText="Empleado" filterBy="#{workShift.employee}" sortBy="#{workShift.employee}">
-            <h:outputText
-                    value="#{workShift.employee.name} #{workShift.employee.firstLastName} #{workShift.employee.secondLastName}"/>
-        </p:column>
-
         <p:column headerText="Licencia" filterBy="#{workShift.license}" sortBy="#{workShift.license}">
             <h:outputText value="#{workShift.license.code}"/>
         </p:column>
@@ -56,6 +59,29 @@
                 </p:column>
         -->
     </p:dataTable>
+
+    <p:outputPanel id="icomesTable" rendered="#{WorkShiftsFace.selectedWorkShift != null}">
+        <p:dataTable var="income" value="#{WorkShiftsFace.selectedWorkShift.incomes}"
+                     lazy="true"
+                     editable="true"
+                     editMode="cell"
+                     rows="10"
+                     paginator="true"
+                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                     currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                     rowsPerPageTemplate="10,15,20,25,30">
+
+            <p:column headerText="Id">
+                <h:outputText value="#{income.id}"/>
+            </p:column>
+
+            <p:column headerText="Cantidad">
+                <h:outputText value="#{income.amount}"/>
+            </p:column>
+
+        </p:dataTable>
+    </p:outputPanel>
+
 
 </ui:composition>
 

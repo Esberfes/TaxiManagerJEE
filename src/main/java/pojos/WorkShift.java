@@ -17,6 +17,8 @@ public class WorkShift implements Serializable {
     private Employee employee;
     private License license;
     private List<Income> incomes;
+    private Date createdAt;
+    private Date updatedAt;
 
     public WorkShift() {
         incomes = new ArrayList<>();

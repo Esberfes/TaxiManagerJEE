@@ -1,6 +1,7 @@
 package pojos;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
 public class Income implements Serializable {
@@ -8,6 +9,9 @@ public class Income implements Serializable {
     private Long id;
     private Double amount;
     private WorkShift workShift;
+    private Date time;
+    private Date createdAt;
+    private Date updatedAt;
 
     public Income() {
     }

@@ -1,6 +1,7 @@
 package singletons;
 
 import com.github.javafaker.Faker;
+import database.EmployeesDbBean;
 import datamodels.LazySorter;
 import enums.ShiftType;
 import org.apache.commons.lang3.StringUtils;
@@ -14,6 +15,7 @@ import pojos.WorkShift;
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import javax.inject.Inject;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -28,19 +30,27 @@ public class MockerSingleton {
     private List<License> licenses;
     private List<WorkShift> workShifts;
 
+    @Inject
+    private EmployeesDbBean employeesDbBean;
+
     @PostConstruct
     public void init() {
         Faker faker = new Faker();
 
+        employeesDbBean.truncate();
         employees = new ArrayList<>();
-        for (int i = 0; i < 300; i++)
-            employees.add(new Employee(
-                    faker.number().randomNumber(),
+        for (int i = 0; i < 300; i++) {
+            Employee employee = new Employee(
                     faker.name().firstName(),
                     faker.name().lastName(),
                     faker.name().lastName(),
-                    faker.idNumber().valid())
-            );
+                    faker.idNumber().valid());
+
+            employeesDbBean.insertEmployee(employee);
+            employees.add(employee);
+        }
+
+
 
         licenses = new ArrayList<>();
         for (int i = 0; i < 50; i++)
@@ -72,7 +82,7 @@ public class MockerSingleton {
 
     public void insertEmployee(String name, String firstLastName, String secondLastName, String dni) {
         Faker faker = new Faker();
-        employees.add(new Employee(faker.number().randomNumber(), name, firstLastName, secondLastName, dni));
+        employees.add(new Employee(name, firstLastName, secondLastName, dni));
     }
 
     public List<Employee> getEmployeeData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {

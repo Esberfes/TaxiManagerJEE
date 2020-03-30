@@ -1,12 +1,15 @@
 package pojos;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
 public class License implements Serializable {
 
     private Long id;
     private String code;
+    private Date createdAt;
+    private Date updatedAt;
 
     public License() {
     }

@@ -1,6 +1,9 @@
 package pojos;
 
+import entities.EmployeeEntity;
+
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
 public class Employee implements Serializable {
@@ -10,16 +13,27 @@ public class Employee implements Serializable {
     private String firstLastName;
     private String secondLastName;
     private String dni;
+    private Date createdAt;
+    private Date updatedAt;
 
     public Employee() {
     }
 
-    public Employee(Long id, String name, String firstLastName, String secondLastName, String dni) {
-        this.id = id;
+    public Employee(String name, String firstLastName, String secondLastName, String dni) {
         this.name = name;
         this.firstLastName = firstLastName;
         this.secondLastName = secondLastName;
         this.dni = dni;
+    }
+
+    public Employee(EmployeeEntity employeeEntity) {
+        this.id = employeeEntity.getId();
+        this.name = employeeEntity.getName();
+        this.firstLastName = employeeEntity.getFirstLastName();
+        this.secondLastName = employeeEntity.getSecondLastName();
+        this.dni = employeeEntity.getDni();
+        this.createdAt = employeeEntity.getCreatedAt();
+        this.updatedAt = employeeEntity.getUpdatedAt();
     }
 
     public Long getId() {
