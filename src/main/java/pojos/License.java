@@ -1,5 +1,7 @@
 package pojos;
 
+import entities.LicenseEntity;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -17,6 +19,17 @@ public class License implements Serializable {
     public License(Long id, String code) {
         this.id = id;
         this.code = code;
+    }
+
+    public License(String code) {
+        this.code = code;
+    }
+
+    public License(LicenseEntity licenseEntity) {
+        this.id = licenseEntity.getId();
+        this.code = licenseEntity.getCode();
+        this.createdAt = licenseEntity.getCreatedAt();
+        this.updatedAt = licenseEntity.getUpdatedAt();
     }
 
     public Long getId() {

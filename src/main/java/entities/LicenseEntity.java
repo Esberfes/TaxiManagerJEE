@@ -1,5 +1,7 @@
 package entities;
 
+import pojos.License;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -22,6 +24,13 @@ public class LicenseEntity {
     @Column(name = "updatedAt")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
+
+    public LicenseEntity() {
+    }
+
+    public LicenseEntity(License license) {
+        this.code = license.getCode();
+    }
 
     @PrePersist
     public void prePersist() {

@@ -63,7 +63,7 @@ public class LicensesFace implements Serializable {
     }
 
     public void insertLicense() {
-        licensesBean.insertLicense(code);
+        licensesBean.insertLicense(new License(code));
         code = null;
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Nuevo licencia insertada", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);

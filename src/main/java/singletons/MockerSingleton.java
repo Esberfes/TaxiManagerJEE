@@ -2,6 +2,7 @@ package singletons;
 
 import com.github.javafaker.Faker;
 import database.EmployeesDbBean;
+import database.LicensesDbBean;
 import datamodels.LazySorter;
 import enums.ShiftType;
 import org.apache.commons.lang3.StringUtils;
@@ -33,6 +34,9 @@ public class MockerSingleton {
     @Inject
     private EmployeesDbBean employeesDbBean;
 
+    @Inject
+    private LicensesDbBean licensesDbBean;
+
     @PostConstruct
     public void init() {
         Faker faker = new Faker();
@@ -50,11 +54,12 @@ public class MockerSingleton {
             employees.add(employee);
         }
 
-
-
         licenses = new ArrayList<>();
-        for (int i = 0; i < 50; i++)
-            licenses.add(new License(faker.number().randomNumber(), faker.idNumber().valid()));
+        for (int i = 0; i < 50; i++) {
+            License license = new License(faker.idNumber().valid());
+            licensesDbBean.insertLicense(license);
+            licenses.add(license);
+        }
 
         workShifts = new ArrayList<>();
         for (int i = 0; i < 500; i++) {
@@ -74,74 +79,6 @@ public class MockerSingleton {
             workShifts.add(workShift);
         }
 
-    }
-
-    public void deleteEmployee(Long id) {
-        employees.removeIf(e -> e.getId().equals(id));
-    }
-
-    public void insertEmployee(String name, String firstLastName, String secondLastName, String dni) {
-        Faker faker = new Faker();
-        employees.add(new Employee(name, firstLastName, secondLastName, dni));
-    }
-
-    public List<Employee> getEmployeeData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
-        List<Employee> data = filterData(filterMeta, employees);
-
-        // sort
-        sortData(sortMeta, data);
-
-        //rowCount
-        int dataSize = data.size();
-
-        //paginate
-        if (dataSize > pageSize) {
-            try {
-                return data.subList(first, first + pageSize);
-            } catch (IndexOutOfBoundsException e) {
-                return data.subList(first, first + (dataSize % pageSize));
-            }
-        } else {
-            return data;
-        }
-    }
-
-    public int getEmployeeTotal(Map<String, FilterMeta> filterMeta) {
-        return filterData(filterMeta, employees).size();
-    }
-
-    public List<License> getLicenseData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
-        List<License> data = filterData(filterMeta, licenses);
-
-        // sort
-        sortData(sortMeta, data);
-
-        //rowCount
-        int dataSize = data.size();
-
-        //paginate
-        if (dataSize > pageSize) {
-            try {
-                return data.subList(first, first + pageSize);
-            } catch (IndexOutOfBoundsException e) {
-                return data.subList(first, first + (dataSize % pageSize));
-            }
-        } else {
-            return data;
-        }
-    }
-
-    public int getLicenseTotal(Map<String, FilterMeta> filterMeta) {
-        return filterData(filterMeta, licenses).size();
-    }
-
-    public void insertLicense(String code) {
-        Faker faker = new Faker();
-        licenses.add(new License(faker.number().randomNumber(), code));
-    }
-
-    public void deleteLicense(Long id) {
-        licenses.removeIf(e -> e.getId().equals(id));
     }
 
     public List<WorkShift> getWorkShiftData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
