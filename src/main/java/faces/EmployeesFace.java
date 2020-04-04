@@ -3,8 +3,8 @@ package faces;
 import business.EmployeesBean;
 import datamodels.LazyEmployeeDataModel;
 import org.apache.log4j.Logger;
+import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.CellEditEvent;
-import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.LazyDataModel;
 import pojos.Employee;
 
@@ -44,19 +44,11 @@ public class EmployeesFace implements Serializable {
         return lazyModel;
     }
 
-    public void onRowEdit(RowEditEvent<Employee> event) {
-        FacesMessage msg = new FacesMessage("Employee Edited", String.valueOf(event.getObject().getId()));
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
-
-    public void onRowCancel(RowEditEvent<Employee> event) {
-        FacesMessage msg = new FacesMessage("Edit Cancelled", String.valueOf(event.getObject().getId()));
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
-
     public void onCellEdit(CellEditEvent event) {
         Object oldValue = event.getOldValue();
         Object newValue = event.getNewValue();
+        Employee employee = (Employee) ((DataTable) event.getComponent()).getRowData();
+        employeesBean.update(employee);
 
         if(newValue != null && !newValue.equals(oldValue)) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);

@@ -8,6 +8,7 @@ import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.LazyDataModel;
 import pojos.WorkShift;
+import singletons.MockerSingleton;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -25,6 +26,9 @@ public class WorkShiftsFace implements Serializable {
 
     @Inject
     private WorkShiftsBean workShiftsBean;
+
+    @Inject
+    private MockerSingleton mockerSingleton;
 
     @Inject
     private transient Logger logger;
@@ -68,10 +72,17 @@ public class WorkShiftsFace implements Serializable {
     public void onRowSelected(SelectEvent<WorkShift> event) {
         FacesMessage msg = new FacesMessage("Turno seleccionado: ", String.valueOf(selectedWorkShift.getId()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
-        // PrimeFaces.current().ajax().update(":form");
     }
 
     public void setSelectedWorkShift(WorkShift selectedWorkShift) {
         this.selectedWorkShift = selectedWorkShift;
+    }
+
+    public void deleteWorkShift(Long id) {
+        workShiftsBean.deleteWorkShift(id);
+    }
+
+    public MockerSingleton getMockerSingleton() {
+        return mockerSingleton;
     }
 }

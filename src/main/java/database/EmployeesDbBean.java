@@ -54,8 +54,21 @@ public class EmployeesDbBean {
         return ((BigInteger) query.getSingleResult()).intValue();
     }
 
-    public void insertEmployee(Employee employee) {
-        em.persist(new EmployeeEntity(employee));
+    public EmployeeEntity insertEmployee(Employee employee) {
+        EmployeeEntity employeeEntity = new EmployeeEntity(employee);
+        em.persist(employeeEntity);
+
+        return employeeEntity;
+    }
+
+    public void updateEmployee(Employee employee) {
+        EmployeeEntity employeeEntity = getSingleEmployee(employee.getId());
+        employeeEntity.setName(employee.getName());
+        employeeEntity.setFirstLastName(employee.getFirstLastName());
+        employeeEntity.setSecondLastName(employee.getSecondLastName());
+        employeeEntity.setDni(employee.getDni());
+
+        em.merge(employeeEntity);
     }
 
     public void deleteEmployee(Long id) {

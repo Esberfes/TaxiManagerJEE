@@ -3,10 +3,9 @@ package faces;
 import business.LicensesBean;
 import datamodels.LazyLicenseDataModel;
 import org.apache.log4j.Logger;
+import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.CellEditEvent;
-import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.LazyDataModel;
-import pojos.Employee;
 import pojos.License;
 
 import javax.annotation.PostConstruct;
@@ -42,19 +41,12 @@ public class LicensesFace implements Serializable {
         return lazyModel;
     }
 
-    public void onRowEdit(RowEditEvent<Employee> event) {
-        FacesMessage msg = new FacesMessage("License Edited", String.valueOf(event.getObject().getId()));
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
-
-    public void onRowCancel(RowEditEvent<Employee> event) {
-        FacesMessage msg = new FacesMessage("Edit Cancelled", String.valueOf(event.getObject().getId()));
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
-
     public void onCellEdit(CellEditEvent event) {
         Object oldValue = event.getOldValue();
         Object newValue = event.getNewValue();
+
+        License license = (License) ((DataTable) event.getComponent()).getRowData();
+        licensesBean.update(license);
 
         if(newValue != null && !newValue.equals(oldValue)) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);

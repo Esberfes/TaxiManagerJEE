@@ -36,6 +36,10 @@ public class EmployeesBean implements LazyLoad<Employee> {
         employeesDbBean.insertEmployee(new Employee(name, firstLastName, secondLastName, dni));
     }
 
+    public void update(Employee employee) {
+        employeesDbBean.updateEmployee(employee);
+    }
+
     public void deleteEmployee(Long id) {
         employeesDbBean.deleteEmployee(id);
     }

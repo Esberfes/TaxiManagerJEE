@@ -54,12 +54,19 @@ public class LicensesDbBean {
         return ((BigInteger) query.getSingleResult()).intValue();
     }
 
-    public void insertLicense(License license) {
-        em.persist(new LicenseEntity(license));
+    public LicenseEntity insertLicense(License license) {
+        LicenseEntity licenseEntity = new LicenseEntity(license);
+        em.persist(licenseEntity);
+
+        return licenseEntity;
     }
 
     public void deleteLicense(Long id) {
         em.remove(getSingleLicenses(id));
+    }
+
+    public void truncate() {
+        em.createNativeQuery("DELETE FROM licenses WHERE true").executeUpdate();
     }
 
     private void buildFilters(Map<String, FilterMeta> filterMeta, StringBuilder rawQuery) {
@@ -74,5 +81,12 @@ public class LicensesDbBean {
             default:
                 return "'%" + filterField.getFilterValue() + "%'";
         }
+    }
+
+    public void updateLicense(License license) {
+        LicenseEntity licenseEntity = getSingleLicenses(license.getId());
+        licenseEntity.setCode(license.getCode());
+
+        em.merge(licenseEntity);
     }
 }

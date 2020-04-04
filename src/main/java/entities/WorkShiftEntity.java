@@ -1,10 +1,10 @@
 package entities;
 
 import enums.ShiftType;
+import pojos.WorkShift;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "workshifts")
@@ -15,16 +15,13 @@ public class WorkShiftEntity {
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "shiftType")
     private ShiftType shiftType;
 
-    @Column(name = "start")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date start;
-
-    @Column(name = "end")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date end;
+    @Column(name = "day")
+    @Temporal(TemporalType.DATE)
+    private Date day;
 
     @JoinColumn(name = "employee", referencedColumnName = "id", nullable = false)
     @ManyToOne
@@ -33,9 +30,8 @@ public class WorkShiftEntity {
     @JoinColumn(name = "license", referencedColumnName = "id", nullable = false)
     @ManyToOne
     private LicenseEntity license;
-
-    @OneToMany(mappedBy = "workShift", cascade = CascadeType.ALL)
-    private List<IncomeEntity> incomes;
+    @Column(name = "income")
+    private Double income;
 
     @Column(name = "createdAt")
     @Temporal(TemporalType.TIMESTAMP)
@@ -44,6 +40,15 @@ public class WorkShiftEntity {
     @Column(name = "updatedAt")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
+
+    public WorkShiftEntity() {
+    }
+
+    public WorkShiftEntity(WorkShift workShift) {
+        this.shiftType = workShift.getShiftType();
+        this.day = workShift.getDay();
+        this.income = workShift.getIncome();
+    }
 
     @PrePersist
     public void prePersist() {
@@ -72,20 +77,12 @@ public class WorkShiftEntity {
         this.shiftType = shiftType;
     }
 
-    public Date getStart() {
-        return start;
+    public Date getDay() {
+        return day;
     }
 
-    public void setStart(Date start) {
-        this.start = start;
-    }
-
-    public Date getEnd() {
-        return end;
-    }
-
-    public void setEnd(Date end) {
-        this.end = end;
+    public void setDay(Date day) {
+        this.day = day;
     }
 
     public EmployeeEntity getEmployee() {
@@ -104,12 +101,12 @@ public class WorkShiftEntity {
         this.license = license;
     }
 
-    public List<IncomeEntity> getIncomes() {
-        return incomes;
+    public Double getIncome() {
+        return income;
     }
 
-    public void setIncomes(List<IncomeEntity> incomes) {
-        this.incomes = incomes;
+    public void setIncome(Double income) {
+        this.income = income;
     }
 
     public Date getCreatedAt() {

@@ -1,37 +1,43 @@
 package pojos;
 
+import entities.WorkShiftEntity;
 import enums.ShiftType;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 public class WorkShift implements Serializable {
 
     private Long id;
     private ShiftType shiftType;
-    private Date start;
-    private Date end;
+    private Date day;
     private Employee employee;
     private License license;
-    private List<Income> incomes;
+    private double income;
     private Date createdAt;
     private Date updatedAt;
 
     public WorkShift() {
-        incomes = new ArrayList<>();
+
     }
 
-    public WorkShift(Long id, ShiftType shiftType, Date start, Date end, Employee employee, License license, List<Income> incomes) {
+    public WorkShift(Long id, ShiftType shiftType, Date day, Employee employee, License license, double income) {
         this.id = id;
         this.shiftType = shiftType;
-        this.start = start;
-        this.end = end;
+        this.day = day;
         this.employee = employee;
         this.license = license;
-        this.incomes = incomes;
+        this.income = income;
+    }
+
+    public WorkShift(WorkShiftEntity workShiftEntity) {
+        this.id = workShiftEntity.getId();
+        this.shiftType = workShiftEntity.getShiftType();
+        this.day = workShiftEntity.getDay();
+        this.employee = new Employee(workShiftEntity.getEmployee());
+        this.license = new License(workShiftEntity.getLicense());
+        this.income = workShiftEntity.getIncome();
     }
 
     public Long getId() {
@@ -50,20 +56,12 @@ public class WorkShift implements Serializable {
         this.shiftType = shiftType;
     }
 
-    public Date getStart() {
-        return start;
+    public Date getDay() {
+        return day;
     }
 
-    public void setStart(Date start) {
-        this.start = start;
-    }
-
-    public Date getEnd() {
-        return end;
-    }
-
-    public void setEnd(Date end) {
-        this.end = end;
+    public void setDay(Date day) {
+        this.day = day;
     }
 
     public Employee getEmployee() {
@@ -82,16 +80,28 @@ public class WorkShift implements Serializable {
         this.license = license;
     }
 
-    public List<Income> getIncomes() {
-        return incomes;
+    public double getIncome() {
+        return income;
     }
 
-    public void setIncomes(List<Income> incomes) {
-        this.incomes = incomes;
+    public void setIncome(double income) {
+        this.income = income;
     }
 
-    public void addIncome(Income income) {
-        this.incomes.add(income);
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     @Override

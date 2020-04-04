@@ -32,6 +32,9 @@ public class LicensesBean implements LazyLoad<License> {
         return licensesDbBean.getLicenseTotal(filterMeta);
     }
 
+    public void update(License license) {
+        licensesDbBean.updateLicense(license);
+    }
     public void insertLicense(License license) {
         licensesDbBean.insertLicense(license);
     }

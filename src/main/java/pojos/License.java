@@ -67,4 +67,8 @@ public class License implements Serializable {
 
         return Objects.equals(this.id, other.id);
     }
+
+    public void updateLicense(License license) {
+
+    }
 }
