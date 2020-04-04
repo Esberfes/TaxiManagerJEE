@@ -16,7 +16,7 @@
                 <p:outputLabel>Code</p:outputLabel>
                 <p:inputText style="width: 100%" value="#{LicensesFace.code}"/>
             </p:outputPanel>
-            <p:outputPanel styleClass="p-col" style="justify-content: center;align-items: flex-end;display: flex;">
+            <p:outputPanel styleClass="p-col" style="justify-content: flex-end;align-items: flex-end;display: flex;">
                 <p:commandButton value="Insertar" ajax="true" update=":form:messages insertLicense licensesTable"
                                  action="#{LicensesFace.insertLicense()}"/>
             </p:outputPanel>

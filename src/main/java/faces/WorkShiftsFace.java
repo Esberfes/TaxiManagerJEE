@@ -117,7 +117,7 @@ public class WorkShiftsFace implements Serializable {
             workShiftsBean.insertWorkShift(licenseCode, day, employeeName, shiftType, income);
 
             income = 0D;
-            shiftType = ShiftType.morning;
+            shiftType = ShiftType.M;
 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Nueva recaudación insertada", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);

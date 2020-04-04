@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortMeta;
+import org.primefaces.model.SortOrder;
 import pojos.WorkShift;
 
 import javax.ejb.Stateless;
@@ -41,6 +42,11 @@ public class WorkShiftsDbBean {
         StringBuilder query = new StringBuilder("SELECT workshifts.* FROM workshifts, employees, licenses WHERE workshifts.employee = employees.id AND workshifts.license = licenses.id ");
 
         buildFilters(filterMeta, query);
+
+        if (!sortMeta.isEmpty()) {
+            SortMeta sort = sortMeta.entrySet().iterator().next().getValue();
+            query.append(" ORDER BY ").append(sort.getSortField()).append(" ").append(sort.getSortOrder() == SortOrder.DESCENDING ? " DESC " : " ASC ");
+        }
 
         Query stats = em.createNativeQuery(query.toString(), WorkShiftEntity.class);
 

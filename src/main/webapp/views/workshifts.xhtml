@@ -37,17 +37,17 @@
             <p:outputPanel styleClass="p-col">
                 <p:outputLabel>Turno</p:outputLabel>
                 <p:selectOneMenu value="#{WorkShiftsFace.shiftType}" inputStyle="width: 100%" style="width: 100%">
-                    <f:selectItem itemLabel="Mañana" itemValue="morning"/>
-                    <f:selectItem itemLabel="Tarde" itemValue="afternoon"/>
+                    <f:selectItem itemLabel="Mañana" itemValue="M"/>
+                    <f:selectItem itemLabel="Tarde" itemValue="T"/>
                 </p:selectOneMenu>
             </p:outputPanel>
 
             <p:outputPanel styleClass="p-col">
                 <p:outputLabel>Recaudación</p:outputLabel>
-                <p:inputNumber style="width: 100%" value="#{WorkShiftsFace.income}"/>
+                <p:inputNumber style="width: 100%" inputStyle="width: 100%" value="#{WorkShiftsFace.income}"/>
             </p:outputPanel>
 
-            <p:outputPanel styleClass="p-col" style="justify-content: center;align-items: flex-end;display: flex;">
+            <p:outputPanel styleClass="p-col" style="justify-content: flex-end;align-items: flex-end;display: flex;">
                 <p:commandButton value="Insertar" ajax="true" update=":form:messages insertWorkShift workShiftsTable"
                                  action="#{WorkShiftsFace.insertWokShift()}"/>
             </p:outputPanel>
@@ -73,7 +73,7 @@
         <p:ajax event="cellEdit" listener="#{WorkShiftsFace.onCellEdit}" update=":form:messages"/>
         <p:ajax event="rowSelect" listener="#{WorkShiftsFace.onRowSelected}" update=":form"/>
 
-        <p:column headerText="Licencia" filterBy="#{workShift.license}" sortBy="#{workShift.license}">
+        <p:column headerText="Licencia" filterBy="#{workShift.license}">
             <h:outputText value="#{workShift.license.code}"/>
         </p:column>
 
@@ -91,7 +91,7 @@
             </p:cellEditor>
         </p:column>
 
-        <p:column headerText="Conductor" filterBy="#{workShift.employee}" sortBy="#{workShift.employee}">
+        <p:column headerText="Conductor" filterBy="#{workShift.employee}">
             <h:outputText
                     value="#{workShift.employee.name} #{workShift.employee.firstLastName} #{workShift.employee.secondLastName}"/>
         </p:column>
@@ -101,8 +101,8 @@
                 <f:facet name="output"><h:outputText value="#{workShift.shiftType}"/></f:facet>
                 <f:facet name="input">
                     <p:selectOneMenu value="#{workShift.shiftType}" inputStyle="width: 100%" style="width: 100%">
-                        <f:selectItem itemLabel="Mañana" itemValue="morning"/>
-                        <f:selectItem itemLabel="Tarde" itemValue="afternoon"/>
+                        <f:selectItem itemLabel="Mañana" itemValue="M"/>
+                        <f:selectItem itemLabel="Tarde" itemValue="T"/>
                     </p:selectOneMenu>
                 </f:facet>
             </p:cellEditor>
