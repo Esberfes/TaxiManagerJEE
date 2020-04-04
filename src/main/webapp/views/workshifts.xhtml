@@ -10,7 +10,7 @@
 
 <ui:composition>
 
-    <p:panel id="insertWorkShift" header="Nueva recaudación" style="margin-bottom: 25px">
+    <p:panel id="insertWorkShift" header="Nueva recaudación" style="margin-bottom: 25px" styleClass="shadow">
         <p:outputPanel styleClass="p-grid">
 
             <p:outputPanel styleClass="p-col">
@@ -22,7 +22,8 @@
 
             <p:outputPanel styleClass="p-col">
                 <p:outputLabel>Fecha</p:outputLabel>
-                <p:datePicker value="#{WorkShiftsFace.day}" inputStyle="width: 100%" style="width: 100%"/>
+                <p:datePicker value="#{WorkShiftsFace.day}" pattern="dd/MM/yyyy" inputStyle="width: 100%" locale="es"
+                              style="width: 100%"/>
             </p:outputPanel>
 
             <p:outputPanel styleClass="p-col">
@@ -55,6 +56,7 @@
     </p:panel>
 
     <p:dataTable widgetVar="workShiftsTable" id="workShiftsTable" var="workShift" value="#{WorkShiftsFace.lazyModel}"
+                 styleClass="shadow"
                  style="margin-bottom: 25px"
                  selection="#{WorkShiftsFace.selectedWorkShift}"
                  lazy="true"
@@ -66,6 +68,8 @@
                  currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
                  rowsPerPageTemplate="10,15,20,25,30">
 
+        <f:facet name="header">Recaudación</f:facet>
+
         <p:ajax event="cellEdit" listener="#{WorkShiftsFace.onCellEdit}" update=":form:messages"/>
         <p:ajax event="rowSelect" listener="#{WorkShiftsFace.onRowSelected}" update=":form"/>
 
@@ -74,9 +78,17 @@
         </p:column>
 
         <p:column headerText="Fecha" filterBy="#{workShift.day}" sortBy="#{workShift.day}">
-            <h:outputText value="#{workShift.day}">
-                <f:convertDateTime type="date" pattern="dd/MM/yyyy" timeZone="Europe/Madrid"/>
-            </h:outputText>
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText value="#{workShift.day}">
+                        <f:convertDateTime type="date" pattern="dd/MM/yyyy" timeZone="Europe/Madrid"/>
+                    </h:outputText>
+                </f:facet>
+                <f:facet name="input">
+                    <p:datePicker locale="es" value="#{workShift.day}" pattern="dd/MM/yyyy" inputStyle="width: 100%"
+                                  style="width: 100%"/>
+                </f:facet>
+            </p:cellEditor>
         </p:column>
 
         <p:column headerText="Conductor" filterBy="#{workShift.employee}" sortBy="#{workShift.employee}">
@@ -85,11 +97,22 @@
         </p:column>
 
         <p:column headerText="Turno" filterBy="#{workShift.shiftType}" sortBy="#{workShift.shiftType}">
-            <h:outputText value="#{workShift.shiftType}"/>
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{workShift.shiftType}"/></f:facet>
+                <f:facet name="input">
+                    <p:selectOneMenu value="#{workShift.shiftType}" inputStyle="width: 100%" style="width: 100%">
+                        <f:selectItem itemLabel="Mañana" itemValue="morning"/>
+                        <f:selectItem itemLabel="Tarde" itemValue="afternoon"/>
+                    </p:selectOneMenu>
+                </f:facet>
+            </p:cellEditor>
         </p:column>
 
         <p:column headerText="Recaudación" filterBy="#{workShift.income}" sortBy="#{workShift.income}">
-            <h:outputText value="#{workShift.income}"/>
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{workShift.income}"/></f:facet>
+                <f:facet name="input"><p:inputText value="#{workShift.income}" style="width:100%"/></f:facet>
+            </p:cellEditor>
         </p:column>
 
         <p:column headerText="" style="text-align: center">

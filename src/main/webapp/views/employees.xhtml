@@ -11,7 +11,7 @@
 
 <ui:composition>
 
-    <p:panel id="insertEmployee" header="Nuevo empleado" style="margin-bottom: 25px">
+    <p:panel id="insertEmployee" header="Nuevo empleado" styleClass="shadow" style="margin-bottom: 25px">
         <p:outputPanel styleClass="p-grid">
             <p:outputPanel styleClass="p-col">
                 <p:outputLabel>Nombre</p:outputLabel>
@@ -37,6 +37,7 @@
     </p:panel>
 
     <p:dataTable id="employeesTable" var="employee" value="#{EmployeesFace.lazyModel}"
+                 styleClass="shadow"
                  lazy="true"
                  editable="true"
                  editMode="cell"
@@ -46,30 +47,36 @@
                  currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
                  rowsPerPageTemplate="10,15,20,25,30">
 
-        <p:ajax event="cellEdit" listener="#{EmployeesFace.onCellEdit}" update=":form:messages"/>
+        <f:facet name="header">Empleados</f:facet>
 
-        <p:column headerText="Id" filterBy="#{employee.id}" sortBy="#{employee.id}">
-            <h:outputText value="#{employee.id}"/>
-        </p:column>
+        <p:ajax event="cellEdit" listener="#{EmployeesFace.onCellEdit}" update=":form:messages"/>
 
         <p:column headerText="Nombre" filterBy="#{employee.name}" sortBy="#{employee.name}">
             <p:cellEditor>
                 <f:facet name="output"><h:outputText value="#{employee.name}"/></f:facet>
-                <f:facet name="input"><p:inputText id="modelInput" value="#{employee.name}"
-                                                   style="width:100%"/></f:facet>
+                <f:facet name="input"><p:inputText value="#{employee.name}" style="width:100%"/></f:facet>
             </p:cellEditor>
         </p:column>
 
         <p:column headerText="P. Apellido" filterBy="#{employee.firstLastName}" sortBy="#{employee.firstLastName}">
-            <h:outputText value="#{employee.firstLastName}"/>
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{employee.firstLastName}"/></f:facet>
+                <f:facet name="input"><p:inputText value="#{employee.firstLastName}" style="width:100%"/></f:facet>
+            </p:cellEditor>
         </p:column>
 
         <p:column headerText="S. Apellido" filterBy="#{employee.secondLastName}" sortBy="#{employee.secondLastName}">
-            <h:outputText value="#{employee.secondLastName}"/>
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{employee.secondLastName}"/></f:facet>
+                <f:facet name="input"><p:inputText value="#{employee.secondLastName}" style="width:100%"/></f:facet>
+            </p:cellEditor>
         </p:column>
 
         <p:column headerText="DNI" filterBy="#{employee.dni}" sortBy="#{employee.dni}">
-            <h:outputText value="#{employee.dni}"/>
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{employee.dni}"/></f:facet>
+                <f:facet name="input"><p:inputText value="#{employee.dni}" style="width:100%"/></f:facet>
+            </p:cellEditor>
         </p:column>
 
         <p:column headerText="" style="text-align: center">

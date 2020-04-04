@@ -1,12 +1,8 @@
 package singletons;
 
-import com.github.javafaker.Faker;
 import database.EmployeesDbBean;
 import database.LicensesDbBean;
 import database.WorkShiftsDbBean;
-import entities.EmployeeEntity;
-import entities.LicenseEntity;
-import enums.ShiftType;
 import pojos.Employee;
 import pojos.License;
 import pojos.WorkShift;
@@ -15,11 +11,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 @Startup
 @Singleton(name = MockerSingleton.BEAN_NAME)
@@ -42,6 +34,7 @@ public class MockerSingleton {
 
     @PostConstruct
     public void init() {
+        /*
         Faker faker = new Faker();
 
         employeesDbBean.truncate();
@@ -83,5 +76,6 @@ public class MockerSingleton {
             workShifts.add(workShift);
             workShiftsDbBean.insertWorkShift(workShift);
         }
+        */
     }
 }

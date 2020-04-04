@@ -10,7 +10,7 @@
       xmlns:f="http://java.sun.com/jsf/core">
 
 <ui:composition>
-    <p:panel id="insertLicense" header="Nuevo empleado" style="margin-bottom: 25px">
+    <p:panel id="insertLicense" header="Nuevo empleado" style="margin-bottom: 25px" styleClass="shadow">
         <p:outputPanel styleClass="p-grid">
             <p:outputPanel styleClass="p-col">
                 <p:outputLabel>Code</p:outputLabel>
@@ -24,6 +24,7 @@
     </p:panel>
 
     <p:dataTable id="licensesTable" var="license" value="#{LicensesFace.lazyModel}"
+                 styleClass="shadow"
                  lazy="true"
                  editable="true"
                  editMode="cell"
@@ -33,11 +34,9 @@
                  currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
                  rowsPerPageTemplate="10,15,20,25,30">
 
-        <p:ajax event="cellEdit" listener="#{LicensesFace.onCellEdit}" update=":form:messages"/>
+        <f:facet name="header">Licencias</f:facet>
 
-        <p:column headerText="Id" filterBy="#{license.id}" sortBy="#{license.id}">
-            <h:outputText value="#{license.id}"/>
-        </p:column>
+        <p:ajax event="cellEdit" listener="#{LicensesFace.onCellEdit}" update=":form:messages"/>
 
         <p:column headerText="Código" filterBy="#{license.code}" sortBy="#{license.code}">
             <p:cellEditor>

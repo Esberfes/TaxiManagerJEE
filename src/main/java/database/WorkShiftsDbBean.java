@@ -82,7 +82,7 @@ public class WorkShiftsDbBean {
                 if (entry.getValue().getFilterValue() != null && StringUtils.isNotBlank(String.valueOf(entry.getValue().getFilterValue()))
                         && entry.getValue().getFilterValue() != null && StringUtils.isNotBlank(String.valueOf(entry.getValue().getFilterValue()))) {
                     if (entry.getKey().equalsIgnoreCase("employee"))
-                        rawQuery.append(" AND ").append(" concat(name, firstLastName, secondLastName) ").append("LIKE ").append(getFilterFieldValue(entry.getValue()));
+                        rawQuery.append(" AND ").append(" concat(name, ' ', firstLastName, ' ', secondLastName) ").append("LIKE ").append(getFilterFieldValue(entry.getValue()));
                     else if (entry.getKey().equalsIgnoreCase("license"))
                         rawQuery.append(" AND ").append(" licenses.code ").append("LIKE ").append(getFilterFieldValue(entry.getValue()));
                     else if (entry.getKey().equalsIgnoreCase("day")) {
@@ -109,5 +109,14 @@ public class WorkShiftsDbBean {
             default:
                 return "'%" + filterField.getFilterValue() + "%'";
         }
+    }
+
+    public void updateWorkShift(WorkShift workShift) {
+        WorkShiftEntity workShiftEntity = getSingleWorkShift(workShift.getId());
+        workShiftEntity.setIncome(workShift.getIncome());
+        workShiftEntity.setShiftType(workShift.getShiftType());
+        workShiftEntity.setDay(workShift.getDay());
+
+        em.merge(workShiftEntity);
     }
 }

@@ -6,6 +6,7 @@ import business.WorkShiftsBean;
 import datamodels.LazyWorkShiftDataModel;
 import enums.ShiftType;
 import org.apache.log4j.Logger;
+import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
@@ -75,6 +76,9 @@ public class WorkShiftsFace implements Serializable {
     public void onCellEdit(CellEditEvent event) {
         Object oldValue = event.getOldValue();
         Object newValue = event.getNewValue();
+
+        WorkShift workShift = (WorkShift) ((DataTable) event.getComponent()).getRowData();
+        workShiftsBean.update(workShift);
 
         if (newValue != null && !newValue.equals(oldValue)) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);

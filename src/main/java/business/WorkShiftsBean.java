@@ -55,4 +55,8 @@ public class WorkShiftsBean implements LazyLoad<WorkShift> {
             throw new Exception(e.getMessage());
         }
     }
+
+    public void update(WorkShift workShift) {
+        workShiftsDbBean.updateWorkShift(workShift);
+    }
 }
