@@ -6,14 +6,57 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html"
->
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <ui:composition>
 
-    <p:dataTable id="workShiftsTable" var="workShift" value="#{WorkShiftsFace.lazyModel}" style="margin-bottom: 25px"
+    <p:panel id="insertWorkShift" header="Nueva recaudación" style="margin-bottom: 25px">
+        <p:outputPanel styleClass="p-grid">
+
+            <p:outputPanel styleClass="p-col">
+                <p:outputLabel>Licencia</p:outputLabel>
+                <p:autoComplete inputStyle="width: 100%" style="width: 100%" minQueryLength="0"
+                                value="#{WorkShiftsFace.licenseCode}" completeMethod="#{WorkShiftsFace.completeLicense}"
+                                forceSelection="true" effect="fade"/>
+            </p:outputPanel>
+
+            <p:outputPanel styleClass="p-col">
+                <p:outputLabel>Fecha</p:outputLabel>
+                <p:datePicker value="#{WorkShiftsFace.day}" inputStyle="width: 100%" style="width: 100%"/>
+            </p:outputPanel>
+
+            <p:outputPanel styleClass="p-col">
+                <p:outputLabel>Conductor</p:outputLabel>
+                <p:autoComplete inputStyle="width: 100%" style="width: 100%" minQueryLength="0"
+                                value="#{WorkShiftsFace.employeeName}"
+                                completeMethod="#{WorkShiftsFace.completeEmployee}" forceSelection="true"
+                                effect="fade"/>
+            </p:outputPanel>
+
+            <p:outputPanel styleClass="p-col">
+                <p:outputLabel>Turno</p:outputLabel>
+                <p:selectOneMenu value="#{WorkShiftsFace.shiftType}" inputStyle="width: 100%" style="width: 100%">
+                    <f:selectItem itemLabel="Mañana" itemValue="morning"/>
+                    <f:selectItem itemLabel="Tarde" itemValue="afternoon"/>
+                </p:selectOneMenu>
+            </p:outputPanel>
+
+            <p:outputPanel styleClass="p-col">
+                <p:outputLabel>Recaudación</p:outputLabel>
+                <p:inputNumber style="width: 100%" value="#{WorkShiftsFace.income}"/>
+            </p:outputPanel>
+
+            <p:outputPanel styleClass="p-col" style="justify-content: center;align-items: flex-end;display: flex;">
+                <p:commandButton value="Insertar" ajax="true" update=":form:messages insertWorkShift workShiftsTable"
+                                 action="#{WorkShiftsFace.insertWokShift()}"/>
+            </p:outputPanel>
+
+        </p:outputPanel>
+    </p:panel>
+
+    <p:dataTable widgetVar="workShiftsTable" id="workShiftsTable" var="workShift" value="#{WorkShiftsFace.lazyModel}"
+                 style="margin-bottom: 25px"
                  selection="#{WorkShiftsFace.selectedWorkShift}"
-                 selectionMode="single"
                  lazy="true"
                  editable="true"
                  editMode="cell"
@@ -26,17 +69,14 @@
         <p:ajax event="cellEdit" listener="#{WorkShiftsFace.onCellEdit}" update=":form:messages"/>
         <p:ajax event="rowSelect" listener="#{WorkShiftsFace.onRowSelected}" update=":form"/>
 
-        <!--
-        <p:column headerText="Id" filterBy="#{workShift.id}" sortBy="#{workShift.id}">
-            <h:outputText value="#{workShift.id}"/>
-        </p:column>
-        -->
         <p:column headerText="Licencia" filterBy="#{workShift.license}" sortBy="#{workShift.license}">
             <h:outputText value="#{workShift.license.code}"/>
         </p:column>
 
         <p:column headerText="Fecha" filterBy="#{workShift.day}" sortBy="#{workShift.day}">
-            <h:outputText value="#{workShift.day}"/>
+            <h:outputText value="#{workShift.day}">
+                <f:convertDateTime type="date" pattern="dd/MM/yyyy" timeZone="Europe/Madrid"/>
+            </h:outputText>
         </p:column>
 
         <p:column headerText="Conductor" filterBy="#{workShift.employee}" sortBy="#{workShift.employee}">

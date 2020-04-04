@@ -24,7 +24,7 @@ public class LicensesBean implements LazyLoad<License> {
 
     @Override
     public List<License> getData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
-        return licensesDbBean.getLicenseData(first, pageSize, sortMeta, filterMeta).stream().map(l -> new License(l)).collect(Collectors.toList());
+        return licensesDbBean.getLicenseData(first, pageSize, sortMeta, filterMeta).stream().map(License::new).collect(Collectors.toList());
     }
 
     @Override
@@ -35,11 +35,16 @@ public class LicensesBean implements LazyLoad<License> {
     public void update(License license) {
         licensesDbBean.updateLicense(license);
     }
+
     public void insertLicense(License license) {
         licensesDbBean.insertLicense(license);
     }
 
     public void deleteLicense(Long id) {
         licensesDbBean.deleteLicense(id);
+    }
+
+    public List<License> findLicensesByCod(String code) {
+        return licensesDbBean.findLicensesByCod(code).stream().map(License::new).collect(Collectors.toList());
     }
 }

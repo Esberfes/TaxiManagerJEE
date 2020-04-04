@@ -31,6 +31,13 @@ public class LicensesDbBean {
         return em.find(LicenseEntity.class, id);
     }
 
+    public List<LicenseEntity> findLicensesByCod(String code) {
+        String rawQuery = "SELECT * FROM licenses WHERE code LIKE '%" + code + "%' ORDER BY code ASC";
+        Query query = em.createNativeQuery(rawQuery, LicenseEntity.class);
+
+        return query.setMaxResults(10).getResultList();
+    }
+
     public List<LicenseEntity> getLicenseData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
         StringBuilder query = new StringBuilder("SELECT * FROM licenses WHERE true ");
 

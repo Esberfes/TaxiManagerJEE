@@ -85,7 +85,18 @@ public class WorkShiftsDbBean {
                         rawQuery.append(" AND ").append(" concat(name, firstLastName, secondLastName) ").append("LIKE ").append(getFilterFieldValue(entry.getValue()));
                     else if (entry.getKey().equalsIgnoreCase("license"))
                         rawQuery.append(" AND ").append(" licenses.code ").append("LIKE ").append(getFilterFieldValue(entry.getValue()));
-                    else
+                    else if (entry.getKey().equalsIgnoreCase("day")) {
+                        // dd-mm-YYYY
+                        String parsedDate = entry.getValue().getFilterValue().toString().replace("/", "-");
+                        String[] fragments = parsedDate.split("-");
+                        if (fragments.length == 3) {
+                            parsedDate = fragments[2] + "-" + fragments[1] + "-" + fragments[0];
+                        } else if (fragments.length == 2) {
+                            parsedDate = fragments[1] + "-" + fragments[0];
+                        }
+
+                        rawQuery.append(" AND ").append(entry.getKey()).append(" LIKE ").append("'%").append(parsedDate).append("%'");
+                    } else
                         rawQuery.append(" AND ").append(entry.getKey()).append(" LIKE ").append(getFilterFieldValue(entry.getValue()));
                 }
 

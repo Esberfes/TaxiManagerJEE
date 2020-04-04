@@ -43,4 +43,8 @@ public class EmployeesBean implements LazyLoad<Employee> {
     public void deleteEmployee(Long id) {
         employeesDbBean.deleteEmployee(id);
     }
+
+    public List<Employee> findEmployeesByFullName(String name) {
+        return employeesDbBean.findEmployeesByFullName(name).stream().map(Employee::new).collect(Collectors.toList());
+    }
 }

@@ -31,6 +31,13 @@ public class EmployeesDbBean {
         return em.find(EmployeeEntity.class, id);
     }
 
+    public List<EmployeeEntity> findEmployeesByFullName(String name) {
+        String rawQuery = "SELECT * FROM employees WHERE concat(name, ' ', firstLastName, ' ', secondLastName) LIKE '%" + name + "%' ORDER BY name ASC, firstLastName ASC, secondLastName ASC";
+        Query query = em.createNativeQuery(rawQuery, EmployeeEntity.class);
+
+        return query.setMaxResults(10).getResultList();
+    }
+
     public List<EmployeeEntity> getEmployeeData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
         StringBuilder query = new StringBuilder("SELECT * FROM employees WHERE true ");
 
