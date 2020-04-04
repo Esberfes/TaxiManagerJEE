@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition>
+
+    <p:panel id="summaryPanel" header="Rango de fechas" styleClass="shadow" style="margin-bottom: 25px">
+        <p:outputPanel styleClass="p-grid">
+
+            <p:outputPanel styleClass="p-col">
+                <p:outputLabel>Desde</p:outputLabel>
+                <p:datePicker value="#{IncomesSummaryFace.start}" pattern="dd/MM/yyyy" inputStyle="width: 100%"
+                              locale="es"
+                              style="width: 100%"/>
+            </p:outputPanel>
+
+            <p:outputPanel styleClass="p-col">
+                <p:outputLabel>Hasta</p:outputLabel>
+                <p:datePicker value="#{IncomesSummaryFace.end}" pattern="dd/MM/yyyy" inputStyle="width: 100%"
+                              locale="es"
+                              style="width: 100%"/>
+            </p:outputPanel>
+
+            <p:outputPanel styleClass="p-col" style="justify-content: flex-end;align-items: flex-end;display: flex;">
+                <p:commandButton value="Procesar" ajax="true" update=":form:messages summaryPanel summaryTable"
+                                 action="#{IncomesSummaryFace.generateSummary()}"/>
+            </p:outputPanel>
+        </p:outputPanel>
+    </p:panel>
+
+    <p:dataTable id="summaryTable" var="summary" value="#{IncomesSummaryFace.incomesSummary.licenseIncomes}"
+                 styleClass="shadow"
+                 rows="10"
+                 paginator="true"
+                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                 rowsPerPageTemplate="10,15,20,25,30">
+
+        <f:facet name="header">Resumen de facturación</f:facet>
+
+
+        <p:column headerText="Licencia">
+            <h:outputText value="#{summary.key.code}"/>
+        </p:column>
+
+        <p:column headerText="Recaudación">
+            <h:outputText value="#{summary.value.doubleValue()}"/>
+        </p:column>
+
+        <f:facet name="footer">
+            <p:outputPanel styleClass="p-grid">
+                <p:outputPanel styleClass="p-col"
+                               style="justify-content: flex-start;align-items: flex-end;display: flex;">
+                    <h:outputText value="TOTAL:"/>
+                </p:outputPanel>
+                <p:outputPanel styleClass="p-col"
+                               style="justify-content: flex-end;align-items: flex-end;display: flex;">
+                    <h:outputText value="#{IncomesSummaryFace.incomesSummary.total}"/>
+                </p:outputPanel>
+            </p:outputPanel>
+        </f:facet>
+    </p:dataTable>
+
+</ui:composition>
+
+</html>

@@ -42,8 +42,13 @@
                         </p:submenu>
                         <p:submenu label="Incidencias">
                             <p:menuitem value="Partes de accidente"
-                                        action="#{NavigationFace.navigate(NavigationEnum.reports)}"
+                                        action="#{NavigationFace.navigate(NavigationEnum.accident)}"
                                         update="messages content" ajax="true" icon="fas fa-car-crash"/>
+                        </p:submenu>
+                        <p:submenu label="Informes">
+                            <p:menuitem value="Resumen de facturación"
+                                        action="#{NavigationFace.navigate(NavigationEnum.incomesSummary)}"
+                                        update="messages content" ajax="true" icon="fas fa-chart-line"/>
                         </p:submenu>
                     </p:menu>
                 </p:outputPanel>
@@ -62,6 +67,11 @@
                     <!-- WorkShifts -->
                     <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.workShift}">
                         <ui:include src="./views/workshifts.xhtml"/>
+                    </p:outputPanel>
+
+                    <!-- Summay -->
+                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.incomesSummary}">
+                        <ui:include src="./views/summary.xhtml"/>
                     </p:outputPanel>
 
                 </p:outputPanel>

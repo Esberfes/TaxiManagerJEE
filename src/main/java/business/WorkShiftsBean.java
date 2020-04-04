@@ -6,13 +6,17 @@ import enums.ShiftType;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortMeta;
 import pojos.Employee;
+import pojos.IncomesSummary;
 import pojos.License;
 import pojos.WorkShift;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -58,5 +62,21 @@ public class WorkShiftsBean implements LazyLoad<WorkShift> {
 
     public void update(WorkShift workShift) {
         workShiftsDbBean.updateWorkShift(workShift);
+    }
+
+    public IncomesSummary generateSummary(Date start, Date end) {
+        List<WorkShift> workShiftEntities = workShiftsDbBean.getWorkShiftsBetween(start, end).stream().map(WorkShift::new).collect(Collectors.toList());
+        MathContext mc = new MathContext(4);
+        BigDecimal total = new BigDecimal(0, mc);
+        Map<License, BigDecimal> licenseIncomes = new HashMap<>();
+        for (WorkShift workShift : workShiftEntities) {
+            total = total.add(new BigDecimal(workShift.getIncome(), mc));
+            if (!licenseIncomes.containsKey(workShift.getLicense()))
+                licenseIncomes.put(workShift.getLicense(), new BigDecimal(workShift.getIncome(), mc));
+            else
+                licenseIncomes.put(workShift.getLicense(), licenseIncomes.get(workShift.getLicense()).add(new BigDecimal(workShift.getIncome(), mc)));
+        }
+
+        return new IncomesSummary(licenseIncomes, total, start, end);
     }
 }

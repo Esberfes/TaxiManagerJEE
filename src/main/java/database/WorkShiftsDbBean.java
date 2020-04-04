@@ -14,6 +14,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -124,5 +126,13 @@ public class WorkShiftsDbBean {
         workShiftEntity.setDay(workShift.getDay());
 
         em.merge(workShiftEntity);
+    }
+
+    public List<WorkShiftEntity> getWorkShiftsBetween(Date start, Date end) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String rawQuery = "SELECT workshifts.* FROM workshifts WHERE day >= '" + simpleDateFormat.format(start) + "' AND day <= '" + simpleDateFormat.format(end) + "' ORDER BY day ASC";
+        Query query = em.createNativeQuery(rawQuery, WorkShiftEntity.class);
+
+        return query.getResultList();
     }
 }
