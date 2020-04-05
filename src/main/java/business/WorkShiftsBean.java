@@ -17,10 +17,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -92,6 +89,9 @@ public class WorkShiftsBean implements LazyLoad<WorkShift> {
             else
                 licenseIncomes.put(workShift.getLicense(), licenseIncomes.get(workShift.getLicense()).add(new BigDecimal(workShift.getIncome(), mc)));
         }
+
+        dateIncomes = dateIncomes.entrySet().stream().sorted((e1, e2) -> e2.getKey().compareTo(e1.getKey())).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+                (e1, e2) -> e1, LinkedHashMap::new));
 
         return new IncomesSummary(dateIncomes, licenseIncomes, total, start, end);
     }
