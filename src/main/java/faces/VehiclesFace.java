@@ -17,7 +17,6 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -74,7 +73,7 @@ public class VehiclesFace implements Serializable {
             Vehicle vehicle = (Vehicle) ((DataTable) event.getComponent()).getRowData();
             vehiclesBean.update(vehicle);
 
-            if (newValue != null && !newValue.equals(oldValue)) {
+            if (newValue != null && !newValue.equals(oldValue) || newValue == null && oldValue != null || newValue != null) {
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Celda modificada", "Anterior: " + oldValue + ", Nuevo:" + newValue);
                 FacesContext.getCurrentInstance().addMessage(null, msg);
             }
@@ -85,11 +84,7 @@ public class VehiclesFace implements Serializable {
     }
 
     public List<String> completeLicense(String value) {
-        List<String> result = new ArrayList<>();
-        result.add("null");
-        result.addAll(licensesBean.findLicensesByCod(value).stream().map(License::getCode).collect(Collectors.toList()));
-
-        return result;
+        return licensesBean.findLicensesByCod(value).stream().map(License::getCode).collect(Collectors.toList());
     }
 
     public void deleteVehicle(Long id) {

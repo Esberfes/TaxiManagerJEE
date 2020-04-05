@@ -108,6 +108,11 @@ public class VehiclesDbBean {
 
     public void update(Vehicle vehicle) {
         VehicleEntity vehicleEntity = getSingleVehicle(vehicle.getId());
+        if (vehicle.getLicense() != null && StringUtils.isNotBlank(vehicle.getLicense().getCode())) {
+            vehicleEntity.setLicense(licensesDbBean.findLicensesByCod(vehicle.getLicense().getCode()).get(0));
+        } else
+            vehicleEntity.setLicense(null);
+
         vehicleEntity.setBrand(vehicle.getBrand());
         vehicleEntity.setRegistration(vehicle.getRegistration());
 

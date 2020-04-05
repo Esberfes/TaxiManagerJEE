@@ -3,6 +3,7 @@ package business;
 import database.LicensesDbBean;
 import database.VehiclesDbBean;
 import datamodels.LazyLoad;
+import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortMeta;
 import pojos.License;
@@ -43,7 +44,7 @@ public class VehiclesBean implements LazyLoad<Vehicle> {
 
     public void insertVehicle(String brand, String registration, String licenseCode) {
         License license = new License();
-        if (licenseCode != null) {
+        if (StringUtils.isNotBlank(licenseCode)) {
             license = new License(licensesDbBean.findLicensesByCod(licenseCode).get(0));
         }
 
@@ -51,9 +52,6 @@ public class VehiclesBean implements LazyLoad<Vehicle> {
     }
 
     public void update(Vehicle vehicle) {
-        if (vehicle.getLicense().getCode().equals("null"))
-            vehicle.getLicense().setCode(null);
-
         vehiclesDbBean.update(vehicle);
     }
 }

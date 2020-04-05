@@ -20,7 +20,7 @@ public class VehicleEntity {
     @Column(name = "registration")
     private String registration;
 
-    @JoinColumn(name = "license", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "license", referencedColumnName = "id", nullable = true)
     @OneToOne
     private LicenseEntity license;
 

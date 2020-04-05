@@ -28,7 +28,9 @@
                 <p:outputLabel>Licencia</p:outputLabel>
                 <p:autoComplete inputStyle="width: 100%" style="width: 100%" minQueryLength="0"
                                 value="#{VehiclesFace.licenseCode}" completeMethod="#{VehiclesFace.completeLicense}"
-                                forceSelection="true" effect="fade"/>
+                                forceSelection="true" effect="fade">
+                    <p:ajax process="@this" update="insertVehicle"/>
+                </p:autoComplete>
             </p:outputPanel>
 
             <p:outputPanel styleClass="p-col" style="justify-content: flex-end;align-items: flex-end;display: flex;">
