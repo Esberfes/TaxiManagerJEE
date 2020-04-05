@@ -1,6 +1,8 @@
 package faces;
 
 import business.WorkShiftsBean;
+import com.google.gson.Gson;
+import org.primefaces.PrimeFaces;
 import pojos.IncomesSummary;
 
 import javax.annotation.PostConstruct;
@@ -8,9 +10,8 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.math.BigDecimal;
+import java.util.*;
 
 @ViewScoped
 @Named(IncomesSummaryFace.BEAN_NAME)
@@ -36,7 +37,24 @@ public class IncomesSummaryFace implements Serializable {
     }
 
     public void generateSummary() {
+
         incomesSummary = workShiftsBean.generateSummary(start, end);
+        PrimeFaces.current().ajax().update("chart");
+    }
+
+    public String getChartData() {
+        List<List<Object>> data = new ArrayList<>();
+        List<Object> headers = Arrays.asList("Año y mes", "Recaudación");
+        data.add(headers);
+
+        if (incomesSummary != null) {
+            for (Map.Entry<String, BigDecimal> entry : incomesSummary.getDateIncomes().entrySet()) {
+                List<Object> row = Arrays.asList(entry.getKey(), entry.getValue());
+                data.add(row);
+            }
+        }
+
+        return new Gson().toJson(data);
     }
 
     public Date getStart() {
