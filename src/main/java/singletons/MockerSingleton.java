@@ -3,12 +3,15 @@ package singletons;
 import com.github.javafaker.Faker;
 import database.EmployeesDbBean;
 import database.LicensesDbBean;
+import database.VehiclesDbBean;
 import database.WorkShiftsDbBean;
 import entities.EmployeeEntity;
 import entities.LicenseEntity;
+import entities.VehicleEntity;
 import enums.ShiftType;
 import pojos.Employee;
 import pojos.License;
+import pojos.Vehicle;
 import pojos.WorkShift;
 
 import javax.annotation.PostConstruct;
@@ -40,12 +43,18 @@ public class MockerSingleton {
     @Inject
     private WorkShiftsDbBean workShiftsDbBean;
 
+    @Inject
+    private VehiclesDbBean vehiclesDbBean;
+
     @PostConstruct
     public void init() {
         if (false) {
             Faker faker = new Faker();
-
+            workShiftsDbBean.truncate();
             employeesDbBean.truncate();
+            licensesDbBean.truncate();
+            vehiclesDbBean.truncate();
+
             employees = new ArrayList<>();
             for (int i = 0; i < 300; i++) {
                 Employee employee = new Employee(
@@ -59,16 +68,19 @@ public class MockerSingleton {
                 employees.add(employee);
             }
 
-            licensesDbBean.truncate();
+
             licenses = new ArrayList<>();
             for (int i = 0; i < 50; i++) {
                 License license = new License(faker.idNumber().valid());
                 LicenseEntity e = licensesDbBean.insertLicense(license);
                 license.setId(e.getId());
                 licenses.add(license);
+
+                Vehicle vehicle = new Vehicle(faker.company().name(), faker.idNumber().valid(), license);
+                VehicleEntity vehicleEntity = vehiclesDbBean.insertVehicle(vehicle);
             }
 
-            workShiftsDbBean.truncate();
+
             workShifts = new ArrayList<>();
             for (int i = 0; i < 500; i++) {
                 WorkShift workShift = new WorkShift();

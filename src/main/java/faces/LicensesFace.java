@@ -42,27 +42,42 @@ public class LicensesFace implements Serializable {
     }
 
     public void onCellEdit(CellEditEvent event) {
-        Object oldValue = event.getOldValue();
-        Object newValue = event.getNewValue();
+        try {
+            Object oldValue = event.getOldValue();
+            Object newValue = event.getNewValue();
 
-        License license = (License) ((DataTable) event.getComponent()).getRowData();
-        licensesBean.update(license);
+            License license = (License) ((DataTable) event.getComponent()).getRowData();
+            licensesBean.update(license);
 
-        if(newValue != null && !newValue.equals(oldValue)) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
+            if (newValue != null && !newValue.equals(oldValue)) {
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Celda modificada", "Anterior: " + oldValue + ", Nuevo:" + newValue);
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+            }
+        } catch (Throwable e) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error actualizando licencia", e.getMessage());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
 
     public void insertLicense() {
-        licensesBean.insertLicense(new License(code));
-        code = null;
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Nuevo licencia insertada", "");
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+        try {
+            licensesBean.insertLicense(new License(code));
+            code = null;
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Nuevo licencia insertada", "");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        } catch (Throwable e) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error insertando licencia", e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
     }
 
     public void deleteLicense(Long id) {
-        licensesBean.deleteLicense(id);
+        try {
+            licensesBean.deleteLicense(id);
+        } catch (Throwable e) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error eliminado licencia", e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
     }
 
     public String getCode() {

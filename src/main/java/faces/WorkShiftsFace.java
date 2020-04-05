@@ -81,7 +81,7 @@ public class WorkShiftsFace implements Serializable {
         workShiftsBean.update(workShift);
 
         if (newValue != null && !newValue.equals(oldValue)) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Celda modificada", "Anterior: " + oldValue + ", Nuevo:" + newValue);
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }

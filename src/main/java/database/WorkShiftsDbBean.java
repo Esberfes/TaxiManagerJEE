@@ -107,7 +107,6 @@ public class WorkShiftsDbBean {
                     } else
                         rawQuery.append(" AND ").append(entry.getKey()).append(" LIKE ").append(getFilterFieldValue(entry.getValue()));
                 }
-
             }
         }
     }

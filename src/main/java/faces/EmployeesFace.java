@@ -45,31 +45,46 @@ public class EmployeesFace implements Serializable {
     }
 
     public void onCellEdit(CellEditEvent event) {
-        Object oldValue = event.getOldValue();
-        Object newValue = event.getNewValue();
-        Employee employee = (Employee) ((DataTable) event.getComponent()).getRowData();
-        employeesBean.update(employee);
+        try {
+            Object oldValue = event.getOldValue();
+            Object newValue = event.getNewValue();
+            Employee employee = (Employee) ((DataTable) event.getComponent()).getRowData();
+            employeesBean.update(employee);
 
-        if(newValue != null && !newValue.equals(oldValue)) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
+            if (newValue != null && !newValue.equals(oldValue)) {
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Celda modificada", "Anterior: " + oldValue + ", Nuevo:" + newValue);
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+            }
+        } catch (Throwable e) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error actualizando empleado", e.getMessage());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
 
     public void insertEmployee() {
-        employeesBean.insertEmployee(name, firstLastName, secondLastName, dni);
-        name = null;
-        firstLastName = null;
-        secondLastName = null;
-        dni = null;
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Nuevo empleado insertado", "");
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+        try {
+            employeesBean.insertEmployee(name, firstLastName, secondLastName, dni);
+            name = null;
+            firstLastName = null;
+            secondLastName = null;
+            dni = null;
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Nuevo empleado insertado", "");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        } catch (Throwable e) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error insertando empleado", e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
     }
 
     public void deleteEmployee(Long id) {
-        employeesBean.deleteEmployee(id);
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Empleado eliminado con éxito", "");
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+        try {
+            employeesBean.deleteEmployee(id);
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Empleado eliminado con éxito", "");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        } catch (Throwable e) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error eliminado empleado", e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
     }
 
     public String getName() {

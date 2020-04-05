@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition>
+
+    <p:panel id="insertVehicle" header="Nuevo vehiculo" style="margin-bottom: 25px" styleClass="shadow">
+        <p:outputPanel styleClass="p-grid">
+
+            <p:outputPanel styleClass="p-col">
+                <p:outputLabel>Marca</p:outputLabel>
+                <p:inputText style="width: 100%" inputStyle="width: 100%" value="#{VehiclesFace.brand}"/>
+            </p:outputPanel>
+
+            <p:outputPanel styleClass="p-col">
+                <p:outputLabel>Matricula</p:outputLabel>
+                <p:inputText style="width: 100%" inputStyle="width: 100%" value="#{VehiclesFace.registration}"/>
+            </p:outputPanel>
+
+            <p:outputPanel styleClass="p-col">
+                <p:outputLabel>Licencia</p:outputLabel>
+                <p:autoComplete inputStyle="width: 100%" style="width: 100%" minQueryLength="0"
+                                value="#{VehiclesFace.licenseCode}" completeMethod="#{VehiclesFace.completeLicense}"
+                                forceSelection="true" effect="fade"/>
+            </p:outputPanel>
+
+            <p:outputPanel styleClass="p-col" style="justify-content: flex-end;align-items: flex-end;display: flex;">
+                <p:commandButton value="Insertar" ajax="true" update=":form:messages insertVehicle vehiclesTable"
+                                 action="#{VehiclesFace.insertVehicle()}"/>
+            </p:outputPanel>
+
+        </p:outputPanel>
+    </p:panel>
+
+
+    <p:dataTable id="vehiclesTable" var="vehicle" value="#{VehiclesFace.lazyModel}"
+                 styleClass="shadow"
+                 lazy="true"
+                 editable="true"
+                 editMode="cell"
+                 rows="10"
+                 paginator="true"
+                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                 rowsPerPageTemplate="10,15,20,25,30">
+
+        <f:facet name="header">Vehiculos</f:facet>
+
+        <p:ajax event="cellEdit" listener="#{VehiclesFace.onCellEdit}" update=":form:messages"/>
+
+        <p:column headerText="Marca" filterBy="#{vehicle.brand}" sortBy="#{vehicle.brand}">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{vehicle.brand}"/></f:facet>
+                <f:facet name="input"><p:inputText value="#{vehicle.brand}" style="width:100%"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="Matricula" filterBy="#{vehicle.registration}" sortBy="#{vehicle.registration}">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{vehicle.registration}"/></f:facet>
+                <f:facet name="input"><p:inputText value="#{vehicle.registration}" style="width:100%"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="Licencia" filterBy="#{vehicle.license}">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{vehicle.license.code}"/></f:facet>
+                <f:facet name="input">
+                    <p:autoComplete inputStyle="width: 100%" style="width: 100%" minQueryLength="0"
+                                    value="#{vehicle.license.code}" completeMethod="#{VehiclesFace.completeLicense}"
+                                    forceSelection="true" effect="fade"/>
+                </f:facet>
+            </p:cellEditor>
+
+        </p:column>
+
+        <p:column headerText="" style="text-align: center">
+            <p:commandButton icon="fas fa-trash-alt" ajax="true" update=":form:messages vehiclesTable"
+                             action="#{VehiclesFace.deleteVehicle(vehicle.id)}">
+                <p:confirm header="Confirmation" message="Estás seguro?" icon="pi pi-exclamation-triangle"/>
+            </p:commandButton>
+        </p:column>
+
+    </p:dataTable>
+</ui:composition>
+
+</html>

@@ -64,6 +64,11 @@
                         <ui:include src="./views/licenses.xhtml"/>
                     </p:outputPanel>
 
+                    <!-- Vehicles -->
+                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.vehicles}">
+                        <ui:include src="./views/vehicles.xhtml"/>
+                    </p:outputPanel>
+
                     <!-- WorkShifts -->
                     <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.workShift}">
                         <ui:include src="./views/workshifts.xhtml"/>
