@@ -17,25 +17,26 @@
     <h:outputScript name="js/charts.js"/>
 </h:head>
 
-<h:body style="padding-bottom: 125px">
+<h:body>
     <f:view>
         <h:form id="form">
             <p:growl id="messages" showDetail="true"/>
 
             <p:outputPanel styleClass="p-grid">
                 <p:outputPanel styleClass="p-col-2">
-                    <p:menu styleClass="shadow" style="width: 100%">
+                    <p:menu styleClass="shadow" style=" width: 100%;position: sticky;top: 15px;">
                         <p:submenu label="Gestión">
-                            <p:menuitem value="Empleados" action="#{NavigationFace.navigate(NavigationEnum.employees)}"
+                            <p:menuitem value="Conductores"
+                                        action="#{NavigationFace.navigate(NavigationEnum.conductors)}"
                                         update="messages content" ajax="true" icon="fas fa-user-friends"/>
-                            <p:menuitem value="Licencias" action="#{NavigationFace.navigate(NavigationEnum.licenses)}"
+
+                            <p:menuitem value="Licencias"
                                         update="messages content" ajax="true" icon="fas fa-id-card"/>
-                            <p:menuitem value="Vehiculos" action="#{NavigationFace.navigate(NavigationEnum.vehicles)}"
+                            <p:menuitem value="Vehiculos"
                                         update="messages content" ajax="true" icon="fas fa-car"/>
                         </p:submenu>
                         <p:submenu label="Facturación">
                             <p:menuitem value="Recaudación"
-                                        action="#{NavigationFace.navigate(NavigationEnum.workShift)}"
                                         update="messages content" ajax="true" icon="fas fa-money-check-alt"/>
                             <p:menuitem value="Gastos"
                                         action="#{NavigationFace.navigate(NavigationEnum.expenses)}"
@@ -43,42 +44,22 @@
                         </p:submenu>
                         <p:submenu label="Incidencias">
                             <p:menuitem value="Partes de accidente"
-                                        action="#{NavigationFace.navigate(NavigationEnum.accident)}"
                                         update="messages content" ajax="true" icon="fas fa-car-crash"/>
                         </p:submenu>
                         <p:submenu label="Informes">
                             <p:menuitem value="Resumen de facturación"
-                                        action="#{NavigationFace.navigate(NavigationEnum.incomesSummary)}"
                                         update="messages content" ajax="true" icon="fas fa-chart-line"/>
+
                         </p:submenu>
                     </p:menu>
                 </p:outputPanel>
-                <p:outputPanel styleClass="p-col-10" id="content">
+                <p:outputPanel styleClass="p-col-10 content" id="content">
 
                     <!-- Employees -->
-                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.employees}">
-                        <ui:include src="./views/employees.xhtml"/>
+                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.conductores}">
+                        <ui:include src="./views/conductores.xhtml"/>
                     </p:outputPanel>
 
-                    <!-- Licenses -->
-                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.licenses}">
-                        <ui:include src="./views/licenses.xhtml"/>
-                    </p:outputPanel>
-
-                    <!-- Vehicles -->
-                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.vehicles}">
-                        <ui:include src="./views/vehicles.xhtml"/>
-                    </p:outputPanel>
-
-                    <!-- WorkShifts -->
-                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.workShift}">
-                        <ui:include src="./views/workshifts.xhtml"/>
-                    </p:outputPanel>
-
-                    <!-- Summay -->
-                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.incomesSummary}">
-                        <ui:include src="./views/summary.xhtml"/>
-                    </p:outputPanel>
 
                 </p:outputPanel>
             </p:outputPanel>
@@ -91,9 +72,19 @@
         </h:form>
     </f:view>
     <p:outputPanel
-            style="height: 100px;border-top: 1px solid #c8c8c8;background-color: #007ad9; position: fixed; bottom: 0;width: 100%; left: 0;"/>
+            style="height: 50px;border-top: 1px solid #c8c8c8;background-color: #007ad9; position: fixed; bottom: 0;width: 100%; left: 0;"/>
 
     <style type="text/css">
+        body {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+
+        #form {
+            padding: 15px 15px 75px 15px;
+        }
+
         .shadow, button {
             box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2) !important;
         }

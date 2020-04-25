@@ -17,7 +17,7 @@ public class NavigationFace implements Serializable {
 
     @PostConstruct
     public void init() {
-        navigation = NavigationEnum.employees;
+        navigation = NavigationEnum.conductores;
     }
 
     public void navigate(NavigationEnum navigation) {

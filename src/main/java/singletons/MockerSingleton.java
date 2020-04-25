@@ -1,28 +1,20 @@
 package singletons;
 
+import business.ConductoresBean;
+import business.EmpresasBean;
 import com.github.javafaker.Faker;
-import database.EmployeesDbBean;
-import database.LicensesDbBean;
-import database.VehiclesDbBean;
-import database.WorkShiftsDbBean;
-import entities.EmployeeEntity;
-import entities.LicenseEntity;
-import entities.VehicleEntity;
-import enums.ShiftType;
-import pojos.Employee;
-import pojos.License;
-import pojos.Vehicle;
-import pojos.WorkShift;
+import entities.ConductorEntity;
+import entities.EmpresasEntity;
+import pojos.Conductor;
+import pojos.Empresa;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 @Startup
 @Singleton(name = MockerSingleton.BEAN_NAME)
@@ -30,42 +22,68 @@ public class MockerSingleton {
 
     public static final String BEAN_NAME = "Mocker";
 
-    private List<Employee> employees;
-    private List<License> licenses;
-    private List<WorkShift> workShifts;
+    private List<Conductor> conductores;
+    private List<Empresa> empresas;
 
     @Inject
-    private EmployeesDbBean employeesDbBean;
+    private ConductoresBean conductoresBean;
 
     @Inject
-    private LicensesDbBean licensesDbBean;
-
-    @Inject
-    private WorkShiftsDbBean workShiftsDbBean;
-
-    @Inject
-    private VehiclesDbBean vehiclesDbBean;
+    private EmpresasBean empresasBean;
 
     @PostConstruct
     public void init() {
+        Faker faker = new Faker();
+        conductoresBean.truncate();
+        empresasBean.truncate();
+
+        conductores = new ArrayList<>();
+        empresas = new ArrayList<>();
+
+        for (int e = 0; e < 10; e++) {
+            Empresa empresa = new Empresa(faker.company().name());
+            EmpresasEntity empresasEntity = empresasBean.insertEmpresa(empresa);
+            empresa.setId(empresasEntity.getId());
+            empresas.add(empresa);
+
+            for (int c = 0; c < 300; c++) {
+                Conductor conductor = new Conductor(
+                        faker.name().fullName(),
+                        empresa,
+                        new BigDecimal(faker.number().randomDouble(2, 4, 5)),
+                        new BigDecimal(faker.number().randomDouble(2, 100, 100)),
+                        new BigDecimal(faker.number().randomDouble(2, 140, 160)),
+                        new BigDecimal(faker.number().randomDouble(2, 200, 200)),
+                        new BigDecimal(faker.number().randomDouble(2, 10000, 1000))
+                );
+
+                ConductorEntity conductorEntity = conductoresBean.insertConductor(conductor);
+                conductor.setId(conductorEntity.getId());
+                conductores.add(conductor);
+            }
+        }
+
+
+
+        /*
         if (false) {
             Faker faker = new Faker();
-            workShiftsDbBean.truncate();
-            employeesDbBean.truncate();
-            licensesDbBean.truncate();
             vehiclesDbBean.truncate();
-
-            employees = new ArrayList<>();
+            workShiftsDbBean.truncate();
+            conductoresDbBean.truncate();
+            licensesDbBean.truncate();
+            
+            conductors = new ArrayList<>();
             for (int i = 0; i < 300; i++) {
-                Employee employee = new Employee(
+                Conductor conductor = new Conductor(
                         faker.name().firstName(),
                         faker.name().lastName(),
                         faker.name().lastName(),
                         faker.idNumber().valid());
 
-                EmployeeEntity e = employeesDbBean.insertEmployee(employee);
-                employee.setId(e.getId());
-                employees.add(employee);
+                EmployeeEntity e = conductoresDbBean.insertEmployee(conductor);
+                conductor.setId(e.getId());
+                conductors.add(conductor);
             }
 
 
@@ -82,14 +100,14 @@ public class MockerSingleton {
 
 
             workShifts = new ArrayList<>();
-            for (int i = 0; i < 500; i++) {
+            for (int i = 0; i < 5000; i++) {
                 WorkShift workShift = new WorkShift();
                 workShift.setId(faker.number().randomNumber());
                 workShift.setShiftType(Math.random() > 0.5 ? ShiftType.T : ShiftType.M);
                 Date day = faker.date().past(365, TimeUnit.DAYS);
                 workShift.setDay(day);
                 Random rand = new Random();
-                workShift.setEmployee(employees.get(rand.nextInt(employees.size())));
+                workShift.setConductor(conductors.get(rand.nextInt(conductors.size())));
                 workShift.setLicense(licenses.get(rand.nextInt(licenses.size())));
                 workShift.setIncome(faker.number().randomDouble(2, 5, 200));
 
@@ -97,5 +115,8 @@ public class MockerSingleton {
                 workShiftsDbBean.insertWorkShift(workShift);
             }
         }
+
+         */
     }
+
 }

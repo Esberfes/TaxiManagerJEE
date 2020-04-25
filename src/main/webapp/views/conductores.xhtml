@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition>
+
+    <p:panel id="insertEmployee" header="Nuevo empleado" styleClass="shadow" style="margin-bottom: 25px">
+        <p:outputPanel styleClass="p-grid">
+            <p:outputPanel styleClass="p-col">
+                <p:outputLabel>Nombre</p:outputLabel>
+                <p:inputText style="width: 100%" value="#{ConductoresFace.nombre}"/>
+            </p:outputPanel>
+            <p:outputPanel styleClass="p-col" style="justify-content: flex-end;align-items: flex-end;display: flex;">
+                <p:commandButton value="Insertar" ajax="true" update=":form:messages insertEmployee employeesTable"
+                                 action="#{ConductoresFace.insertConductor()}"/>
+            </p:outputPanel>
+        </p:outputPanel>
+    </p:panel>
+
+    <p:dataTable id="employeesTable" var="conductor" value="#{ConductoresFace.lazyModel}"
+                 styleClass="shadow"
+                 lazy="true"
+                 editable="true"
+                 editMode="cell"
+                 rows="10"
+                 paginator="true"
+                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                 rowsPerPageTemplate="10,15,20,25,30">
+
+        <f:facet name="header">Empleados</f:facet>
+
+        <p:ajax event="cellEdit" listener="#{ConductoresFace.onCellEdit}" update=":form:messages"/>
+
+        <p:column headerText="Nombre" filterBy="#{conductor.nombre}" sortBy="#{conductor.nombre}">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{conductor.nombre}"/></f:facet>
+                <f:facet name="input"><p:inputText value="#{conductor.nombre}" style="width:100%"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="Empresa" filterBy="#{conductor.empresa.nombre}" sortBy="#{conductor.empresa.nombre}">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{conductor.empresa.nombre}"/></f:facet>
+                <f:facet name="input"><p:inputText value="#{conductor.empresa.nombre}" style="width:100%"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="C. IVA" filterBy="#{conductor.complementoIva}" sortBy="#{conductor.complementoIva}">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{conductor.complementoIva}"/></f:facet>
+                <f:facet name="input"><p:inputText value="#{conductor.complementoIva}" style="width:100%"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="T065" filterBy="#{conductor.t065}" sortBy="#{conductor.t065}">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{conductor.t065}"/></f:facet>
+                <f:facet name="input"><p:inputText value="#{conductor.t065}" style="width:100%"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="T060" filterBy="#{conductor.t060}" sortBy="#{conductor.t060}">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{conductor.t060}"/></f:facet>
+                <f:facet name="input"><p:inputText value="#{conductor.t060}" style="width:100%"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="T055" filterBy="#{conductor.t055}" sortBy="#{conductor.t055}">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{conductor.t055}"/></f:facet>
+                <f:facet name="input"><p:inputText value="#{conductor.t055}" style="width:100%"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="T050" filterBy="#{conductor.t050}" sortBy="#{conductor.t050}">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{conductor.t050}"/></f:facet>
+                <f:facet name="input"><p:inputText value="#{conductor.t050}" style="width:100%"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="" style="text-align: center">
+            <p:commandButton icon="fas fa-trash-alt" ajax="true" update=":form:messages employeesTable"
+                             action="#{ConductoresFace.deleteConductor(conductor.id)}">
+                <p:confirm header="Confirmation" message="Estás seguro?" icon="pi pi-exclamation-triangle"/>
+            </p:commandButton>
+        </p:column>
+
+    </p:dataTable>
+
+</ui:composition>
+
+</html>

@@ -99,6 +99,14 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Libreria de mapeo objeto-relacional -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>5.4.1.Final</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
