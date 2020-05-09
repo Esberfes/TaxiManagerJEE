@@ -54,7 +54,7 @@ public class ConductorEntity {
         this.id = conductor.getId();
         this.nombre = conductor.getNombre();
         this.empresasEntity = new EmpresasEntity(conductor.getEmpresa());
-        this.complementoIva = conductor.getComplementoIva();
+        this.complementoIva = conductor.getComplemento_iva();
         this.t065 = conductor.getT065();
         this.t060 = conductor.getT060();
         this.t055 = conductor.getT055();

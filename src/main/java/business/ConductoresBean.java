@@ -7,9 +7,11 @@ import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortMeta;
 import pojos.Conductor;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -19,6 +21,21 @@ import java.util.stream.Collectors;
 public class ConductoresBean implements LazyLoad<Conductor> {
 
     public static final String BEAN_NAME = "ConductoresBean";
+
+    private Map<String, String> columnsMapping;
+
+    @PostConstruct
+    public void init() {
+        columnsMapping = new HashMap<>();
+        columnsMapping.put("id", "id");
+        columnsMapping.put("nombre", "nombre");
+        columnsMapping.put("empresa", "empresa");
+        columnsMapping.put("complementoIva", "complemento_iva");
+        columnsMapping.put("t065", "t065");
+        columnsMapping.put("t060", "t060");
+        columnsMapping.put("t055", "t055");
+        columnsMapping.put("t050", "t050");
+    }
 
     @Inject
     private ConductoresDbBean conductoresDbBean;

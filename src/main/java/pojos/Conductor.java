@@ -12,7 +12,7 @@ public class Conductor implements Serializable {
     private Long id;
     private String nombre;
     private Empresa empresa;
-    private BigDecimal complementoIva;
+    private BigDecimal complemento_iva;
     private BigDecimal t065;
     private BigDecimal t060;
     private BigDecimal t055;
@@ -27,7 +27,7 @@ public class Conductor implements Serializable {
         this.id = conductorEntity.getId();
         this.nombre = conductorEntity.getNombre();
         this.empresa = new Empresa(conductorEntity.getEmpresasEntity());
-        this.complementoIva = conductorEntity.getComplementoIva();
+        this.complemento_iva = conductorEntity.getComplementoIva();
         this.t065 = conductorEntity.getT065();
         this.t060 = conductorEntity.getT060();
         this.t055 = conductorEntity.getT055();
@@ -36,10 +36,10 @@ public class Conductor implements Serializable {
         this.actualizado = conductorEntity.getActualizado();
     }
 
-    public Conductor(String nombre, Empresa empresa, BigDecimal complementoIva, BigDecimal t065, BigDecimal t060, BigDecimal t055, BigDecimal t050) {
+    public Conductor(String nombre, Empresa empresa, BigDecimal complemento_iva, BigDecimal t065, BigDecimal t060, BigDecimal t055, BigDecimal t050) {
         this.nombre = nombre;
         this.empresa = empresa;
-        this.complementoIva = complementoIva;
+        this.complemento_iva = complemento_iva;
         this.t065 = t065;
         this.t060 = t060;
         this.t055 = t055;
@@ -52,7 +52,7 @@ public class Conductor implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, empresa, complementoIva, t065, t060, t055, t050, creado, actualizado);
+        return Objects.hash(id, nombre, empresa, complemento_iva, t065, t060, t055, t050, creado, actualizado);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class Conductor implements Serializable {
         return Objects.equals(id, that.id) &&
                 Objects.equals(nombre, that.nombre) &&
                 Objects.equals(empresa, that.empresa) &&
-                Objects.equals(complementoIva, that.complementoIva) &&
+                Objects.equals(complemento_iva, that.complemento_iva) &&
                 Objects.equals(t065, that.t065) &&
                 Objects.equals(t060, that.t060) &&
                 Objects.equals(t055, that.t055) &&
@@ -96,12 +96,12 @@ public class Conductor implements Serializable {
         this.empresa = empresa;
     }
 
-    public BigDecimal getComplementoIva() {
-        return complementoIva;
+    public BigDecimal getComplemento_iva() {
+        return complemento_iva;
     }
 
-    public void setComplementoIva(BigDecimal complementoIva) {
-        this.complementoIva = complementoIva;
+    public void setComplemento_iva(BigDecimal complemento_iva) {
+        this.complemento_iva = complemento_iva;
     }
 
     public BigDecimal getT065() {
