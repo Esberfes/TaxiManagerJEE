@@ -24,44 +24,50 @@
 
             <p:outputPanel styleClass="p-grid">
                 <p:outputPanel styleClass="p-col-2">
-                    <p:menu styleClass="shadow" style=" width: 100%;position: sticky;top: 15px;">
+                    <p:menu id="menu" styleClass="shadow" style=" width: 100%;position: sticky;top: 15px;">
 
                         <p:submenu label="Entradas">
-                            <p:menuitem value="Recaudación" update="messages content" ajax="true"/>
-                            <p:menuitem value="Gastos" update="messages content" ajax="true"/>
+                            <p:menuitem value="Recaudación" update="messages content menu" ajax="true"/>
+                            <p:menuitem value="Gastos" update="messages content menu" ajax="true"/>
                         </p:submenu>
 
                         <p:submenu label="Salidas">
-                            <p:menuitem value="Resiltados" update="messages content" ajax="true"/>
-                            <p:menuitem value="Resumen" update="messages content" ajax="true"/>
+                            <p:menuitem value="Resultados" update="messages content menu" ajax="true"/>
+                            <p:menuitem value="Resumen" update="messages content menu" ajax="true"/>
                         </p:submenu>
 
                         <p:submenu label="Configuracion">
-                            <p:menuitem value="Licencias" update="messages content" ajax="true"
-                                        action="#{NavigationFace.navigate(NavigationEnum.licencias)}"/>
+                            <p:menuitem value="Licencias" update="messages content menu" ajax="true"
+                                        action="#{NavigationFace.navigate(NavigationEnum.licencias)}"
+                                        styleClass="#{NavigationFace.navigation eq NavigationEnum.licencias ? 'active' : ''}"/>
 
-                            <p:menuitem value="Conductores" update="messages content" ajax="true"
-                                        action="#{NavigationFace.navigate(NavigationEnum.conductores)}"/>
+                            <p:menuitem value="Conductores" update="messages content menu" ajax="true"
+                                        action="#{NavigationFace.navigate(NavigationEnum.conductores)}"
+                                        styleClass="#{NavigationFace.navigation eq NavigationEnum.conductores ? 'active' : ''}"/>
 
-                            <p:menuitem value="Empresas" update="messages content" ajax="true"
-                                        action="#{NavigationFace.navigate(NavigationEnum.empresas)}"/>
+                            <p:menuitem value="Empresas" update="messages content menu" ajax="true"
+                                        action="#{NavigationFace.navigate(NavigationEnum.empresas)}"
+                                        styleClass="#{NavigationFace.navigation eq NavigationEnum.empresas ? 'active' : ''}"/>
 
-                            <p:menuitem value="Formas de pago" update="messages content" ajax="true"
-                                        action="#{NavigationFace.navigate(NavigationEnum.formasPagos)}"/>
+                            <p:menuitem value="Formas de pago" update="messages content menu" ajax="true"
+                                        action="#{NavigationFace.navigate(NavigationEnum.formasPagos)}"
+                                        styleClass="#{NavigationFace.navigation eq NavigationEnum.formasPagos ? 'active' : ''}"/>
 
-                            <p:menuitem value="Conceptos de gasto" update="messages content" ajax="true"
-                                        action="#{NavigationFace.navigate(NavigationEnum.conceptosGastos)}"/>
+                            <p:menuitem value="Conceptos de gasto" update="messages content menu" ajax="true"
+                                        action="#{NavigationFace.navigate(NavigationEnum.conceptosGastos)}"
+                                        styleClass="#{NavigationFace.navigation eq NavigationEnum.conceptosGastos ? 'active' : ''}"/>
 
-                            <p:menuitem value="Tipos de gasto" update="messages content" ajax="true"
-                                        action="#{NavigationFace.navigate(NavigationEnum.tiposGastos)}"/>
+                            <p:menuitem value="Tipos de gasto" update="messages content menu" ajax="true"
+                                        action="#{NavigationFace.navigate(NavigationEnum.tiposGastos)}"
+                                        styleClass="#{NavigationFace.navigation eq NavigationEnum.tiposGastos ? 'active' : ''}"/>
 
-                            <p:menuitem value="Estados de ingreso" update="messages content" ajax="true"
-                                        action="#{NavigationFace.navigate(NavigationEnum.estadosIngresos)}"/>
+                            <p:menuitem value="Estados de ingreso" update="messages content menu" ajax="true"
+                                        action="#{NavigationFace.navigate(NavigationEnum.estadosIngresos)}"
+                                        styleClass="#{NavigationFace.navigation eq NavigationEnum.estadosIngresos ? 'active' : ''}"/>
                         </p:submenu>
                     </p:menu>
                 </p:outputPanel>
                 <p:outputPanel styleClass="p-col-10 content" id="content">
-
 
                     <!-- CONFIGURACION  -->
                     <!-- Licencias -->
@@ -125,6 +131,10 @@
 
         .shadow, button {
             box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2) !important;
+        }
+
+        .active {
+            background-color: rgba(0, 0, 0, 0.1);
         }
     </style>
     <script type="text/javascript">

@@ -19,7 +19,7 @@
             </p:outputPanel>
             <p:outputPanel styleClass="p-col" style="justify-content: flex-end;align-items: flex-end;display: flex;">
                 <p:commandButton value="Insertar" ajax="true" update=":form:messages insertEmployee employeesTable"
-                                 action="#{ConductoresFace.insertConductor()}"/>
+                                 action="#{ConductoresFace.insert()}"/>
             </p:outputPanel>
         </p:outputPanel>
     </p:panel>
@@ -90,7 +90,7 @@
 
         <p:column headerText="" style="text-align: center">
             <p:commandButton icon="fas fa-trash-alt" ajax="true" update=":form:messages employeesTable"
-                             action="#{ConductoresFace.deleteConductor(conductor.id)}">
+                             action="#{ConductoresFace.delete(conductor.id)}">
                 <p:confirm header="Confirmation" message="Estás seguro?" icon="pi pi-exclamation-triangle"/>
             </p:commandButton>
         </p:column>

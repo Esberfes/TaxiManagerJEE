@@ -10,6 +10,36 @@
       xmlns:f="http://java.sun.com/jsf/core">
 
 <ui:composition>
+    <p:dataTable id="empresasTable" var="empresa" value="#{EmpresasFace.lazyModel}"
+                 styleClass="shadow"
+                 lazy="true"
+                 editable="true"
+                 editMode="cell"
+                 rows="10"
+                 paginator="true"
+                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                 rowsPerPageTemplate="10,15,20,25,30">
+
+        <f:facet name="header">Empresas</f:facet>
+
+        <p:ajax event="cellEdit" listener="#{EmpresasFace.onCellEdit}" update=":form:messages"/>
+
+        <p:column headerText="Nombre" filterBy="#{empresa.nombre}" sortBy="#{empresa.nombre}">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{empresa.nombre}"/></f:facet>
+                <f:facet name="input"><p:inputText value="#{empresa.nombre}" style="width:100%"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="" style="text-align: center">
+            <p:commandButton icon="fas fa-trash-alt" ajax="true" update=":form:messages empresasTable"
+                             action="#{EmpresasFace.deleteEmpresa(empresa.id)}">
+                <p:confirm header="Confirmation" message="Estás seguro?" icon="pi pi-exclamation-triangle"/>
+            </p:commandButton>
+        </p:column>
+
+    </p:dataTable>
 </ui:composition>
 
 </html>

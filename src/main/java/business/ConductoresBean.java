@@ -55,11 +55,11 @@ public class ConductoresBean implements LazyLoad<Conductor> {
     }
 
     public void update(Conductor conductor) {
-        conductoresDbBean.updateEmployee(conductor);
+        conductoresDbBean.update(conductor);
     }
 
     public void deleteEmployee(Long id) {
-        conductoresDbBean.deleteEmployee(id);
+        conductoresDbBean.delete(id);
     }
 
     public List<Conductor> findEmployeesByFullName(String name) {

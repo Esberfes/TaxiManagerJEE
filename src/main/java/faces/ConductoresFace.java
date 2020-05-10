@@ -38,9 +38,6 @@ public class ConductoresFace implements Serializable {
         lazyModel = new LazyConductorDataModel(conductoresBean);
     }
 
-    public LazyDataModel<Conductor> getLazyModel() {
-        return lazyModel;
-    }
 
     public void onCellEdit(CellEditEvent event) {
         try {
@@ -59,7 +56,7 @@ public class ConductoresFace implements Serializable {
         }
     }
 
-    public void insertConductor() {
+    public void insert() {
         try {
             conductoresBean.insertConductor(nombre);
             nombre = null;
@@ -71,7 +68,7 @@ public class ConductoresFace implements Serializable {
         }
     }
 
-    public void deleteConductor(Long id) {
+    public void delete(Long id) {
         try {
             conductoresBean.deleteEmployee(id);
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Empleado eliminado con éxito", "");
@@ -84,5 +81,16 @@ public class ConductoresFace implements Serializable {
 
     public String getNombre() {
         return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    public LazyDataModel<Conductor> getLazyModel() {
+        return lazyModel;
+    }
+
+    public void setLazyModel(LazyDataModel<Conductor> lazyModel) {
+        this.lazyModel = lazyModel;
     }
 }

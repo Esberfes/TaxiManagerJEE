@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public class Empresa {
 
-    private Integer id;
+    private Long id;
     private String nombre;
     private Date creado;
     private Date actualizado;
@@ -24,11 +24,11 @@ public class Empresa {
         this.actualizado = empresasEntity.getActualizado();
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
