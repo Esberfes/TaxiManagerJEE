@@ -8,25 +8,36 @@ import org.primefaces.model.SortMeta;
 import org.primefaces.model.SortOrder;
 import pojos.Conductor;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static utils.FilterUtils.getFilterFieldValue;
 
 @Stateless(name = ConductoresDbBean.BEAN_NAME)
 public class ConductoresDbBean {
 
     public final static String BEAN_NAME = "EmployeesDbBean";
 
+    private Map<String, String> filterMapping;
+
     @Inject
     private Logger logger;
 
     @PersistenceContext
     private EntityManager em;
+
+    @PostConstruct
+    public void init() {
+        filterMapping = new HashMap<>();
+    }
 
     public ConductorEntity getSingleConductor(Long id) {
         return em.find(ConductorEntity.class, id);
@@ -40,33 +51,20 @@ public class ConductoresDbBean {
     }
 
     public List<ConductorEntity> getEmployeeData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
-        StringBuilder query = new StringBuilder("SELECT * FROM conductores, empresas WHERE conductores.id_empresa = empresas.id ");
+        StringBuilder rawQuery = new StringBuilder("SELECT * FROM conductores, empresas WHERE conductores.id_empresa = empresas.id ");
 
-        buildFilters(filterMeta, query);
-
-        if (!sortMeta.isEmpty()) {
-            SortMeta sort = sortMeta.entrySet().iterator().next().getValue();
-            if(sort.getSortField().equals("empresa.nombre")) {
-                query.append(" ORDER BY ").append("empresas.nombre").append(" ").append(sort.getSortOrder() == SortOrder.DESCENDING ? " DESC " : " ASC ");
-            } else {
-                query.append(" ORDER BY ").append(sort.getSortField()).append(" ").append(sort.getSortOrder() == SortOrder.DESCENDING ? " DESC " : " ASC ");
-            }
-        }
-
-        Query stats = em.createNativeQuery(query.toString(), ConductorEntity.class);
+        Query query = buildFilters(null, filterMeta, rawQuery, ConductorEntity.class);
 
         if (pageSize > 0)
-            stats = stats.setMaxResults(pageSize).setFirstResult(first);
+            query = query.setMaxResults(pageSize).setFirstResult(first);
 
-        return stats.getResultList();
+        return query.getResultList();
     }
 
     public int getTotalEmployees(Map<String, FilterMeta> filterMeta) {
-        StringBuilder rawQuery = new StringBuilder("SELECT COUNT(*) FROM conductores, empresas WHERE conductores.id_empresa = empresas.id  ");
+        StringBuilder rawQuery = new StringBuilder("SELECT COUNT(*) FROM conductores, empresas WHERE conductores.id_empresa = empresas.id ");
 
-        buildFilters(filterMeta, rawQuery);
-
-        Query query = em.createNativeQuery(rawQuery.toString());
+        Query query = buildFilters(null, filterMeta, rawQuery, null);
 
         return ((BigInteger) query.getSingleResult()).intValue();
     }
@@ -93,7 +91,9 @@ public class ConductoresDbBean {
         em.createNativeQuery("DELETE FROM conductores WHERE true").executeUpdate();
     }
 
-    private void buildFilters(Map<String, FilterMeta> filterMeta, StringBuilder rawQuery) {
+    private Query buildFilters(Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta, StringBuilder rawQuery, Class clazz) {
+        Map<String, FilterMeta> parameters = new HashMap<>();
+
         if (filterMeta != null) {
             for (Map.Entry<String, FilterMeta> entry : filterMeta.entrySet()) {
                 if (entry.getValue().getFilterValue() != null
@@ -102,19 +102,35 @@ public class ConductoresDbBean {
                         && StringUtils.isNotBlank(String.valueOf(entry.getValue().getFilterValue()))) {
 
                     if (entry.getKey().equalsIgnoreCase("empresa.nombre")) {
-                        rawQuery.append(" AND ").append(" empresas.nombre ").append("LIKE ").append(getFilterFieldValue(entry.getValue()));
+                        rawQuery.append(" AND ").append(" empresas.nombre ").append("LIKE ").append(":").append(entry.getKey());
                     } else {
-                        rawQuery.append(" AND ").append(entry.getKey()).append(" LIKE ").append(getFilterFieldValue(entry.getValue()));
+                        rawQuery.append(" AND ").append("conductores.").append(entry.getKey()).append(" LIKE ").append(":").append(entry.getKey());
                     }
+
+                    parameters.put(entry.getKey(), entry.getValue());
                 }
             }
         }
+
+        if (sortMeta != null && !sortMeta.isEmpty()) {
+            SortMeta sort = sortMeta.entrySet().iterator().next().getValue();
+            if (sort.getSortField().equals("empresa.nombre")) {
+                rawQuery.append(" ORDER BY ").append("empresas.nombre").append(" ").append(sort.getSortOrder() == SortOrder.DESCENDING ? " DESC " : " ASC ");
+            } else {
+                rawQuery.append(" ORDER BY ").append("conductores.").append(sort.getSortField()).append(" ").append(sort.getSortOrder() == SortOrder.DESCENDING ? " DESC " : " ASC ");
+            }
+        }
+
+        Query query;
+        if (clazz != null)
+            query = em.createNativeQuery(rawQuery.toString(), clazz);
+        else
+            query = em.createNativeQuery(rawQuery.toString());
+
+        for (Map.Entry<String, FilterMeta> parameter : parameters.entrySet())
+            query.setParameter(parameter.getKey(), getFilterFieldValue(parameter.getValue()));
+
+        return query;
     }
 
-    private static Object getFilterFieldValue(FilterMeta filterField) {
-        switch (filterField.getFilterMatchMode()) {
-            default:
-                return "'%" + filterField.getFilterValue() + "%'";
-        }
-    }
 }
