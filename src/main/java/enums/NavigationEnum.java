@@ -1,5 +1,25 @@
 package enums;
 
 public enum NavigationEnum {
-    empresas, conductores
+    /**
+     * Entradas
+     */
+    recaudacion,
+    gastos,
+
+    /**
+     * Salidas
+     */
+    resultados,
+    resumen,
+    /**
+     * Configuracion
+     */
+    licencias,
+    conductores,
+    empresas,
+    formasPagos,
+    conceptosGastos,
+    tiposGastos,
+    estadosIngresos
 }

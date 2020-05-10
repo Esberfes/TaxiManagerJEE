@@ -25,41 +25,79 @@
             <p:outputPanel styleClass="p-grid">
                 <p:outputPanel styleClass="p-col-2">
                     <p:menu styleClass="shadow" style=" width: 100%;position: sticky;top: 15px;">
-                        <p:submenu label="Gestión">
-                            <p:menuitem value="Conductores"
-                                        action="#{NavigationFace.navigate(NavigationEnum.conductors)}"
-                                        update="messages content" ajax="true" icon="fas fa-user-friends"/>
 
-                            <p:menuitem value="Licencias"
-                                        update="messages content" ajax="true" icon="fas fa-id-card"/>
-                            <p:menuitem value="Vehiculos"
-                                        update="messages content" ajax="true" icon="fas fa-car"/>
+                        <p:submenu label="Entradas">
+                            <p:menuitem value="Recaudación" update="messages content" ajax="true"/>
+                            <p:menuitem value="Gastos" update="messages content" ajax="true"/>
                         </p:submenu>
-                        <p:submenu label="Facturación">
-                            <p:menuitem value="Recaudación"
-                                        update="messages content" ajax="true" icon="fas fa-money-check-alt"/>
-                            <p:menuitem value="Gastos"
-                                        action="#{NavigationFace.navigate(NavigationEnum.expenses)}"
-                                        update="messages content" ajax="true" icon="fas fa-wallet"/>
-                        </p:submenu>
-                        <p:submenu label="Incidencias">
-                            <p:menuitem value="Partes de accidente"
-                                        update="messages content" ajax="true" icon="fas fa-car-crash"/>
-                        </p:submenu>
-                        <p:submenu label="Informes">
-                            <p:menuitem value="Resumen de facturación"
-                                        update="messages content" ajax="true" icon="fas fa-chart-line"/>
 
+                        <p:submenu label="Salidas">
+                            <p:menuitem value="Resiltados" update="messages content" ajax="true"/>
+                            <p:menuitem value="Resumen" update="messages content" ajax="true"/>
+                        </p:submenu>
+
+                        <p:submenu label="Configuracion">
+                            <p:menuitem value="Licencias" update="messages content" ajax="true"
+                                        action="#{NavigationFace.navigate(NavigationEnum.licencias)}"/>
+
+                            <p:menuitem value="Conductores" update="messages content" ajax="true"
+                                        action="#{NavigationFace.navigate(NavigationEnum.conductores)}"/>
+
+                            <p:menuitem value="Empresas" update="messages content" ajax="true"
+                                        action="#{NavigationFace.navigate(NavigationEnum.empresas)}"/>
+
+                            <p:menuitem value="Formas de pago" update="messages content" ajax="true"
+                                        action="#{NavigationFace.navigate(NavigationEnum.formasPagos)}"/>
+
+                            <p:menuitem value="Conceptos de gasto" update="messages content" ajax="true"
+                                        action="#{NavigationFace.navigate(NavigationEnum.conceptosGastos)}"/>
+
+                            <p:menuitem value="Tipos de gasto" update="messages content" ajax="true"
+                                        action="#{NavigationFace.navigate(NavigationEnum.tiposGastos)}"/>
+
+                            <p:menuitem value="Estados de ingreso" update="messages content" ajax="true"
+                                        action="#{NavigationFace.navigate(NavigationEnum.estadosIngresos)}"/>
                         </p:submenu>
                     </p:menu>
                 </p:outputPanel>
                 <p:outputPanel styleClass="p-col-10 content" id="content">
 
-                    <!-- Employees -->
+
+                    <!-- CONFIGURACION  -->
+                    <!-- Licencias -->
+                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.licencias}">
+                        <ui:include src="./views/licencias.xhtml"/>
+                    </p:outputPanel>
+
+                    <!-- Conductores -->
                     <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.conductores}">
                         <ui:include src="./views/conductores.xhtml"/>
                     </p:outputPanel>
 
+                    <!-- Empresas -->
+                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.empresas}">
+                        <ui:include src="./views/empresas.xhtml"/>
+                    </p:outputPanel>
+
+                    <!-- Formas de pago -->
+                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.formasPagos}">
+                        <ui:include src="./views/formas_pago.xhtml"/>
+                    </p:outputPanel>
+
+                    <!-- Conceptos de gasto -->
+                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.conceptosGastos}">
+                        <ui:include src="./views/conceptos_gasto.xhtml"/>
+                    </p:outputPanel>
+
+                    <!-- Tipos de gastod -->
+                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.tiposGastos}">
+                        <ui:include src="./views/tipos_gasto.xhtml"/>
+                    </p:outputPanel>
+
+                    <!-- Estados de ingreso -->
+                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.estadosIngresos}">
+                        <ui:include src="./views/estados_ingreso.xhtml"/>
+                    </p:outputPanel>
 
                 </p:outputPanel>
             </p:outputPanel>
