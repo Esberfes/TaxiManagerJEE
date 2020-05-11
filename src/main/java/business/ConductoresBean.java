@@ -50,7 +50,7 @@ public class ConductoresBean implements LazyLoad<Conductor> {
         return conductoresDbBean.getTotalEmployees(filterMeta);
     }
 
-    public void insertConductor(String name) {
+    public void insert(String name) {
         conductoresDbBean.insertConductor(new Conductor(name));
     }
 
@@ -58,7 +58,7 @@ public class ConductoresBean implements LazyLoad<Conductor> {
         conductoresDbBean.update(conductor);
     }
 
-    public void deleteEmployee(Long id) {
+    public void delete(Long id) {
         conductoresDbBean.delete(id);
     }
 
@@ -66,7 +66,7 @@ public class ConductoresBean implements LazyLoad<Conductor> {
         return conductoresDbBean.findEmployeesByFullName(name).stream().map(Conductor::new).collect(Collectors.toList());
     }
 
-    public ConductorEntity insertConductor(Conductor conductor) {
+    public ConductorEntity insert(Conductor conductor) {
         return conductoresDbBean.insertConductor(conductor);
     }
 

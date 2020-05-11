@@ -58,7 +58,7 @@ public class ConductoresFace implements Serializable {
 
     public void insert() {
         try {
-            conductoresBean.insertConductor(nombre);
+            conductoresBean.insert(nombre);
             nombre = null;
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Nuevo empleado insertado", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -70,7 +70,7 @@ public class ConductoresFace implements Serializable {
 
     public void delete(Long id) {
         try {
-            conductoresBean.deleteEmployee(id);
+            conductoresBean.delete(id);
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Empleado eliminado con éxito", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Throwable e) {

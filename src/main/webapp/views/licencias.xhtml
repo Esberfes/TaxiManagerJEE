@@ -10,6 +10,55 @@
       xmlns:f="http://java.sun.com/jsf/core">
 
 <ui:composition>
+    <p:dataTable id="licenciasTable" var="licencia" value="#{LicenciasFace.lazyModel}"
+                 styleClass="shadow"
+                 lazy="true"
+                 editable="true"
+                 editMode="cell"
+                 rows="10"
+                 paginator="true"
+                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                 rowsPerPageTemplate="10,15,20,25,30">
+
+        <f:facet name="header">Licencias</f:facet>
+
+        <p:ajax event="cellEdit" listener="#{LicenciasFace.onCellEdit}" update=":form:messages"/>
+
+        <p:column headerText="Codigo" filterBy="#{licencia.codigo}" sortBy="#{licencia.codigo}">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{licencia.codigo}"/></f:facet>
+                <f:facet name="input"><p:inputText value="#{licencia.codigo}" style="width:100%"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="EuroTaxi" filterBy="#{licencia.es_eurotaxi}" sortBy="#{licencia.es_eurotaxi}">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{licencia.es_eurotaxi ? 'Si' : 'No'}"/></f:facet>
+                <f:facet name="input">
+                    <p:selectOneMenu value="#{licencia.es_eurotaxi}" inputStyle="width: 100%" style="width: 100%">
+                        <f:selectItem itemLabel="Si" itemValue="true"/>
+                        <f:selectItem itemLabel="No" itemValue="false"/>
+                    </p:selectOneMenu>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="Empresa" filterBy="#{licencia.empresa.nombre}" sortBy="#{licencia.empresa.nombre}">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{licencia.empresa.nombre}"/></f:facet>
+                <f:facet name="input"><p:inputText value="#{licencia.empresa.nombre}" style="width:100%"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="" style="text-align: center">
+            <p:commandButton icon="fas fa-trash-alt" ajax="true" update=":form:messages licenciasTable"
+                             action="#{LicenciasFace.delete(licencia.id)}">
+                <p:confirm header="Confirmation" message="Estás seguro?" icon="pi pi-exclamation-triangle"/>
+            </p:commandButton>
+        </p:column>
+
+    </p:dataTable>
 </ui:composition>
 
 </html>

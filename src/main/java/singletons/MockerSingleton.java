@@ -2,11 +2,14 @@ package singletons;
 
 import business.ConductoresBean;
 import business.EmpresasBean;
+import business.LicenciasBean;
 import com.github.javafaker.Faker;
 import entities.ConductorEntity;
 import entities.EmpresasEntity;
+import entities.LicenciasEntity;
 import pojos.Conductor;
 import pojos.Empresa;
+import pojos.Licencia;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
@@ -24,6 +27,7 @@ public class MockerSingleton {
 
     private List<Conductor> conductores;
     private List<Empresa> empresas;
+    private List<Licencia> licencias;
 
     @Inject
     private ConductoresBean conductoresBean;
@@ -31,14 +35,20 @@ public class MockerSingleton {
     @Inject
     private EmpresasBean empresasBean;
 
+    @Inject
+    private LicenciasBean licenciasBean;
+
     @PostConstruct
     public void init() {
         Faker faker = new Faker();
+
+        licenciasBean.truncate();
         conductoresBean.truncate();
         empresasBean.truncate();
 
-        conductores = new ArrayList<>();
-        empresas = new ArrayList<>();
+        licencias = new ArrayList<>(); // 300
+        conductores = new ArrayList<>(); // 3000
+        empresas = new ArrayList<>(); // 10
 
         for (int e = 0; e < 10; e++) {
             Empresa empresa = new Empresa(faker.company().name());
@@ -57,12 +67,24 @@ public class MockerSingleton {
                         new BigDecimal(faker.number().randomDouble(2, 10000, 1000))
                 );
 
-                ConductorEntity conductorEntity = conductoresBean.insertConductor(conductor);
+                ConductorEntity conductorEntity = conductoresBean.insert(conductor);
                 conductor.setId(conductorEntity.getId());
                 conductores.add(conductor);
             }
         }
 
+        for (Empresa empresa : empresas) {
+            for (int i = 0; i < 30; i++) {
+                Licencia licencia = new Licencia();
+                licencia.setCodigo(Integer.parseInt(faker.number().digits(8)));
+                licencia.setEmpresa(empresa);
+                licencia.setEs_eurotaxi(Math.random() >= 0.5);
+                LicenciasEntity licenciasEntity = licenciasBean.insert(licencia);
+                licencia.setId(licenciasEntity.getId());
+
+                licencias.add(licencia);
+            }
+        }
 
 
         /*

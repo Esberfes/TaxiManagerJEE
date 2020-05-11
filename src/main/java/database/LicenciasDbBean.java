@@ -1,16 +1,13 @@
 package database;
 
-import entities.ConductorEntity;
+import entities.LicenciasEntity;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortMeta;
 import org.primefaces.model.SortOrder;
-import pojos.Conductor;
+import pojos.Licencia;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -21,39 +18,18 @@ import java.util.Map;
 
 import static utils.FilterUtils.getFilterFieldValue;
 
-@Stateless(name = ConductoresDbBean.BEAN_NAME)
-public class ConductoresDbBean {
+@Stateless(name = LicenciasDbBean.BEAN_NAME)
+public class LicenciasDbBean {
 
-    public final static String BEAN_NAME = "EmployeesDbBean";
-
-    private Map<String, String> filterMapping;
-
-    @Inject
-    private Logger logger;
+    public final static String BEAN_NAME = "LicenciasDbBean";
 
     @PersistenceContext
     private EntityManager em;
 
-    @PostConstruct
-    public void init() {
-        filterMapping = new HashMap<>();
-    }
+    public List<LicenciasEntity> getData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
+        StringBuilder rawQuery = new StringBuilder("SELECT * FROM licencias, empresas WHERE licencias.id_empresa = empresas.id ");
 
-    public ConductorEntity getSingleConductor(Long id) {
-        return em.find(ConductorEntity.class, id);
-    }
-
-    public List<ConductorEntity> findEmployeesByFullName(String name) {
-        String rawQuery = "SELECT * FROM conductores WHERE nombre LIKE '%" + name + "%' ORDER BY nombre ";
-        Query query = em.createNativeQuery(rawQuery, ConductorEntity.class);
-
-        return query.setMaxResults(10).getResultList();
-    }
-
-    public List<ConductorEntity> getEmployeeData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
-        StringBuilder rawQuery = new StringBuilder("SELECT * FROM conductores, empresas WHERE conductores.id_empresa = empresas.id ");
-
-        Query query = buildFilters(sortMeta, filterMeta, rawQuery, ConductorEntity.class);
+        Query query = buildFilters(sortMeta, filterMeta, rawQuery, LicenciasEntity.class);
 
         if (pageSize > 0)
             query = query.setMaxResults(pageSize).setFirstResult(first);
@@ -61,34 +37,12 @@ public class ConductoresDbBean {
         return query.getResultList();
     }
 
-    public int getTotalEmployees(Map<String, FilterMeta> filterMeta) {
-        StringBuilder rawQuery = new StringBuilder("SELECT COUNT(*) FROM conductores, empresas WHERE conductores.id_empresa = empresas.id ");
+    public int getTotal(Map<String, FilterMeta> filterMeta) {
+        StringBuilder rawQuery = new StringBuilder("SELECT COUNT(*) FROM licencias, empresas WHERE licencias.id_empresa = empresas.id ");
 
         Query query = buildFilters(null, filterMeta, rawQuery, null);
 
         return ((BigInteger) query.getSingleResult()).intValue();
-    }
-
-    public ConductorEntity insertConductor(Conductor conductor) {
-        ConductorEntity employeeEntity = new ConductorEntity(conductor);
-        em.persist(employeeEntity);
-
-        return employeeEntity;
-    }
-
-    public void update(Conductor conductor) {
-        ConductorEntity employeeEntity = getSingleConductor(conductor.getId());
-        employeeEntity.setNombre(conductor.getNombre());
-
-        em.merge(employeeEntity);
-    }
-
-    public void delete(Long id) {
-        em.remove(getSingleConductor(id));
-    }
-
-    public void truncate() {
-        em.createNativeQuery("DELETE FROM conductores WHERE true").executeUpdate();
     }
 
     private Query buildFilters(Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta, StringBuilder rawQuery, Class clazz) {
@@ -104,7 +58,7 @@ public class ConductoresDbBean {
                     if (entry.getKey().equalsIgnoreCase("empresa.nombre")) {
                         rawQuery.append(" AND ").append(" empresas.nombre ").append("LIKE ").append(":").append(entry.getKey());
                     } else {
-                        rawQuery.append(" AND ").append("conductores.").append(entry.getKey()).append(" LIKE ").append(":").append(entry.getKey());
+                        rawQuery.append(" AND ").append("licencias.").append(entry.getKey()).append(" LIKE ").append(":").append(entry.getKey());
                     }
 
                     parameters.put(entry.getKey(), entry.getValue());
@@ -133,4 +87,22 @@ public class ConductoresDbBean {
         return query;
     }
 
+    public LicenciasEntity insert(Licencia licencia) {
+        LicenciasEntity licenciasEntity = new LicenciasEntity(licencia);
+        em.persist(licenciasEntity);
+
+        return licenciasEntity;
+    }
+
+
+    public void truncate() {
+        em.createNativeQuery("DELETE FROM licencias WHERE true").executeUpdate();
+    }
+
+    public void update(Licencia licencia) {
+        LicenciasEntity licenciasEntity = em.find(LicenciasEntity.class, licencia.getId());
+        licenciasEntity.setEsEurotaxi(licencia.getEs_eurotaxi());
+
+        em.merge(licenciasEntity);
+    }
 }

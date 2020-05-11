@@ -1,5 +1,7 @@
 package entities;
 
+import pojos.Licencia;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
@@ -11,12 +13,16 @@ public class LicenciasEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
-    private Integer id;
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "id_empresa", referencedColumnName = "id")
+    private EmpresasEntity empresasEntity;
 
     @Column(name = "codigo")
     private Integer codigo;
 
-    @Column(name = "esEurotaxi")
+    @Column(name = "es_eurotaxi")
     private Boolean esEurotaxi;
 
     @Column(name = "creado")
@@ -31,6 +37,18 @@ public class LicenciasEntity {
     public void prePersist() {
         creado = new Date();
         actualizado = new Date();
+    }
+
+    public LicenciasEntity() {
+    }
+
+    public LicenciasEntity(Licencia licencia) {
+        this.id = licencia.getId();
+        this.empresasEntity = new EmpresasEntity(licencia.getEmpresa());
+        this.codigo = licencia.getCodigo();
+        this.esEurotaxi = licencia.getEs_eurotaxi();
+        this.creado = licencia.getCreado();
+        this.actualizado = licencia.getActualizado();
     }
 
     @PreUpdate
@@ -53,5 +71,54 @@ public class LicenciasEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, codigo, esEurotaxi, creado, actualizado);
+    }
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public EmpresasEntity getEmpresasEntity() {
+        return empresasEntity;
+    }
+
+    public void setEmpresasEntity(EmpresasEntity empresasEntity) {
+        this.empresasEntity = empresasEntity;
+    }
+
+    public Integer getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(Integer codigo) {
+        this.codigo = codigo;
+    }
+
+    public Boolean getEsEurotaxi() {
+        return esEurotaxi;
+    }
+
+    public void setEsEurotaxi(Boolean esEurotaxi) {
+        this.esEurotaxi = esEurotaxi;
+    }
+
+    public Date getCreado() {
+        return creado;
+    }
+
+    public void setCreado(Date creado) {
+        this.creado = creado;
+    }
+
+    public Date getActualizado() {
+        return actualizado;
+    }
+
+    public void setActualizado(Date actualizado) {
+        this.actualizado = actualizado;
     }
 }
