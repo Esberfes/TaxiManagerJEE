@@ -31,4 +31,12 @@ public class FormasPagosBean implements LazyLoad<FormasPago> {
     public int getTotal(Map<String, FilterMeta> filterMeta) {
         return formasPagosDbBean.getTotal(filterMeta);
     }
+
+    public void update(FormasPago formasPago) {
+
+    }
+
+    public void delete(Long id) {
+
+    }
 }

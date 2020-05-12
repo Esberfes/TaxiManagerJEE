@@ -34,7 +34,7 @@
 
         <p:column headerText="" style="text-align: center">
             <p:commandButton icon="fas fa-trash-alt" ajax="true" update=":form:messages empresasTable"
-                             action="#{EmpresasFace.deleteEmpresa(empresa.id)}">
+                             action="#{EmpresasFace.delete(empresa.id)}">
                 <p:confirm header="Confirmation" message="Estás seguro?" icon="pi pi-exclamation-triangle"/>
             </p:commandButton>
         </p:column>

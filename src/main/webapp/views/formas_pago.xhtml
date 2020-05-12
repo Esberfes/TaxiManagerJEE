@@ -10,6 +10,36 @@
       xmlns:f="http://java.sun.com/jsf/core">
 
 <ui:composition>
+    <p:dataTable id="formasPagoTable" var="forma" value="#{FormasPagosFace.lazyModel}"
+                 styleClass="shadow"
+                 lazy="true"
+                 editable="true"
+                 editMode="cell"
+                 rows="10"
+                 paginator="true"
+                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                 rowsPerPageTemplate="10,15,20,25,30">
+
+        <f:facet name="header">Formas de pago</f:facet>
+
+        <p:ajax event="cellEdit" listener="#{EmpresasFace.onCellEdit}" update=":form:messages"/>
+
+        <p:column headerText="Nombre" filterBy="#{forma.nombre}" sortBy="#{forma.nombre}">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{forma.nombre}"/></f:facet>
+                <f:facet name="input"><p:inputText value="#{forma.nombre}" style="width:100%"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="" style="text-align: center">
+            <p:commandButton icon="fas fa-trash-alt" ajax="true" update=":form:messages formasPagoTable"
+                             action="#{FormasPagosFace.delete(forma.id)}">
+                <p:confirm header="Confirmation" message="Estás seguro?" icon="pi pi-exclamation-triangle"/>
+            </p:commandButton>
+        </p:column>
+
+    </p:dataTable>
 </ui:composition>
 
 </html>

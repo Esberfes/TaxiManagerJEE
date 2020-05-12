@@ -1,6 +1,7 @@
 package database;
 
 import entities.FormasPagosGastosEntity;
+import entities.LicenciasEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortMeta;
@@ -10,6 +11,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,11 +27,22 @@ public class FormasPagosDbBean {
     private EntityManager em;
 
     public List<FormasPagosGastosEntity> getData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
-        return null;
+        StringBuilder rawQuery = new StringBuilder("SELECT * FROM formas_pagos_gastos WHERE true ");
+
+        Query query = buildFilters(sortMeta, filterMeta, rawQuery, FormasPagosGastosEntity.class);
+
+        if (pageSize > 0)
+            query = query.setMaxResults(pageSize).setFirstResult(first);
+
+        return query.getResultList();
     }
 
     public int getTotal(Map<String, FilterMeta> filterMeta) {
-        return 0;
+        StringBuilder rawQuery = new StringBuilder("SELECT COUNT(*) FROM formas_pagos_gastos WHERE true ");
+
+        Query query = buildFilters(null, filterMeta, rawQuery, null);
+
+        return ((BigInteger) query.getSingleResult()).intValue();
     }
 
     private Query buildFilters(Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta, StringBuilder rawQuery, Class clazz) {
@@ -54,9 +67,9 @@ public class FormasPagosDbBean {
         if (sortMeta != null && !sortMeta.isEmpty()) {
             SortMeta sort = sortMeta.entrySet().iterator().next().getValue();
             if (sort.getSortField().equals("empresa.nombre")) {
-                rawQuery.append(" ORDER BY ").append("empresas.nombre").append(" ").append(sort.getSortOrder() == SortOrder.DESCENDING ? " DESC " : " ASC ");
+                rawQuery.append(" ORDER BY ").append("formas_pagos_gastos.nombre").append(" ").append(sort.getSortOrder() == SortOrder.DESCENDING ? " DESC " : " ASC ");
             } else {
-                rawQuery.append(" ORDER BY ").append("conductores.").append(sort.getSortField()).append(" ").append(sort.getSortOrder() == SortOrder.DESCENDING ? " DESC " : " ASC ");
+                rawQuery.append(" ORDER BY ").append("formas_pagos_gastos.").append(sort.getSortField()).append(" ").append(sort.getSortOrder() == SortOrder.DESCENDING ? " DESC " : " ASC ");
             }
         }
 

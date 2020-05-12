@@ -57,7 +57,7 @@ public class EmpresasFace implements Serializable {
         }
     }
 
-    public void deleteEmpresa(Long id) {
+    public void delete(Long id) {
         try {
             empresasBean.delete(id);
         } catch (Throwable e) {
