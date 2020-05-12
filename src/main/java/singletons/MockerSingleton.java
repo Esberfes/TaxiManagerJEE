@@ -40,105 +40,54 @@ public class MockerSingleton {
 
     @PostConstruct
     public void init() {
-        Faker faker = new Faker();
-
-        licenciasBean.truncate();
-        conductoresBean.truncate();
-        empresasBean.truncate();
-
-        licencias = new ArrayList<>(); // 300
-        conductores = new ArrayList<>(); // 3000
-        empresas = new ArrayList<>(); // 10
-
-        for (int e = 0; e < 10; e++) {
-            Empresa empresa = new Empresa(faker.company().name());
-            EmpresasEntity empresasEntity = empresasBean.insertEmpresa(empresa);
-            empresa.setId(empresasEntity.getId());
-            empresas.add(empresa);
-
-            for (int c = 0; c < 300; c++) {
-                Conductor conductor = new Conductor(
-                        faker.name().fullName(),
-                        empresa,
-                        new BigDecimal(faker.number().randomDouble(2, 4, 5)),
-                        new BigDecimal(faker.number().randomDouble(2, 100, 100)),
-                        new BigDecimal(faker.number().randomDouble(2, 140, 160)),
-                        new BigDecimal(faker.number().randomDouble(2, 200, 200)),
-                        new BigDecimal(faker.number().randomDouble(2, 10000, 1000))
-                );
-
-                ConductorEntity conductorEntity = conductoresBean.insert(conductor);
-                conductor.setId(conductorEntity.getId());
-                conductores.add(conductor);
-            }
-        }
-
-        for (Empresa empresa : empresas) {
-            for (int i = 0; i < 30; i++) {
-                Licencia licencia = new Licencia();
-                licencia.setCodigo(Integer.parseInt(faker.number().digits(8)));
-                licencia.setEmpresa(empresa);
-                licencia.setEs_eurotaxi(Math.random() >= 0.5);
-                LicenciasEntity licenciasEntity = licenciasBean.insert(licencia);
-                licencia.setId(licenciasEntity.getId());
-
-                licencias.add(licencia);
-            }
-        }
-
-
-        /*
         if (false) {
             Faker faker = new Faker();
-            vehiclesDbBean.truncate();
-            workShiftsDbBean.truncate();
-            conductoresDbBean.truncate();
-            licensesDbBean.truncate();
-            
-            conductors = new ArrayList<>();
-            for (int i = 0; i < 300; i++) {
-                Conductor conductor = new Conductor(
-                        faker.name().firstName(),
-                        faker.name().lastName(),
-                        faker.name().lastName(),
-                        faker.idNumber().valid());
 
-                EmployeeEntity e = conductoresDbBean.insertEmployee(conductor);
-                conductor.setId(e.getId());
-                conductors.add(conductor);
+            licenciasBean.truncate();
+            conductoresBean.truncate();
+            empresasBean.truncate();
+
+            licencias = new ArrayList<>(); // 300
+            conductores = new ArrayList<>(); // 3000
+            empresas = new ArrayList<>(); // 10
+
+            for (int e = 0; e < 10; e++) {
+                Empresa empresa = new Empresa(faker.company().name());
+                EmpresasEntity empresasEntity = empresasBean.insertEmpresa(empresa);
+                empresa.setId(empresasEntity.getId());
+                empresas.add(empresa);
+
+                for (int c = 0; c < 300; c++) {
+                    Conductor conductor = new Conductor(
+                            faker.name().fullName(),
+                            empresa,
+                            new BigDecimal(faker.number().randomDouble(2, 4, 5)),
+                            new BigDecimal(faker.number().randomDouble(2, 100, 100)),
+                            new BigDecimal(faker.number().randomDouble(2, 140, 160)),
+                            new BigDecimal(faker.number().randomDouble(2, 200, 200)),
+                            new BigDecimal(faker.number().randomDouble(2, 10000, 1000))
+                    );
+
+                    ConductorEntity conductorEntity = conductoresBean.insert(conductor);
+                    conductor.setId(conductorEntity.getId());
+                    conductores.add(conductor);
+                }
             }
 
+            for (Empresa empresa : empresas) {
+                for (int i = 0; i < 30; i++) {
+                    Licencia licencia = new Licencia();
+                    licencia.setCodigo(Integer.parseInt(faker.number().digits(8)));
+                    licencia.setEmpresa(empresa);
+                    licencia.setEs_eurotaxi(Math.random() >= 0.5);
+                    LicenciasEntity licenciasEntity = licenciasBean.insert(licencia);
+                    licencia.setId(licenciasEntity.getId());
 
-            licenses = new ArrayList<>();
-            for (int i = 0; i < 50; i++) {
-                License license = new License(faker.idNumber().valid());
-                LicenseEntity e = licensesDbBean.insertLicense(license);
-                license.setId(e.getId());
-                licenses.add(license);
-
-                Vehicle vehicle = new Vehicle(faker.company().name(), faker.idNumber().valid(), license);
-                VehicleEntity vehicleEntity = vehiclesDbBean.insertVehicle(vehicle);
-            }
-
-
-            workShifts = new ArrayList<>();
-            for (int i = 0; i < 5000; i++) {
-                WorkShift workShift = new WorkShift();
-                workShift.setId(faker.number().randomNumber());
-                workShift.setShiftType(Math.random() > 0.5 ? ShiftType.T : ShiftType.M);
-                Date day = faker.date().past(365, TimeUnit.DAYS);
-                workShift.setDay(day);
-                Random rand = new Random();
-                workShift.setConductor(conductors.get(rand.nextInt(conductors.size())));
-                workShift.setLicense(licenses.get(rand.nextInt(licenses.size())));
-                workShift.setIncome(faker.number().randomDouble(2, 5, 200));
-
-                workShifts.add(workShift);
-                workShiftsDbBean.insertWorkShift(workShift);
+                    licencias.add(licencia);
+                }
             }
         }
 
-         */
     }
 
 }

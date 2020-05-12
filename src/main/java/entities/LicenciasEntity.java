@@ -19,7 +19,7 @@ public class LicenciasEntity {
     @JoinColumn(name = "id_empresa", referencedColumnName = "id")
     private EmpresasEntity empresasEntity;
 
-    @Column(name = "codigo")
+    @Column(name = "codigo", unique = true)
     private Integer codigo;
 
     @Column(name = "es_eurotaxi")

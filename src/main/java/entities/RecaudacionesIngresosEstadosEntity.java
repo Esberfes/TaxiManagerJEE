@@ -13,7 +13,7 @@ public class RecaudacionesIngresosEstadosEntity {
     @Column(name = "id", unique = true, nullable = false)
     private Integer id;
 
-    @Column(name = "nombre")
+    @Column(name = "nombre", unique = true)
     private String nombre;
 
     @Column(name = "creado")

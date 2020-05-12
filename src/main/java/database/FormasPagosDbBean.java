@@ -1,48 +1,35 @@
 package database;
 
-import entities.LicenciasEntity;
+import entities.FormasPagosGastosEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortMeta;
 import org.primefaces.model.SortOrder;
-import pojos.Licencia;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static utils.FilterUtils.getFilterFieldValue;
 
-@Stateless(name = LicenciasDbBean.BEAN_NAME)
-public class LicenciasDbBean {
+@Stateless(name = FormasPagosDbBean.BEAN_NAME)
+public class FormasPagosDbBean {
 
-    public final static String BEAN_NAME = "LicenciasDbBean";
+    public final static String BEAN_NAME = "FormasPagosDbBean";
 
     @PersistenceContext
     private EntityManager em;
 
-    public List<LicenciasEntity> getData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
-        StringBuilder rawQuery = new StringBuilder("SELECT * FROM licencias, empresas WHERE licencias.id_empresa = empresas.id ");
-
-        Query query = buildFilters(sortMeta, filterMeta, rawQuery, LicenciasEntity.class);
-
-        if (pageSize > 0)
-            query = query.setMaxResults(pageSize).setFirstResult(first);
-
-        return query.getResultList();
+    public List<FormasPagosGastosEntity> getData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
+        return null;
     }
 
     public int getTotal(Map<String, FilterMeta> filterMeta) {
-        StringBuilder rawQuery = new StringBuilder("SELECT COUNT(*) FROM licencias, empresas WHERE licencias.id_empresa = empresas.id ");
-
-        Query query = buildFilters(null, filterMeta, rawQuery, null);
-
-        return ((BigInteger) query.getSingleResult()).intValue();
+        return 0;
     }
 
     private Query buildFilters(Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta, StringBuilder rawQuery, Class clazz) {
@@ -55,11 +42,9 @@ public class LicenciasDbBean {
                         && entry.getValue().getFilterValue() != null
                         && StringUtils.isNotBlank(String.valueOf(entry.getValue().getFilterValue()))) {
 
-                    if (entry.getKey().equalsIgnoreCase("empresa.nombre")) {
-                        rawQuery.append(" AND ").append(" empresas.nombre ").append("LIKE ").append(":").append(entry.getKey());
-                    } else {
-                        rawQuery.append(" AND ").append("licencias.").append(entry.getKey()).append(" LIKE ").append(":").append(entry.getKey());
-                    }
+
+                    rawQuery.append(" AND ").append("formas_pagos_gastos.").append(entry.getKey()).append(" LIKE ").append(":").append(entry.getKey());
+
 
                     parameters.put(entry.getKey(), entry.getValue());
                 }
@@ -85,23 +70,5 @@ public class LicenciasDbBean {
             query.setParameter(parameter.getKey(), getFilterFieldValue(parameter.getValue()));
 
         return query;
-    }
-
-    public LicenciasEntity insert(Licencia licencia) {
-        LicenciasEntity licenciasEntity = new LicenciasEntity(licencia);
-        em.persist(licenciasEntity);
-
-        return licenciasEntity;
-    }
-
-    public void truncate() {
-        em.createNativeQuery("DELETE FROM licencias WHERE true").executeUpdate();
-    }
-
-    public void update(Licencia licencia) {
-        LicenciasEntity licenciasEntity = em.find(LicenciasEntity.class, licencia.getId());
-        licenciasEntity.setEsEurotaxi(licencia.getEs_eurotaxi());
-
-        em.merge(licenciasEntity);
     }
 }

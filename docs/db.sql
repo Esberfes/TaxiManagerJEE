@@ -6,11 +6,13 @@ CREATE TABLE `conceptos_gastos`
     `creado`        datetime     DEFAULT NULL,
     `actualizado`   datetime     DEFAULT NULL,
     PRIMARY KEY (`id`),
+    UNIQUE KEY `UNIQUE_NOMBRE` (`nombre`),
     KEY `FK_TIPO_GASTO_idx` (`id_tipo_gasto`),
     CONSTRAINT `FK_TIPO_GASTO` FOREIGN KEY (`id_tipo_gasto`) REFERENCES `tipos_gastos` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
+
 
 CREATE TABLE `conductores`
 (
@@ -25,12 +27,14 @@ CREATE TABLE `conductores`
     `creado`          datetime                DEFAULT NULL,
     `actualizado`     datetime                DEFAULT NULL,
     PRIMARY KEY (`id`),
+    UNIQUE KEY `UNIQUE_NOMBRE` (`nombre`),
     KEY `FK_CONDUCTORES_EMPRESA_idx` (`id_empresa`),
     CONSTRAINT `FK_CONDUCTORES_EMPRESA` FOREIGN KEY (`id_empresa`) REFERENCES `empresas` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 183301
+  AUTO_INCREMENT = 453301
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
+
 
 
 CREATE TABLE `empresas`
@@ -39,9 +43,10 @@ CREATE TABLE `empresas`
     `nombre`      varchar(255) NOT NULL,
     `creado`      datetime DEFAULT NULL,
     `actualizado` datetime DEFAULT NULL,
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `UNIQUE_NOMBRE` (`nombre`)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 613
+  AUTO_INCREMENT = 1513
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
 
@@ -51,7 +56,8 @@ CREATE TABLE `formas_pagos_gastos`
     `nombre`      varchar(255) NOT NULL,
     `creado`      datetime DEFAULT NULL,
     `actualizado` datetime DEFAULT NULL,
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `UNIQUE_NOMBRE` (`nombre`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
@@ -146,10 +152,12 @@ CREATE TABLE `recaudaciones_ingresos_estados`
     `nombre`      varchar(255) NOT NULL,
     `creado`      datetime DEFAULT NULL,
     `actualizado` datetime DEFAULT NULL,
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `UNIQUE_NOMBRE` (`nombre`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
+
 
 CREATE TABLE `tipos_gastos`
 (
@@ -158,7 +166,8 @@ CREATE TABLE `tipos_gastos`
     `es_operacional` tinyint(4)   NOT NULL,
     `creado`         datetime DEFAULT NULL,
     `actualizado`    datetime DEFAULT NULL,
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `UNIQUE_NOMBRE` (`nombre`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
