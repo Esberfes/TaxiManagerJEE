@@ -1,5 +1,7 @@
 package entities;
 
+import pojos.TiposGasto;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
@@ -11,7 +13,7 @@ public class TiposGastosEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
-    private Integer id;
+    private Long id;
 
     @Column(name = "nombre", unique = true)
     private String nombre;
@@ -31,6 +33,16 @@ public class TiposGastosEntity {
     public void prePersist() {
         creado = new Date();
         actualizado = new Date();
+    }
+
+    public TiposGastosEntity() {}
+
+    public TiposGastosEntity(TiposGasto tiposGasto) {
+        this.id = tiposGasto.getId();
+        this.nombre = tiposGasto.getNombre();
+        this.esOperacional = tiposGasto.getEs_operacional();
+        this.creado = tiposGasto.getCreado();
+        this.actualizado = tiposGasto.getActualizado();
     }
 
     @PreUpdate
@@ -53,5 +65,45 @@ public class TiposGastosEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, nombre, esOperacional, creado, actualizado);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public Boolean getEsOperacional() {
+        return esOperacional;
+    }
+
+    public void setEsOperacional(Boolean esOperacional) {
+        this.esOperacional = esOperacional;
+    }
+
+    public Date getCreado() {
+        return creado;
+    }
+
+    public void setCreado(Date creado) {
+        this.creado = creado;
+    }
+
+    public Date getActualizado() {
+        return actualizado;
+    }
+
+    public void setActualizado(Date actualizado) {
+        this.actualizado = actualizado;
     }
 }

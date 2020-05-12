@@ -10,6 +10,48 @@
       xmlns:f="http://java.sun.com/jsf/core">
 
 <ui:composition>
+    <p:dataTable id="tiposGastoTable" var="tipoGasto" value="#{TiposGastosFace.lazyModel}"
+                 styleClass="shadow"
+                 lazy="true"
+                 editable="true"
+                 editMode="cell"
+                 rows="10"
+                 paginator="true"
+                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                 rowsPerPageTemplate="10,15,20,25,30">
+
+        <f:facet name="header">Formas de pago</f:facet>
+
+        <p:ajax event="cellEdit" listener="#{TiposGastosFace.onCellEdit}" update=":form:messages"/>
+
+        <p:column headerText="Nombre" filterBy="#{tipoGasto.nombre}" sortBy="#{tipoGasto.nombre}">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{tipoGasto.nombre}"/></f:facet>
+                <f:facet name="input"><p:inputText value="#{tipoGasto.nombre}" style="width:100%"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="Operacional" filterBy="#{tipoGasto.es_operacional}" sortBy="#{tipoGasto.es_operacional}">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{tipoGasto.es_operacional ? 'Si' : 'No'}"/></f:facet>
+                <f:facet name="input">
+                    <p:selectOneMenu value="#{tipoGasto.es_operacional}" inputStyle="width: 100%" style="width: 100%">
+                        <f:selectItem itemLabel="Si" itemValue="true"/>
+                        <f:selectItem itemLabel="No" itemValue="false"/>
+                    </p:selectOneMenu>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="" style="text-align: center">
+            <p:commandButton icon="fas fa-trash-alt" ajax="true" update=":form:messages tiposGastoTable"
+                             action="#{TiposGastosFace.delete(tipoGasto.id)}">
+                <p:confirm header="Confirmation" message="Estás seguro?" icon="pi pi-exclamation-triangle"/>
+            </p:commandButton>
+        </p:column>
+
+    </p:dataTable>
 </ui:composition>
 
 </html>
