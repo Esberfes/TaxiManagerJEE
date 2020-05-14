@@ -1,5 +1,7 @@
 package entities;
 
+import pojos.EstadosIngreso;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
@@ -30,6 +32,16 @@ public class RecaudacionesIngresosEstadosEntity {
         actualizado = new Date();
     }
 
+    public RecaudacionesIngresosEstadosEntity() {
+    }
+
+    public RecaudacionesIngresosEstadosEntity(EstadosIngreso estadosIngreso) {
+        this.id = estadosIngreso.getId();
+        this.nombre = estadosIngreso.getNombre();
+        this.creado = estadosIngreso.getCreado();
+        this.actualizado = estadosIngreso.getActualizado();
+    }
+
     @PreUpdate
     public void preUpdate() {
         actualizado = new Date();
@@ -49,5 +61,37 @@ public class RecaudacionesIngresosEstadosEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, nombre, creado, actualizado);
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public Date getCreado() {
+        return creado;
+    }
+
+    public void setCreado(Date creado) {
+        this.creado = creado;
+    }
+
+    public Date getActualizado() {
+        return actualizado;
+    }
+
+    public void setActualizado(Date actualizado) {
+        this.actualizado = actualizado;
     }
 }

@@ -1,12 +1,10 @@
 package database;
 
-import entities.FormasPagosGastosEntity;
 import entities.TiposGastosEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortMeta;
 import org.primefaces.model.SortOrder;
-import pojos.TiposGasto;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -56,9 +54,7 @@ public class TiposGastoDbBean {
                         && entry.getValue().getFilterValue() != null
                         && StringUtils.isNotBlank(String.valueOf(entry.getValue().getFilterValue()))) {
 
-
                     rawQuery.append(" AND ").append("tipos_gastos.").append(entry.getKey()).append(" LIKE ").append(":").append(entry.getKey());
-
 
                     parameters.put(entry.getKey(), entry.getValue());
                 }
@@ -67,11 +63,7 @@ public class TiposGastoDbBean {
 
         if (sortMeta != null && !sortMeta.isEmpty()) {
             SortMeta sort = sortMeta.entrySet().iterator().next().getValue();
-            if (sort.getSortField().equals("empresa.nombre")) {
-                rawQuery.append(" ORDER BY ").append("tipos_gastos.nombre").append(" ").append(sort.getSortOrder() == SortOrder.DESCENDING ? " DESC " : " ASC ");
-            } else {
-                rawQuery.append(" ORDER BY ").append("tipos_gastos.").append(sort.getSortField()).append(" ").append(sort.getSortOrder() == SortOrder.DESCENDING ? " DESC " : " ASC ");
-            }
+            rawQuery.append(" ORDER BY ").append("tipos_gastos.").append(sort.getSortField()).append(" ").append(sort.getSortOrder() == SortOrder.DESCENDING ? " DESC " : " ASC ");
         }
 
         Query query;

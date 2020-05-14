@@ -6,7 +6,6 @@ import org.apache.log4j.Logger;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.model.LazyDataModel;
-import pojos.Licencia;
 import pojos.TiposGasto;
 
 import javax.annotation.PostConstruct;
@@ -67,7 +66,7 @@ public class TiposGastosFace implements Serializable {
     public void delete(Long id) {
         try {
             tiposGastosBean.delete(id);
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Empleado eliminado con éxito", "");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Tipo de gasto eliminado con éxito", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Throwable e) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error eliminado empleado", e.getMessage());

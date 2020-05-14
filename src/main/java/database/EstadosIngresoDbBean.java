@@ -1,6 +1,6 @@
 package database;
 
-import entities.FormasPagosGastosEntity;
+import entities.RecaudacionesIngresosEstadosEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortMeta;
@@ -17,18 +17,18 @@ import java.util.Map;
 
 import static utils.FilterUtils.getFilterFieldValue;
 
-@Stateless(name = FormasPagosDbBean.BEAN_NAME)
-public class FormasPagosDbBean {
+@Stateless(name = EstadosIngresoDbBean.BEAN_NAME)
+public class EstadosIngresoDbBean {
 
-    public final static String BEAN_NAME = "FormasPagosDbBean";
+    public final static String BEAN_NAME = "EstadosIngresoDbBean";
 
     @PersistenceContext
     private EntityManager em;
 
-    public List<FormasPagosGastosEntity> getData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
-        StringBuilder rawQuery = new StringBuilder("SELECT * FROM formas_pagos_gastos WHERE true ");
+    public List<RecaudacionesIngresosEstadosEntity> getData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
+        StringBuilder rawQuery = new StringBuilder("SELECT * FROM recaudaciones_ingresos_estados WHERE true ");
 
-        Query query = buildFilters(sortMeta, filterMeta, rawQuery, FormasPagosGastosEntity.class);
+        Query query = buildFilters(sortMeta, filterMeta, rawQuery, RecaudacionesIngresosEstadosEntity.class);
 
         if (pageSize > 0)
             query = query.setMaxResults(pageSize).setFirstResult(first);
@@ -37,7 +37,7 @@ public class FormasPagosDbBean {
     }
 
     public int getTotal(Map<String, FilterMeta> filterMeta) {
-        StringBuilder rawQuery = new StringBuilder("SELECT COUNT(*) FROM formas_pagos_gastos WHERE true ");
+        StringBuilder rawQuery = new StringBuilder("SELECT COUNT(*) FROM recaudaciones_ingresos_estados WHERE true ");
 
         Query query = buildFilters(null, filterMeta, rawQuery, null);
 
@@ -54,9 +54,7 @@ public class FormasPagosDbBean {
                         && entry.getValue().getFilterValue() != null
                         && StringUtils.isNotBlank(String.valueOf(entry.getValue().getFilterValue()))) {
 
-
-                    rawQuery.append(" AND ").append("formas_pagos_gastos.").append(entry.getKey()).append(" LIKE ").append(":").append(entry.getKey());
-
+                    rawQuery.append(" AND ").append("tipos_gastos.").append(entry.getKey()).append(" LIKE ").append(":").append(entry.getKey());
 
                     parameters.put(entry.getKey(), entry.getValue());
                 }
@@ -65,8 +63,7 @@ public class FormasPagosDbBean {
 
         if (sortMeta != null && !sortMeta.isEmpty()) {
             SortMeta sort = sortMeta.entrySet().iterator().next().getValue();
-            rawQuery.append(" ORDER BY ").append("formas_pagos_gastos.").append(sort.getSortField()).append(" ").append(sort.getSortOrder() == SortOrder.DESCENDING ? " DESC " : " ASC ");
-
+            rawQuery.append(" ORDER BY ").append("tipos_gastos.").append(sort.getSortField()).append(" ").append(sort.getSortOrder() == SortOrder.DESCENDING ? " DESC " : " ASC ");
         }
 
         Query query;
@@ -79,5 +76,9 @@ public class FormasPagosDbBean {
             query.setParameter(parameter.getKey(), getFilterFieldValue(parameter.getValue()));
 
         return query;
+    }
+
+    public void delete(Long id) {
+
     }
 }
