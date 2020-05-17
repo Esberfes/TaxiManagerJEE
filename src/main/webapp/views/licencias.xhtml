@@ -23,7 +23,7 @@
 
         <f:facet name="header">Licencias</f:facet>
 
-        <p:ajax event="cellEdit" listener="#{LicenciasFace.onCellEdit}" update=":form:messages"/>
+        <p:ajax event="cellEdit" listener="#{LicenciasFace.onCellEdit}" update=":form:messages licenciasTable"/>
 
         <p:column headerText="Codigo" filterBy="#{licencia.codigo}" sortBy="#{licencia.codigo}">
             <p:cellEditor>

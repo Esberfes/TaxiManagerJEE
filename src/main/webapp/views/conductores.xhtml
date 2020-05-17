@@ -37,7 +37,7 @@
 
         <f:facet name="header">Conductores</f:facet>
 
-        <p:ajax event="cellEdit" listener="#{ConductoresFace.onCellEdit}" update=":form:messages"/>
+        <p:ajax event="cellEdit" listener="#{ConductoresFace.onCellEdit}" update=":form:messages employeesTable"/>
 
         <p:column headerText="Nombre" filterBy="#{conductor.nombre}" sortBy="#{conductor.nombre}">
             <p:cellEditor>

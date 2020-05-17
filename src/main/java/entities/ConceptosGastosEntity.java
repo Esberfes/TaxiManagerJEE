@@ -11,10 +11,14 @@ public class ConceptosGastosEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
-    private Integer id;
+    private Long id;
 
     @Column(name = "nombre", unique = true)
     private String nombre;
+
+    @ManyToOne
+    @JoinColumn(name = "id_tipo_gasto", referencedColumnName = "id")
+    private TiposGastosEntity tiposGastosEntity;
 
     @Column(name = "creado")
     @Temporal(TemporalType.TIMESTAMP)
@@ -50,5 +54,45 @@ public class ConceptosGastosEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, nombre, creado, actualizado);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public TiposGastosEntity getTiposGastosEntity() {
+        return tiposGastosEntity;
+    }
+
+    public void setTiposGastosEntity(TiposGastosEntity tiposGastosEntity) {
+        this.tiposGastosEntity = tiposGastosEntity;
+    }
+
+    public Date getCreado() {
+        return creado;
+    }
+
+    public void setCreado(Date creado) {
+        this.creado = creado;
+    }
+
+    public Date getActualizado() {
+        return actualizado;
+    }
+
+    public void setActualizado(Date actualizado) {
+        this.actualizado = actualizado;
     }
 }

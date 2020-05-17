@@ -42,16 +42,16 @@ public class ConductoresBean implements LazyLoad<Conductor> {
 
     @Override
     public List<Conductor> getData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
-        return conductoresDbBean.getEmployeeData(first, pageSize, sortMeta, filterMeta).stream().map(Conductor::new).collect(Collectors.toList());
+        return conductoresDbBean.getData(first, pageSize, sortMeta, filterMeta).stream().map(Conductor::new).collect(Collectors.toList());
     }
 
     @Override
     public int getTotal(Map<String, FilterMeta> filterMeta) {
-        return conductoresDbBean.getTotalEmployees(filterMeta);
+        return conductoresDbBean.getTotal(filterMeta);
     }
 
     public void insert(String name) {
-        conductoresDbBean.insertConductor(new Conductor(name));
+        conductoresDbBean.insert(new Conductor(name));
     }
 
     public void update(Conductor conductor) {
@@ -63,11 +63,11 @@ public class ConductoresBean implements LazyLoad<Conductor> {
     }
 
     public List<Conductor> findEmployeesByFullName(String name) {
-        return conductoresDbBean.findEmployeesByFullName(name).stream().map(Conductor::new).collect(Collectors.toList());
+        return conductoresDbBean.findByFullName(name).stream().map(Conductor::new).collect(Collectors.toList());
     }
 
     public ConductorEntity insert(Conductor conductor) {
-        return conductoresDbBean.insertConductor(conductor);
+        return conductoresDbBean.insert(conductor);
     }
 
     public void truncate() {

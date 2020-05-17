@@ -39,18 +39,18 @@ public class ConductoresDbBean {
         filterMapping = new HashMap<>();
     }
 
-    public ConductorEntity getSingleConductor(Long id) {
+    public ConductorEntity getSingle(Long id) {
         return em.find(ConductorEntity.class, id);
     }
 
-    public List<ConductorEntity> findEmployeesByFullName(String name) {
+    public List<ConductorEntity> findByFullName(String name) {
         String rawQuery = "SELECT * FROM conductores WHERE nombre LIKE '%" + name + "%' ORDER BY nombre ";
         Query query = em.createNativeQuery(rawQuery, ConductorEntity.class);
 
         return query.setMaxResults(10).getResultList();
     }
 
-    public List<ConductorEntity> getEmployeeData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
+    public List<ConductorEntity> getData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
         StringBuilder rawQuery = new StringBuilder("SELECT * FROM conductores, empresas WHERE conductores.id_empresa = empresas.id ");
 
         Query query = buildFilters(sortMeta, filterMeta, rawQuery, ConductorEntity.class);
@@ -61,7 +61,7 @@ public class ConductoresDbBean {
         return query.getResultList();
     }
 
-    public int getTotalEmployees(Map<String, FilterMeta> filterMeta) {
+    public int getTotal(Map<String, FilterMeta> filterMeta) {
         StringBuilder rawQuery = new StringBuilder("SELECT COUNT(*) FROM conductores, empresas WHERE conductores.id_empresa = empresas.id ");
 
         Query query = buildFilters(null, filterMeta, rawQuery, null);
@@ -69,7 +69,7 @@ public class ConductoresDbBean {
         return ((BigInteger) query.getSingleResult()).intValue();
     }
 
-    public ConductorEntity insertConductor(Conductor conductor) {
+    public ConductorEntity insert(Conductor conductor) {
         ConductorEntity employeeEntity = new ConductorEntity(conductor);
         em.persist(employeeEntity);
 
@@ -77,14 +77,14 @@ public class ConductoresDbBean {
     }
 
     public void update(Conductor conductor) {
-        ConductorEntity employeeEntity = getSingleConductor(conductor.getId());
+        ConductorEntity employeeEntity = getSingle(conductor.getId());
         employeeEntity.setNombre(conductor.getNombre());
 
         em.merge(employeeEntity);
     }
 
     public void delete(Long id) {
-        em.remove(getSingleConductor(id));
+        em.remove(getSingle(id));
     }
 
     public void truncate() {
