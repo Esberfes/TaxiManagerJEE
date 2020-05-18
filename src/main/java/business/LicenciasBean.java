@@ -38,7 +38,7 @@ public class LicenciasBean implements LazyLoad<Licencia> {
     }
 
     public void delete(Long id) {
-
+        licenciasDbBean.delete(id);
     }
 
     public LicenciasEntity insert(Licencia licencia) {

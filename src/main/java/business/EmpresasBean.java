@@ -41,11 +41,23 @@ public class EmpresasBean implements LazyLoad<Empresa> {
         return empresasDbBean.getTotal(filterMeta);
     }
 
+    public Empresa getSingle(Long id) {
+        return new Empresa(empresasDbBean.getSingleEmpresa(id));
+    }
+
     public void update(Empresa empresa) {
 
     }
 
     public void delete(Long id) {
         empresasDbBean.delete(id);
+    }
+
+    public List<Empresa> findByName(String name) {
+        return empresasDbBean.findByName(name).stream().map(Empresa::new).collect(Collectors.toList());
+    }
+
+    public Empresa findSingleByName(String name) {
+        return new Empresa(empresasDbBean.findSingleByName(name));
     }
 }

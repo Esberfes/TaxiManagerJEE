@@ -24,7 +24,7 @@
         <f:facet name="header">Formas de pago</f:facet>
 
         <p:ajax event="cellEdit" listener="#{EstadosIngresosFace.onCellEdit}"
-                update=":form:messages estadosIgresosTable"/>
+                update=":form:messages"/>
 
         <p:column headerText="Nombre" filterBy="#{estadoIngreso.nombre}" sortBy="#{estadoIngreso.nombre}">
             <p:cellEditor>

@@ -10,7 +10,40 @@
       xmlns:f="http://java.sun.com/jsf/core">
 
 <ui:composition>
-    <p:dataTable id="licenciasTable" var="licencia" value="#{LicenciasFace.lazyModel}"
+
+    <p:panel id="insertLicencia" header="Nueva licencia" styleClass="shadow" style="margin-bottom: 25px">
+        <p:outputPanel styleClass="p-grid">
+
+            <p:outputPanel styleClass="p-col">
+                <p:outputLabel>Código</p:outputLabel>
+                <p:inputNumber inputStyle="width: 100%" style="width: 100%" value="#{LicenciasFace.codigo}"/>
+            </p:outputPanel>
+
+            <p:outputPanel styleClass="p-col">
+                <p:outputLabel>Empresa</p:outputLabel>
+                <p:autoComplete inputStyle="width: 100%" style="width: 100%" minQueryLength="0"
+                                value="#{LicenciasFace.empresa}"
+                                completeMethod="#{LicenciasFace.completeEmpesa}"
+                                forceSelection="true" effect="fade"/>
+            </p:outputPanel>
+
+            <p:outputPanel styleClass="p-col">
+                <p:outputLabel>EuroTaxi</p:outputLabel>
+                <p:selectOneMenu value="#{LicenciasFace.esEuroTaxi}" inputStyle="width: 100%" style="width: 100%">
+                    <f:selectItem itemLabel="Si" itemValue="true"/>
+                    <f:selectItem itemLabel="No" itemValue="false"/>
+                </p:selectOneMenu>
+            </p:outputPanel>
+
+            <p:outputPanel styleClass="p-col" style="justify-content: flex-end;align-items: flex-end;display: flex;">
+                <p:commandButton value="Insertar" action="#{LicenciasFace.insert}" ajax="true"
+                                 update=":form:messages insertEmployee licenciasTable"/>
+            </p:outputPanel>
+
+        </p:outputPanel>
+    </p:panel>
+
+    <p:dataTable widgetVar="licenciasTable" id="licenciasTable" var="licencia" value="#{LicenciasFace.lazyModel}"
                  styleClass="shadow"
                  lazy="true"
                  editable="true"
@@ -23,12 +56,13 @@
 
         <f:facet name="header">Licencias</f:facet>
 
-        <p:ajax event="cellEdit" listener="#{LicenciasFace.onCellEdit}" update=":form:messages licenciasTable"/>
+        <p:ajax event="cellEdit" listener="#{LicenciasFace.onCellEdit}" update=":form:messages"
+                oncomplete="updateLicenciasTable()"/>
 
         <p:column headerText="Codigo" filterBy="#{licencia.codigo}" sortBy="#{licencia.codigo}">
             <p:cellEditor>
                 <f:facet name="output"><h:outputText value="#{licencia.codigo}"/></f:facet>
-                <f:facet name="input"><p:inputText value="#{licencia.codigo}" style="width:100%"/></f:facet>
+                <f:facet name="input"><p:inputNumber value="#{licencia.codigo}" style="width:100%"/></f:facet>
             </p:cellEditor>
         </p:column>
 
@@ -47,7 +81,11 @@
         <p:column headerText="Empresa" filterBy="#{licencia.empresa.nombre}" sortBy="#{licencia.empresa.nombre}">
             <p:cellEditor>
                 <f:facet name="output"><h:outputText value="#{licencia.empresa.nombre}"/></f:facet>
-                <f:facet name="input"><p:inputText value="#{licencia.empresa.nombre}" style="width:100%"/></f:facet>
+                <f:facet name="input">
+                    <p:autoComplete inputStyle="width: 100%" style="width: 100%" minQueryLength="0"
+                                    value="#{licencia.empresa.nombre}" completeMethod="#{LicenciasFace.completeEmpesa}"
+                                    forceSelection="true" effect="fade"/>
+                </f:facet>
             </p:cellEditor>
         </p:column>
 
@@ -59,6 +97,9 @@
         </p:column>
 
     </p:dataTable>
+
+    <p:remoteCommand name="updateLicenciasTable" update="licenciasTable"/>
+
 </ui:composition>
 
 </html>

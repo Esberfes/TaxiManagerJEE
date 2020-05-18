@@ -31,7 +31,7 @@ public class EmpresasDbBean {
     @PersistenceContext
     private EntityManager em;
 
-    private EmpresasEntity getSingleEmpresa(Long id) {
+    public EmpresasEntity getSingleEmpresa(Long id) {
         return em.find(EmpresasEntity.class, id);
     }
 
@@ -101,5 +101,23 @@ public class EmpresasDbBean {
 
     public void delete(Long id) {
         em.remove(getSingleEmpresa(id));
+    }
+
+    public List<EmpresasEntity> findByName(String name) {
+        String rawQuery = "SELECT * FROM empresas WHERE nombre LIKE :nombre ORDER BY nombre ASC";
+        name = "%" + name + "%";
+        Query query = em.createNativeQuery(rawQuery, EmpresasEntity.class);
+        query.setParameter("nombre", name);
+
+        return query.setMaxResults(10).getResultList();
+    }
+
+    public EmpresasEntity findSingleByName(String name) {
+        String rawQuery = "SELECT * FROM empresas WHERE nombre LIKE :nombre ORDER BY nombre ASC";
+        name = "%" + name + "%";
+        Query query = em.createNativeQuery(rawQuery, EmpresasEntity.class);
+        query.setParameter("nombre", name);
+
+        return (EmpresasEntity) query.getSingleResult();
     }
 }

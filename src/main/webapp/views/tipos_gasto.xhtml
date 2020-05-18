@@ -23,7 +23,7 @@
 
         <f:facet name="header">Formas de pago</f:facet>
 
-        <p:ajax event="cellEdit" listener="#{TiposGastosFace.onCellEdit}" update=":form:messages tiposGastoTable"/>
+        <p:ajax event="cellEdit" listener="#{TiposGastosFace.onCellEdit}" update=":form:messages"/>
 
         <p:column headerText="Nombre" filterBy="#{tipoGasto.nombre}" sortBy="#{tipoGasto.nombre}">
             <p:cellEditor>

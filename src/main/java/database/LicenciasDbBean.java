@@ -8,6 +8,7 @@ import org.primefaces.model.SortOrder;
 import pojos.Licencia;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -25,6 +26,9 @@ public class LicenciasDbBean {
 
     @PersistenceContext
     private EntityManager em;
+
+    @Inject
+    private EmpresasDbBean empresasDbBean;
 
     public List<LicenciasEntity> getData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
         StringBuilder rawQuery = new StringBuilder("SELECT * FROM licencias, empresas WHERE licencias.id_empresa = empresas.id ");
@@ -71,7 +75,7 @@ public class LicenciasDbBean {
             if (sort.getSortField().equals("empresa.nombre")) {
                 rawQuery.append(" ORDER BY ").append("empresas.nombre").append(" ").append(sort.getSortOrder() == SortOrder.DESCENDING ? " DESC " : " ASC ");
             } else {
-                rawQuery.append(" ORDER BY ").append("conductores.").append(sort.getSortField()).append(" ").append(sort.getSortOrder() == SortOrder.DESCENDING ? " DESC " : " ASC ");
+                rawQuery.append(" ORDER BY ").append("licencias.").append(sort.getSortField()).append(" ").append(sort.getSortOrder() == SortOrder.DESCENDING ? " DESC " : " ASC ");
             }
         }
 
@@ -100,8 +104,14 @@ public class LicenciasDbBean {
 
     public void update(Licencia licencia) {
         LicenciasEntity licenciasEntity = em.find(LicenciasEntity.class, licencia.getId());
+        licenciasEntity.setCodigo(licencia.getCodigo());
         licenciasEntity.setEsEurotaxi(licencia.getEs_eurotaxi());
+        licenciasEntity.setEmpresasEntity(empresasDbBean.findSingleByName(licencia.getEmpresa().getNombre()));
 
         em.merge(licenciasEntity);
+    }
+
+    public void delete(Long id) {
+        em.remove(em.find(LicenciasEntity.class, id));
     }
 }
