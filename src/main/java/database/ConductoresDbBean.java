@@ -31,6 +31,9 @@ public class ConductoresDbBean {
     @Inject
     private Logger logger;
 
+    @Inject
+    private EmpresasDbBean empresasDbBean;
+
     @PersistenceContext
     private EntityManager em;
 
@@ -77,10 +80,16 @@ public class ConductoresDbBean {
     }
 
     public void update(Conductor conductor) {
-        ConductorEntity employeeEntity = getSingle(conductor.getId());
-        employeeEntity.setNombre(conductor.getNombre());
+        ConductorEntity conductorEntity = getSingle(conductor.getId());
+        conductorEntity.setNombre(conductor.getNombre());
+        conductorEntity.setEmpresasEntity(empresasDbBean.findSingleByName(conductor.getEmpresa().getNombre()));
+        conductorEntity.setComplementoIva(conductor.getComplemento_iva());
+        conductorEntity.setT065(conductor.getT065());
+        conductorEntity.setT060(conductor.getT060());
+        conductorEntity.setT055(conductor.getT055());
+        conductorEntity.setT050(conductor.getT050());
 
-        em.merge(employeeEntity);
+        em.merge(conductorEntity);
     }
 
     public void delete(Long id) {

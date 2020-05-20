@@ -11,20 +11,60 @@
 
 <ui:composition>
 
-    <p:panel id="insertEmployee" header="Nuevo empleado" styleClass="shadow" style="margin-bottom: 25px">
+    <p:panel id="insertConductor" header="Nuevo empleado" styleClass="shadow" style="margin-bottom: 25px">
         <p:outputPanel styleClass="p-grid">
+
             <p:outputPanel styleClass="p-col">
                 <p:outputLabel>Nombre</p:outputLabel>
                 <p:inputText style="width: 100%" value="#{ConductoresFace.nombre}"/>
             </p:outputPanel>
+
+            <p:outputPanel styleClass="p-col">
+                <p:outputLabel>Empresa</p:outputLabel>
+                <p:autoComplete inputStyle="width: 100%" style="width: 100%" minQueryLength="0"
+                                value="#{ConductoresFace.empresa}"
+                                completeMethod="#{AutoCompleteFace.completeEmpesa}"
+                                forceSelection="true" effect="fade"/>
+            </p:outputPanel>
+
+            <p:outputPanel styleClass="p-col">
+                <p:outputLabel>C. IVA</p:outputLabel>
+                <p:inputNumber converter="javax.faces.BigDecimal" value="#{ConductoresFace.complementoIva}"
+                               style="width:100%" decimalPlaces="2"/>
+            </p:outputPanel>
+
+            <p:outputPanel styleClass="p-col">
+                <p:outputLabel>T065</p:outputLabel>
+                <p:inputNumber converter="javax.faces.BigDecimal" value="#{ConductoresFace.t065}" style="width:100%"
+                               decimalPlaces="2"/>
+            </p:outputPanel>
+
+            <p:outputPanel styleClass="p-col">
+                <p:outputLabel>T060</p:outputLabel>
+                <p:inputNumber converter="javax.faces.BigDecimal" value="#{ConductoresFace.t060}" style="width:100%"
+                               decimalPlaces="2"/>
+            </p:outputPanel>
+
+            <p:outputPanel styleClass="p-col">
+                <p:outputLabel>T055</p:outputLabel>
+                <p:inputNumber converter="javax.faces.BigDecimal" value="#{ConductoresFace.t055}" style="width:100%"
+                               decimalPlaces="2"/>
+            </p:outputPanel>
+
+            <p:outputPanel styleClass="p-col">
+                <p:outputLabel>T050</p:outputLabel>
+                <p:inputNumber converter="javax.faces.BigDecimal" value="#{ConductoresFace.t050}" style="width:100%"
+                               decimalPlaces="2"/>
+            </p:outputPanel>
+
             <p:outputPanel styleClass="p-col" style="justify-content: flex-end;align-items: flex-end;display: flex;">
-                <p:commandButton value="Insertar" ajax="true" update=":form:messages insertEmployee employeesTable"
+                <p:commandButton value="Insertar" ajax="true" update=":form:messages insertConductor conductoresTable"
                                  action="#{ConductoresFace.insert()}"/>
             </p:outputPanel>
         </p:outputPanel>
     </p:panel>
 
-    <p:dataTable id="employeesTable" var="conductor" value="#{ConductoresFace.lazyModel}"
+    <p:dataTable id="conductoresTable" var="conductor" value="#{ConductoresFace.lazyModel}"
                  styleClass="shadow"
                  lazy="true"
                  editable="true"
@@ -37,7 +77,8 @@
 
         <f:facet name="header">Conductores</f:facet>
 
-        <p:ajax event="cellEdit" listener="#{ConductoresFace.onCellEdit}" update=":form:messages"/>
+        <p:ajax event="cellEdit" listener="#{ConductoresFace.onCellEdit}" update=":form:messages"
+                oncomplete="updateConductoresTable()"/>
 
         <p:column headerText="Nombre" filterBy="#{conductor.nombre}" sortBy="#{conductor.nombre}">
             <p:cellEditor>
@@ -55,47 +96,59 @@
 
         <p:column headerText="C. IVA" filterBy="#{conductor.complemento_iva}" sortBy="#{conductor.complemento_iva}">
             <p:cellEditor>
-                <f:facet name="output"><h:outputText value="#{conductor.complemento_iva}"/></f:facet>
-                <f:facet name="input"><p:inputText value="#{conductor.complemento_iva}" style="width:100%"/></f:facet>
+                <f:facet name="output"><h:outputText converter="javax.faces.BigDecimal"
+                                                     value="#{conductor.complemento_iva}"/></f:facet>
+                <f:facet name="input"><p:inputNumber converter="javax.faces.BigDecimal"
+                                                     value="#{conductor.complemento_iva}" style="width:100%"/></f:facet>
             </p:cellEditor>
         </p:column>
 
         <p:column headerText="T065" filterBy="#{conductor.t065}" sortBy="#{conductor.t065}">
             <p:cellEditor>
-                <f:facet name="output"><h:outputText value="#{conductor.t065}"/></f:facet>
-                <f:facet name="input"><p:inputText value="#{conductor.t065}" style="width:100%"/></f:facet>
+                <f:facet name="output"><h:outputText converter="javax.faces.BigDecimal"
+                                                     value="#{conductor.t065}"/></f:facet>
+                <f:facet name="input"><p:inputNumber converter="javax.faces.BigDecimal" value="#{conductor.t065}"
+                                                     style="width:100%"/></f:facet>
             </p:cellEditor>
         </p:column>
 
         <p:column headerText="T060" filterBy="#{conductor.t060}" sortBy="#{conductor.t060}">
             <p:cellEditor>
-                <f:facet name="output"><h:outputText value="#{conductor.t060}"/></f:facet>
-                <f:facet name="input"><p:inputText value="#{conductor.t060}" style="width:100%"/></f:facet>
+                <f:facet name="output"><h:outputText converter="javax.faces.BigDecimal"
+                                                     value="#{conductor.t060}"/></f:facet>
+                <f:facet name="input"><p:inputNumber converter="javax.faces.BigDecimal" value="#{conductor.t060}"
+                                                     style="width:100%"/></f:facet>
             </p:cellEditor>
         </p:column>
 
         <p:column headerText="T055" filterBy="#{conductor.t055}" sortBy="#{conductor.t055}">
             <p:cellEditor>
-                <f:facet name="output"><h:outputText value="#{conductor.t055}"/></f:facet>
-                <f:facet name="input"><p:inputText value="#{conductor.t055}" style="width:100%"/></f:facet>
+                <f:facet name="output"><h:outputText converter="javax.faces.BigDecimal"
+                                                     value="#{conductor.t055}"/></f:facet>
+                <f:facet name="input"><p:inputNumber converter="javax.faces.BigDecimal" value="#{conductor.t055}"
+                                                     style="width:100%"/></f:facet>
             </p:cellEditor>
         </p:column>
 
         <p:column headerText="T050" filterBy="#{conductor.t050}" sortBy="#{conductor.t050}">
             <p:cellEditor>
-                <f:facet name="output"><h:outputText value="#{conductor.t050}"/></f:facet>
-                <f:facet name="input"><p:inputText value="#{conductor.t050}" style="width:100%"/></f:facet>
+                <f:facet name="output"><h:outputText converter="javax.faces.BigDecimal"
+                                                     value="#{conductor.t050}"/></f:facet>
+                <f:facet name="input"><p:inputNumber converter="javax.faces.BigDecimal" value="#{conductor.t050}"
+                                                     style="width:100%"/></f:facet>
             </p:cellEditor>
         </p:column>
 
         <p:column headerText="" style="text-align: center">
-            <p:commandButton icon="fas fa-trash-alt" ajax="true" update=":form:messages employeesTable"
+            <p:commandButton icon="fas fa-trash-alt" ajax="true" update=":form:messages conductoresTable"
                              action="#{ConductoresFace.delete(conductor.id)}">
                 <p:confirm header="Confirmation" message="Estás seguro?" icon="pi pi-exclamation-triangle"/>
             </p:commandButton>
         </p:column>
 
     </p:dataTable>
+
+    <p:remoteCommand name="updateConductoresTable" update="conductoresTable"/>
 
 </ui:composition>
 

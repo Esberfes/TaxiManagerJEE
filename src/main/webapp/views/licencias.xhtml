@@ -16,14 +16,15 @@
 
             <p:outputPanel styleClass="p-col">
                 <p:outputLabel>Código</p:outputLabel>
-                <p:inputNumber inputStyle="width: 100%" style="width: 100%" value="#{LicenciasFace.codigo}"/>
+                <p:inputNumber decimalPlaces="0" converter="javax.faces.Integer" inputStyle="width: 100%"
+                               style="width: 100%" value="#{LicenciasFace.codigo}"/>
             </p:outputPanel>
 
             <p:outputPanel styleClass="p-col">
                 <p:outputLabel>Empresa</p:outputLabel>
                 <p:autoComplete inputStyle="width: 100%" style="width: 100%" minQueryLength="0"
                                 value="#{LicenciasFace.empresa}"
-                                completeMethod="#{LicenciasFace.completeEmpesa}"
+                                completeMethod="#{AutoCompleteFace.completeEmpesa}"
                                 forceSelection="true" effect="fade"/>
             </p:outputPanel>
 
@@ -37,7 +38,7 @@
 
             <p:outputPanel styleClass="p-col" style="justify-content: flex-end;align-items: flex-end;display: flex;">
                 <p:commandButton value="Insertar" action="#{LicenciasFace.insert}" ajax="true"
-                                 update=":form:messages insertEmployee licenciasTable"/>
+                                 update=":form:messages insertLicencia licenciasTable"/>
             </p:outputPanel>
 
         </p:outputPanel>
@@ -83,7 +84,8 @@
                 <f:facet name="output"><h:outputText value="#{licencia.empresa.nombre}"/></f:facet>
                 <f:facet name="input">
                     <p:autoComplete inputStyle="width: 100%" style="width: 100%" minQueryLength="0"
-                                    value="#{licencia.empresa.nombre}" completeMethod="#{LicenciasFace.completeEmpesa}"
+                                    value="#{licencia.empresa.nombre}"
+                                    completeMethod="#{AutoCompleteFace.completeEmpesa}"
                                     forceSelection="true" effect="fade"/>
                 </f:facet>
             </p:cellEditor>

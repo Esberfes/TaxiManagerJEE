@@ -1,6 +1,7 @@
 package faces;
 
 import business.ConductoresBean;
+import business.EmpresasBean;
 import datamodels.LazyConductorDataModel;
 import org.apache.log4j.Logger;
 import org.primefaces.component.datatable.DataTable;
@@ -15,6 +16,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @ViewScoped
 @Named(ConductoresFace.BEAN_NAME)
@@ -28,10 +30,18 @@ public class ConductoresFace implements Serializable {
     @Inject
     private transient Logger logger;
 
+    @Inject
+    private EmpresasBean empresasBean;
+
     private LazyDataModel<Conductor> lazyModel;
 
     private String nombre;
-
+    private String empresa;
+    private BigDecimal complementoIva;
+    private BigDecimal T065;
+    private BigDecimal T060;
+    private BigDecimal T055;
+    private BigDecimal T050;
 
     @PostConstruct
     public void init() {
@@ -58,8 +68,25 @@ public class ConductoresFace implements Serializable {
 
     public void insert() {
         try {
-            conductoresBean.insert(nombre);
-            nombre = null;
+            Conductor conductor = new Conductor();
+            conductor.setNombre(this.nombre);
+            conductor.setEmpresa(empresasBean.findSingleByName(this.empresa));
+            conductor.setComplemento_iva(this.complementoIva);
+            conductor.setT065(this.T065);
+            conductor.setT060(this.T060);
+            conductor.setT055(this.T055);
+            conductor.setT050(this.T050);
+
+            conductoresBean.insert(conductor);
+
+            this.nombre = null;
+            this.empresa = null;
+            this.complementoIva = null;
+            this.T065 = null;
+            this.T060 = null;
+            this.T055 = null;
+            this.T050 = null;
+
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Nuevo conductor insertado", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Throwable e) {
@@ -79,6 +106,14 @@ public class ConductoresFace implements Serializable {
         }
     }
 
+    public LazyDataModel<Conductor> getLazyModel() {
+        return lazyModel;
+    }
+
+    public void setLazyModel(LazyDataModel<Conductor> lazyModel) {
+        this.lazyModel = lazyModel;
+    }
+
     public String getNombre() {
         return nombre;
     }
@@ -86,11 +121,52 @@ public class ConductoresFace implements Serializable {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    public LazyDataModel<Conductor> getLazyModel() {
-        return lazyModel;
+
+    public String getEmpresa() {
+        return empresa;
     }
 
-    public void setLazyModel(LazyDataModel<Conductor> lazyModel) {
-        this.lazyModel = lazyModel;
+    public void setEmpresa(String empresa) {
+        this.empresa = empresa;
+    }
+
+    public BigDecimal getComplementoIva() {
+        return complementoIva;
+    }
+
+    public void setComplementoIva(BigDecimal complementoIva) {
+        this.complementoIva = complementoIva;
+    }
+
+    public BigDecimal getT065() {
+        return T065;
+    }
+
+    public void setT065(BigDecimal t065) {
+        T065 = t065;
+    }
+
+    public BigDecimal getT060() {
+        return T060;
+    }
+
+    public void setT060(BigDecimal t060) {
+        T060 = t060;
+    }
+
+    public BigDecimal getT055() {
+        return T055;
+    }
+
+    public void setT055(BigDecimal t055) {
+        T055 = t055;
+    }
+
+    public BigDecimal getT050() {
+        return T050;
+    }
+
+    public void setT050(BigDecimal t050) {
+        T050 = t050;
     }
 }

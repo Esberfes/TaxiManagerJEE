@@ -7,7 +7,6 @@ import org.apache.log4j.Logger;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.model.LazyDataModel;
-import pojos.Empresa;
 import pojos.Licencia;
 
 import javax.annotation.PostConstruct;
@@ -17,9 +16,6 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @ViewScoped
 @Named(LicenciasFace.BEAN_NAME)
@@ -74,6 +70,10 @@ public class LicenciasFace implements Serializable {
 
             licenciasBean.insert(licencia);
 
+            codigo = null;
+            empresa = null;
+            esEuroTaxi = null;
+
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Nueva licencia insertada", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Throwable e) {
@@ -99,16 +99,6 @@ public class LicenciasFace implements Serializable {
 
     public void setLazyModel(LazyDataModel<Licencia> lazyModel) {
         this.lazyModel = lazyModel;
-    }
-
-    public List<String> completeEmpesa(String value) {
-        try {
-            return empresasBean.findByName(value).stream().map(Empresa::getNombre).collect(Collectors.toList());
-        } catch (Throwable e) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error auto completando empresas", e.getMessage());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return new ArrayList<>();
-        }
     }
 
     public Integer getCodigo() {

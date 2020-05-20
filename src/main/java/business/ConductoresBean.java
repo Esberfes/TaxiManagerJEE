@@ -50,10 +50,6 @@ public class ConductoresBean implements LazyLoad<Conductor> {
         return conductoresDbBean.getTotal(filterMeta);
     }
 
-    public void insert(String name) {
-        conductoresDbBean.insert(new Conductor(name));
-    }
-
     public void update(Conductor conductor) {
         conductoresDbBean.update(conductor);
     }
