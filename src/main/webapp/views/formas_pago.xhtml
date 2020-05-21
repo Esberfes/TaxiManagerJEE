@@ -10,6 +10,23 @@
       xmlns:f="http://java.sun.com/jsf/core">
 
 <ui:composition>
+    <p:panel id="insertFormaPago" header="Nueva forma de pago" styleClass="shadow" style="margin-bottom: 25px">
+        <p:outputPanel styleClass="p-grid">
+
+            <p:outputPanel styleClass="p-col">
+                <p:outputLabel>Nombre</p:outputLabel>
+                <p:inputText inputStyle="width: 100%"
+                             style="width: 100%" value="#{FormasPagosFace.nombre}"/>
+            </p:outputPanel>
+
+            <p:outputPanel styleClass="p-col" style="justify-content: flex-end;align-items: flex-end;display: flex;">
+                <p:commandButton value="Insertar" action="#{FormasPagosFace.insert}" ajax="true"
+                                 update=":form:messages insertFormaPago formasPagoTable"/>
+            </p:outputPanel>
+
+        </p:outputPanel>
+    </p:panel>
+
     <p:dataTable id="formasPagoTable" var="forma" value="#{FormasPagosFace.lazyModel}"
                  styleClass="shadow"
                  lazy="true"
@@ -23,7 +40,8 @@
 
         <f:facet name="header">Formas de pago</f:facet>
 
-        <p:ajax event="cellEdit" listener="#{EmpresasFace.onCellEdit}" update=":form:messages"/>
+        <p:ajax event="cellEdit" listener="#{FormasPagosFace.onCellEdit}" update=":form:messages"
+                oncomplete="updateformasPagoTable()"/>
 
         <p:column headerText="Nombre" filterBy="#{forma.nombre}" sortBy="#{forma.nombre}">
             <p:cellEditor>
@@ -40,6 +58,9 @@
         </p:column>
 
     </p:dataTable>
+
+    <p:remoteCommand name="updateformasPagoTable" update="formasPagoTable"/>
+
 </ui:composition>
 
 </html>

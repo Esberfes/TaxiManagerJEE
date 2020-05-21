@@ -67,6 +67,8 @@ public class EmpresasFace implements Serializable {
         try {
             empresasBean.insert(new Empresa(nombre));
 
+            nombre = null;
+
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Nuevo empresa insertada", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
 

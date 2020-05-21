@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortMeta;
 import org.primefaces.model.SortOrder;
+import pojos.FormasPago;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -54,9 +55,7 @@ public class FormasPagosDbBean {
                         && entry.getValue().getFilterValue() != null
                         && StringUtils.isNotBlank(String.valueOf(entry.getValue().getFilterValue()))) {
 
-
                     rawQuery.append(" AND ").append("formas_pagos_gastos.").append(entry.getKey()).append(" LIKE ").append(":").append(entry.getKey());
-
 
                     parameters.put(entry.getKey(), entry.getValue());
                 }
@@ -79,5 +78,20 @@ public class FormasPagosDbBean {
             query.setParameter(parameter.getKey(), getFilterFieldValue(parameter.getValue()));
 
         return query;
+    }
+
+    public void update(FormasPago formasPago) {
+        FormasPagosGastosEntity formasPagosGastosEntity = em.find(FormasPagosGastosEntity.class, formasPago.getId());
+        formasPagosGastosEntity.setNombre(formasPago.getNombre());
+
+        em.merge(formasPagosGastosEntity);
+    }
+
+    public void insert(FormasPago formasPago) {
+        em.persist(new FormasPagosGastosEntity(formasPago));
+    }
+
+    public void delete(Long id) {
+        em.remove(em.find(FormasPagosGastosEntity.class, id));
     }
 }

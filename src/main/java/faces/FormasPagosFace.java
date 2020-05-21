@@ -1,13 +1,11 @@
 package faces;
 
 import business.FormasPagosBean;
-import datamodels.LazyEmpresaDataModel;
 import datamodels.LazyFormasPagoDataModel;
 import org.apache.log4j.Logger;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.model.LazyDataModel;
-import pojos.Empresa;
 import pojos.FormasPago;
 
 import javax.annotation.PostConstruct;
@@ -32,6 +30,8 @@ public class FormasPagosFace implements Serializable {
 
     private LazyDataModel<FormasPago> lazyModel;
 
+    private String nombre;
+
     @PostConstruct
     public void init() {
         lazyModel = new LazyFormasPagoDataModel(formasPagosBean);
@@ -42,6 +42,7 @@ public class FormasPagosFace implements Serializable {
             Object oldValue = event.getOldValue();
             Object newValue = event.getNewValue();
             FormasPago formasPago = (FormasPago) ((DataTable) event.getComponent()).getRowData();
+
             formasPagosBean.update(formasPago);
 
             if (newValue != null && !newValue.equals(oldValue)) {
@@ -57,8 +58,24 @@ public class FormasPagosFace implements Serializable {
     public void delete(Long id) {
         try {
             formasPagosBean.delete(id);
+
         } catch (Throwable e) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error eliminando forma de pago", e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+    }
+
+    public void insert() {
+        try {
+            formasPagosBean.insert(new FormasPago(nombre));
+
+            nombre = null;
+
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Nuevo forma de pago insertada", "");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+
+        } catch (Throwable e) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error insertando forma de pago", e.getMessage());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
@@ -69,5 +86,13 @@ public class FormasPagosFace implements Serializable {
 
     public void setLazyModel(LazyDataModel<FormasPago> lazyModel) {
         this.lazyModel = lazyModel;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 }

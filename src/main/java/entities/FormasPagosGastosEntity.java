@@ -1,5 +1,7 @@
 package entities;
 
+import pojos.FormasPago;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
@@ -24,6 +26,12 @@ public class FormasPagosGastosEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date actualizado;
 
+    public FormasPagosGastosEntity() {
+    }
+
+    public FormasPagosGastosEntity(FormasPago formasPago) {
+        this.nombre = formasPago.getNombre();
+    }
 
     @PrePersist
     public void prePersist() {

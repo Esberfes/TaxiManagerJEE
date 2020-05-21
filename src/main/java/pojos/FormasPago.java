@@ -21,6 +21,10 @@ public class FormasPago {
         this.actualizado = formasPagosGastosEntity.getActualizado();
     }
 
+    public FormasPago(String nombre) {
+        this.nombre = nombre;
+    }
+
     public Long getId() {
         return id;
     }

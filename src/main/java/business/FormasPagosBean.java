@@ -33,10 +33,14 @@ public class FormasPagosBean implements LazyLoad<FormasPago> {
     }
 
     public void update(FormasPago formasPago) {
-
+        formasPagosDbBean.update(formasPago);
     }
 
     public void delete(Long id) {
+        formasPagosDbBean.delete(id);
+    }
 
+    public void insert(FormasPago formasPago) {
+        formasPagosDbBean.insert(formasPago);
     }
 }

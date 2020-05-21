@@ -35,7 +35,7 @@ public class EmpresasDbBean {
         return em.find(EmpresasEntity.class, id);
     }
 
-    public EmpresasEntity insertEmpresa(Empresa empresa) {
+    public EmpresasEntity insert(Empresa empresa) {
         EmpresasEntity empresasEntity = new EmpresasEntity(empresa);
         em.persist(empresasEntity);
 

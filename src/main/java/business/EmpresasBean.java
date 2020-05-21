@@ -24,7 +24,7 @@ public class EmpresasBean implements LazyLoad<Empresa> {
     private EmpresasDbBean empresasDbBean;
 
     public EmpresasEntity insert(Empresa empresa) {
-        return empresasDbBean.insertEmpresa(empresa);
+        return empresasDbBean.insert(empresa);
     }
 
     public void truncate() {
