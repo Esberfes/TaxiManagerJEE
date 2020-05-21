@@ -10,6 +10,30 @@
       xmlns:f="http://java.sun.com/jsf/core">
 
 <ui:composition>
+    <p:panel id="insertTipoGasto" header="Nueva licencia" styleClass="shadow" style="margin-bottom: 25px">
+        <p:outputPanel styleClass="p-grid">
+
+            <p:outputPanel styleClass="p-col">
+                <p:outputLabel>Nombre</p:outputLabel>
+                <p:inputText inputStyle="width: 100%" style="width: 100%" value="#{TiposGastosFace.nombre}"/>
+            </p:outputPanel>
+
+            <p:outputPanel styleClass="p-col">
+                <p:outputLabel>Operacional</p:outputLabel>
+                <p:selectOneMenu value="#{TiposGastosFace.operacional}" inputStyle="width: 100%" style="width: 100%">
+                    <f:selectItem itemLabel="Si" itemValue="true"/>
+                    <f:selectItem itemLabel="No" itemValue="false"/>
+                </p:selectOneMenu>
+            </p:outputPanel>
+
+            <p:outputPanel styleClass="p-col" style="justify-content: flex-end;align-items: flex-end;display: flex;">
+                <p:commandButton value="Insertar" action="#{TiposGastosFace.insert}" ajax="true"
+                                 update=":form:messages insertTipoGasto tiposGastoTable"/>
+            </p:outputPanel>
+
+        </p:outputPanel>
+    </p:panel>
+
     <p:dataTable id="tiposGastoTable" var="tipoGasto" value="#{TiposGastosFace.lazyModel}"
                  styleClass="shadow"
                  lazy="true"
@@ -23,7 +47,8 @@
 
         <f:facet name="header">Formas de pago</f:facet>
 
-        <p:ajax event="cellEdit" listener="#{TiposGastosFace.onCellEdit}" update=":form:messages"/>
+        <p:ajax event="cellEdit" listener="#{TiposGastosFace.onCellEdit}" update=":form:messages"
+                oncomplete="updateTiposGastoTable()"/>
 
         <p:column headerText="Nombre" filterBy="#{tipoGasto.nombre}" sortBy="#{tipoGasto.nombre}">
             <p:cellEditor>
@@ -52,6 +77,9 @@
         </p:column>
 
     </p:dataTable>
+
+    <p:remoteCommand name="updateTiposGastoTable" update="tiposGastoTable"/>
+
 </ui:composition>
 
 </html>

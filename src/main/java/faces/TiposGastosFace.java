@@ -30,6 +30,9 @@ public class TiposGastosFace implements Serializable {
 
     private LazyDataModel<TiposGasto> lazyModel;
 
+    private String nombre;
+    private Boolean operacional;
+
     @PostConstruct
     public void init() {
         this.lazyModel = new LazyTiposGastoDataModel(tiposGastosBean);
@@ -40,6 +43,7 @@ public class TiposGastosFace implements Serializable {
             Object oldValue = event.getOldValue();
             Object newValue = event.getNewValue();
             TiposGasto tiposGasto = (TiposGasto) ((DataTable) event.getComponent()).getRowData();
+
             tiposGastosBean.update(tiposGasto);
 
             if (newValue != null && !newValue.equals(oldValue)) {
@@ -54,6 +58,14 @@ public class TiposGastosFace implements Serializable {
 
     public void insert() {
         try {
+            TiposGasto tiposGasto = new TiposGasto();
+            tiposGasto.setNombre(nombre);
+            tiposGasto.setEs_operacional(operacional);
+
+            tiposGastosBean.insert(tiposGasto);
+
+            nombre = null;
+            operacional = null;
 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Nueva tipo de gasto insertado", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -66,6 +78,7 @@ public class TiposGastosFace implements Serializable {
     public void delete(Long id) {
         try {
             tiposGastosBean.delete(id);
+
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Tipo de gasto eliminado con éxito", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Throwable e) {
@@ -80,5 +93,21 @@ public class TiposGastosFace implements Serializable {
 
     public void setLazyModel(LazyDataModel<TiposGasto> lazyModel) {
         this.lazyModel = lazyModel;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public Boolean getOperacional() {
+        return operacional;
+    }
+
+    public void setOperacional(Boolean operacional) {
+        this.operacional = operacional;
     }
 }

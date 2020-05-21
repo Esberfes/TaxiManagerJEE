@@ -82,6 +82,7 @@ public class ConceptosGastosFace implements Serializable {
     public void delete(Long id) {
         try {
             conceptosGastosBean.delete(id);
+
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Concepto de gasto eliminado con éxito", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Throwable e) {

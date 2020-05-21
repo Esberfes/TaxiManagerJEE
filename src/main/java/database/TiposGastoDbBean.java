@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortMeta;
 import org.primefaces.model.SortOrder;
+import pojos.TiposGasto;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -98,5 +99,21 @@ public class TiposGastoDbBean {
         query.setParameter("nombre", name);
 
         return (TiposGastosEntity) query.getSingleResult();
+    }
+
+    public void update(TiposGasto tiposGasto) {
+        TiposGastosEntity tiposGastosEntity = em.find(TiposGastosEntity.class, tiposGasto.getId());
+        tiposGastosEntity.setNombre(tiposGasto.getNombre());
+        tiposGastosEntity.setEsOperacional(tiposGasto.getEs_operacional());
+
+        em.merge(tiposGastosEntity);
+    }
+
+    public void delete(Long id) {
+        em.remove(em.find(TiposGastosEntity.class, id));
+    }
+
+    public void insert(TiposGasto tiposGasto) {
+        em.persist(new TiposGastosEntity(tiposGasto));
     }
 }

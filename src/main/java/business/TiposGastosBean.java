@@ -33,11 +33,11 @@ public class TiposGastosBean implements LazyLoad<TiposGasto> {
     }
 
     public void delete(Long id) {
-
+        tiposGastoDbBean.delete(id);
     }
 
     public void update(TiposGasto tiposGasto) {
-
+        tiposGastoDbBean.update(tiposGasto);
     }
 
     public List<TiposGasto> findByName(String value) {
@@ -46,5 +46,9 @@ public class TiposGastosBean implements LazyLoad<TiposGasto> {
 
     public TiposGasto findSingleByName(String value) {
         return new TiposGasto(tiposGastoDbBean.findSingleByName(value));
+    }
+
+    public void insert(TiposGasto tiposGasto) {
+        tiposGastoDbBean.insert(tiposGasto);
     }
 }

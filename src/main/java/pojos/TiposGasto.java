@@ -20,6 +20,10 @@ public class TiposGasto {
         this.actualizado = tiposGastosEntity.getActualizado();
     }
 
+    public TiposGasto() {
+
+    }
+
     public Long getId() {
         return id;
     }
