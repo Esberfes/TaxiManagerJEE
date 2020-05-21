@@ -10,6 +10,30 @@
       xmlns:f="http://java.sun.com/jsf/core">
 
 <ui:composition>
+    <p:panel id="insertConceptoGasto" header="Nueva licencia" styleClass="shadow" style="margin-bottom: 25px">
+        <p:outputPanel styleClass="p-grid">
+
+            <p:outputPanel styleClass="p-col">
+                <p:outputLabel>Nombre</p:outputLabel>
+                <p:inputText inputStyle="width: 100%" style="width: 100%" value="#{ConceptosGastosFace.nombre}"/>
+            </p:outputPanel>
+
+            <p:outputPanel styleClass="p-col">
+                <p:outputLabel>Tipo de gasto</p:outputLabel>
+                <p:autoComplete inputStyle="width: 100%" style="width: 100%" minQueryLength="0"
+                                value="#{ConceptosGastosFace.tipoGasto}"
+                                completeMethod="#{AutoCompleteFace.completeTipoGasto}"
+                                forceSelection="true" effect="fade"/>
+            </p:outputPanel>
+
+            <p:outputPanel styleClass="p-col" style="justify-content: flex-end;align-items: flex-end;display: flex;">
+                <p:commandButton value="Insertar" action="#{ConceptosGastosFace.insert}" ajax="true"
+                                 update=":form:messages insertConceptoGasto conceptosGastosTable"/>
+            </p:outputPanel>
+
+        </p:outputPanel>
+    </p:panel>
+
     <p:dataTable id="conceptosGastosTable" var="conceptoGasto" value="#{ConceptosGastosFace.lazyModel}"
                  styleClass="shadow"
                  lazy="true"
@@ -23,8 +47,8 @@
 
         <f:facet name="header">Formas de pago</f:facet>
 
-        <p:ajax event="cellEdit" listener="#{ConceptosGastosFace.onCellEdit}"
-                update=":form:messages"/>
+        <p:ajax event="cellEdit" listener="#{ConceptosGastosFace.onCellEdit}" update=":form:messages"
+                oncomplete="updateConceptosGastosTable()"/>
 
         <p:column headerText="Nombre" filterBy="#{conceptoGasto.nombre}" sortBy="#{conceptoGasto.nombre}">
             <p:cellEditor>
@@ -37,8 +61,9 @@
                   sortBy="#{conceptoGasto.tipoGasto.nombre}">
             <p:cellEditor>
                 <f:facet name="output"><h:outputText value="#{conceptoGasto.tipoGasto.nombre}"/></f:facet>
-                <f:facet name="input"><p:inputText value="#{conceptoGasto.tipoGasto.nombre}"
-                                                   style="width:100%"/></f:facet>
+                <f:facet name="input">
+                    <p:inputText value="#{conceptoGasto.tipoGasto.nombre}" style="width:100%"/>
+                </f:facet>
             </p:cellEditor>
         </p:column>
 
@@ -50,6 +75,9 @@
         </p:column>
 
     </p:dataTable>
+
+    <p:remoteCommand name="updateConceptosGastosTable" update="conceptosGastosTable"/>
+
 </ui:composition>
 
 </html>

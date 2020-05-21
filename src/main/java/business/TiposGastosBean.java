@@ -39,4 +39,12 @@ public class TiposGastosBean implements LazyLoad<TiposGasto> {
     public void update(TiposGasto tiposGasto) {
 
     }
+
+    public List<TiposGasto> findByName(String value) {
+        return tiposGastoDbBean.findByName(value).stream().map(TiposGasto::new).collect(Collectors.toList());
+    }
+
+    public TiposGasto findSingleByName(String value) {
+        return new TiposGasto(tiposGastoDbBean.findSingleByName(value));
+    }
 }

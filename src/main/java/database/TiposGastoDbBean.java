@@ -77,4 +77,26 @@ public class TiposGastoDbBean {
 
         return query;
     }
+
+    public TiposGastosEntity findSingle(Long id) {
+        return em.find(TiposGastosEntity.class, id);
+    }
+
+    public List<TiposGastosEntity> findByName(String name) {
+        String rawQuery = "SELECT * FROM tipos_gastos WHERE nombre LIKE :nombre ORDER BY nombre ASC";
+        name = "%" + name + "%";
+        Query query = em.createNativeQuery(rawQuery, TiposGastosEntity.class);
+        query.setParameter("nombre", name);
+
+        return query.setMaxResults(10).getResultList();
+    }
+
+    public TiposGastosEntity findSingleByName(String name) {
+        String rawQuery = "SELECT * FROM tipos_gastos WHERE nombre LIKE :nombre ORDER BY nombre ASC";
+        name = "%" + name + "%";
+        Query query = em.createNativeQuery(rawQuery, TiposGastosEntity.class);
+        query.setParameter("nombre", name);
+
+        return (TiposGastosEntity) query.getSingleResult();
+    }
 }

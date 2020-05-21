@@ -1,6 +1,7 @@
 package faces;
 
 import business.ConceptosGastosBean;
+import business.TiposGastosBean;
 import datamodels.LazyConceptosGastosDataModel;
 import org.apache.log4j.Logger;
 import org.primefaces.component.datatable.DataTable;
@@ -26,9 +27,15 @@ public class ConceptosGastosFace implements Serializable {
     private ConceptosGastosBean conceptosGastosBean;
 
     @Inject
+    private TiposGastosBean tiposGastosBean;
+
+    @Inject
     private transient Logger logger;
 
     private LazyDataModel<ConceptosGastos> lazyModel;
+
+    private String nombre;
+    private String tipoGasto;
 
     @PostConstruct
     public void init() {
@@ -40,6 +47,7 @@ public class ConceptosGastosFace implements Serializable {
             Object oldValue = event.getOldValue();
             Object newValue = event.getNewValue();
             ConceptosGastos conceptosGastos = (ConceptosGastos) ((DataTable) event.getComponent()).getRowData();
+
             conceptosGastosBean.update(conceptosGastos);
 
             if (newValue != null && !newValue.equals(oldValue)) {
@@ -54,6 +62,14 @@ public class ConceptosGastosFace implements Serializable {
 
     public void insert() {
         try {
+            ConceptosGastos conceptosGastos = new ConceptosGastos();
+            conceptosGastos.setNombre(nombre);
+            conceptosGastos.setTipoGasto(tiposGastosBean.findSingleByName(tipoGasto));
+
+            conceptosGastosBean.insert(conceptosGastos);
+
+            nombre = null;
+            tipoGasto = null;
 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Nuevo concepto de gasto insertado", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -80,5 +96,21 @@ public class ConceptosGastosFace implements Serializable {
 
     public void setLazyModel(LazyDataModel<ConceptosGastos> lazyModel) {
         this.lazyModel = lazyModel;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getTipoGasto() {
+        return tipoGasto;
+    }
+
+    public void setTipoGasto(String tipoGasto) {
+        this.tipoGasto = tipoGasto;
     }
 }

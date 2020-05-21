@@ -1,11 +1,13 @@
 package database;
 
 import entities.ConceptosGastosEntity;
+import entities.TiposGastosEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortMeta;
 import org.primefaces.model.SortOrder;
+import pojos.ConceptosGastos;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -26,6 +28,9 @@ public class ConceptosGastosDbBean {
 
     @Inject
     private Logger logger;
+
+    @Inject
+    private TiposGastoDbBean tiposGastoDbBean;
 
     @PersistenceContext
     private EntityManager em;
@@ -90,5 +95,23 @@ public class ConceptosGastosDbBean {
             query.setParameter(parameter.getKey(), getFilterFieldValue(parameter.getValue()));
 
         return query;
+    }
+
+    public void update(ConceptosGastos conceptosGastos) {
+        ConceptosGastosEntity conceptosGastosEntity = em.find(ConceptosGastosEntity.class, conceptosGastos.getId());
+        TiposGastosEntity tiposGastosEntity = tiposGastoDbBean.findSingle(conceptosGastos.getTipoGasto().getId());
+
+        conceptosGastosEntity.setNombre(conceptosGastos.getNombre());
+        conceptosGastosEntity.setTiposGastosEntity(tiposGastosEntity);
+
+        em.merge(conceptosGastosEntity);
+    }
+
+    public void insert(ConceptosGastos conceptosGastos) {
+        em.persist(new ConceptosGastosEntity(conceptosGastos));
+    }
+
+    public void delete(Long id) {
+        em.remove(em.find(ConceptosGastosEntity.class, id));
     }
 }

@@ -21,7 +21,7 @@ public class LicenciasBean implements LazyLoad<Licencia> {
     public static final String BEAN_NAME = "LicenciasBean";
 
     @Inject
-    LicenciasDbBean licenciasDbBean;
+    private LicenciasDbBean licenciasDbBean;
 
     @Override
     public List<Licencia> getData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {

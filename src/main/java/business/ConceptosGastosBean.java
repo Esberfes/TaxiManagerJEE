@@ -33,10 +33,14 @@ public class ConceptosGastosBean implements LazyLoad<ConceptosGastos> {
     }
 
     public void update(ConceptosGastos conceptosGastos) {
-
+        conceptosGastosDbBean.update(conceptosGastos);
     }
 
     public void delete(Long id) {
+        conceptosGastosDbBean.delete(id);
+    }
 
+    public void insert(ConceptosGastos conceptosGastos) {
+        conceptosGastosDbBean.insert(conceptosGastos);
     }
 }

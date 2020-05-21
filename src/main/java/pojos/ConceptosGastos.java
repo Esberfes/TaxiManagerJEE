@@ -20,6 +20,10 @@ public class ConceptosGastos {
         this.actualizado = conceptosGastosEntity.getActualizado();
     }
 
+    public ConceptosGastos() {
+
+    }
+
     public Long getId() {
         return id;
     }

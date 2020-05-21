@@ -1,5 +1,7 @@
 package entities;
 
+import pojos.ConceptosGastos;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
@@ -27,6 +29,15 @@ public class ConceptosGastosEntity {
     @Column(name = "actualizado")
     @Temporal(TemporalType.TIMESTAMP)
     private Date actualizado;
+
+    public ConceptosGastosEntity() {
+    }
+
+    public ConceptosGastosEntity(ConceptosGastos conceptosGastos) {
+        this.id = conceptosGastos.getId();
+        this.nombre = conceptosGastos.getNombre();
+        this.tiposGastosEntity = new TiposGastosEntity(conceptosGastos.getTipoGasto());
+    }
 
 
     @PrePersist
