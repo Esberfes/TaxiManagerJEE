@@ -23,7 +23,7 @@ public class EmpresasBean implements LazyLoad<Empresa> {
     @Inject
     private EmpresasDbBean empresasDbBean;
 
-    public EmpresasEntity insertEmpresa(Empresa empresa) {
+    public EmpresasEntity insert(Empresa empresa) {
         return empresasDbBean.insertEmpresa(empresa);
     }
 
@@ -46,7 +46,7 @@ public class EmpresasBean implements LazyLoad<Empresa> {
     }
 
     public void update(Empresa empresa) {
-
+        empresasDbBean.update(empresa);
     }
 
     public void delete(Long id) {

@@ -11,7 +11,7 @@
 
 <ui:composition>
 
-    <p:panel id="insertConductor" header="Nuevo empleado" styleClass="shadow" style="margin-bottom: 25px">
+    <p:panel id="insertConductor" header="Nuevo conductor" styleClass="shadow" style="margin-bottom: 25px">
         <p:outputPanel styleClass="p-grid">
 
             <p:outputPanel styleClass="p-col">
@@ -90,7 +90,12 @@
         <p:column headerText="Empresa" filterBy="#{conductor.empresa.nombre}" sortBy="#{conductor.empresa.nombre}">
             <p:cellEditor>
                 <f:facet name="output"><h:outputText value="#{conductor.empresa.nombre}"/></f:facet>
-                <f:facet name="input"><p:inputText value="#{conductor.empresa.nombre}" style="width:100%"/></f:facet>
+                <f:facet name="input">
+                    <p:autoComplete inputStyle="width: 100%" style="width: 100%" minQueryLength="0"
+                                    value="#{conductor.empresa.nombre}"
+                                    completeMethod="#{AutoCompleteFace.completeEmpesa}"
+                                    forceSelection="true" effect="fade"/>
+                </f:facet>
             </p:cellEditor>
         </p:column>
 

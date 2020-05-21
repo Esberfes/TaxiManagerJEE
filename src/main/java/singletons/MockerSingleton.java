@@ -53,7 +53,7 @@ public class MockerSingleton {
 
             for (int e = 0; e < 10; e++) {
                 Empresa empresa = new Empresa(faker.company().name());
-                EmpresasEntity empresasEntity = empresasBean.insertEmpresa(empresa);
+                EmpresasEntity empresasEntity = empresasBean.insert(empresa);
                 empresa.setId(empresasEntity.getId());
                 empresas.add(empresa);
 

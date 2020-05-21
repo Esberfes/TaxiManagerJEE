@@ -120,4 +120,11 @@ public class EmpresasDbBean {
 
         return (EmpresasEntity) query.getSingleResult();
     }
+
+    public void update(Empresa empresa) {
+        EmpresasEntity empresasEntity = em.find(EmpresasEntity.class, empresa.getId());
+        empresasEntity.setNombre(empresa.getNombre());
+
+        em.merge(empresasEntity);
+    }
 }

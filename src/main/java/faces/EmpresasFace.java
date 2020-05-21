@@ -1,18 +1,14 @@
 package faces;
 
-import business.ConductoresBean;
 import business.EmpresasBean;
-import datamodels.LazyConductorDataModel;
 import datamodels.LazyEmpresaDataModel;
 import org.apache.log4j.Logger;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.model.LazyDataModel;
-import pojos.Conductor;
 import pojos.Empresa;
 
 import javax.annotation.PostConstruct;
-import javax.el.MethodExpression;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -34,6 +30,7 @@ public class EmpresasFace implements Serializable {
 
     private LazyDataModel<Empresa> lazyModel;
 
+    private String nombre;
 
     @PostConstruct
     public void init() {
@@ -66,11 +63,32 @@ public class EmpresasFace implements Serializable {
         }
     }
 
+    public void insert() {
+        try {
+            empresasBean.insert(new Empresa(nombre));
+
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Nuevo empresa insertada", "");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+
+        } catch (Throwable e) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error insertando empresa", e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+    }
+
     public LazyDataModel<Empresa> getLazyModel() {
         return lazyModel;
     }
 
     public void setLazyModel(LazyDataModel<Empresa> lazyModel) {
         this.lazyModel = lazyModel;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 }
