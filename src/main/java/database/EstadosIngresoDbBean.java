@@ -55,7 +55,7 @@ public class EstadosIngresoDbBean {
                         && entry.getValue().getFilterValue() != null
                         && StringUtils.isNotBlank(String.valueOf(entry.getValue().getFilterValue()))) {
 
-                    rawQuery.append(" AND ").append("tipos_gastos.").append(entry.getKey()).append(" LIKE ").append(":").append(entry.getKey());
+                    rawQuery.append(" AND ").append("recaudaciones_ingresos_estados").append(entry.getKey()).append(" LIKE ").append(":").append(entry.getKey());
 
                     parameters.put(entry.getKey(), entry.getValue());
                 }
@@ -64,7 +64,7 @@ public class EstadosIngresoDbBean {
 
         if (sortMeta != null && !sortMeta.isEmpty()) {
             SortMeta sort = sortMeta.entrySet().iterator().next().getValue();
-            rawQuery.append(" ORDER BY ").append("tipos_gastos.").append(sort.getSortField()).append(" ").append(sort.getSortOrder() == SortOrder.DESCENDING ? " DESC " : " ASC ");
+            rawQuery.append(" ORDER BY ").append("recaudaciones_ingresos_estados.").append(sort.getSortField()).append(" ").append(sort.getSortOrder() == SortOrder.DESCENDING ? " DESC " : " ASC ");
         }
 
         Query query;
