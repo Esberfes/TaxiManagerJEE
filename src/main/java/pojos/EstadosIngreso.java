@@ -18,6 +18,10 @@ public class EstadosIngreso {
         this.actualizado = estadosEntity.getActualizado();
     }
 
+    public EstadosIngreso(String nombre) {
+        this.nombre = nombre;
+    }
+
     public Integer getId() {
         return id;
     }

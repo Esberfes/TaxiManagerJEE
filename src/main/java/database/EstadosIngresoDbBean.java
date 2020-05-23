@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortMeta;
 import org.primefaces.model.SortOrder;
+import pojos.EstadosIngreso;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -79,6 +80,17 @@ public class EstadosIngresoDbBean {
     }
 
     public void delete(Long id) {
+        em.remove(em.find(RecaudacionesIngresosEstadosEntity.class, id));
+    }
 
+    public void update(EstadosIngreso estadosIngreso) {
+        RecaudacionesIngresosEstadosEntity estadosEntity = em.find(RecaudacionesIngresosEstadosEntity.class, estadosIngreso.getId());
+        estadosEntity.setNombre(estadosIngreso.getNombre());
+
+        em.persist(estadosEntity);
+    }
+
+    public void insert(EstadosIngreso estadosIngreso) {
+        em.persist(new RecaudacionesIngresosEstadosEntity(estadosIngreso));
     }
 }

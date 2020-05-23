@@ -33,10 +33,14 @@ public class EstadosIngresosBean implements LazyLoad<EstadosIngreso> {
     }
 
     public void update(EstadosIngreso estadosIngreso) {
-
+        estadosIngresoDbBean.update(estadosIngreso);
     }
 
     public void delete(Long id) {
         estadosIngresoDbBean.delete(id);
+    }
+
+    public void insert(EstadosIngreso estadosIngreso) {
+        estadosIngresoDbBean.insert(estadosIngreso);
     }
 }

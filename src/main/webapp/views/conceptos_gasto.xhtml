@@ -10,7 +10,7 @@
       xmlns:f="http://java.sun.com/jsf/core">
 
 <ui:composition>
-    <p:panel id="insertConceptoGasto" header="Nueva licencia" styleClass="shadow" style="margin-bottom: 25px">
+    <p:panel id="insertConceptoGasto" header="Nuevo concepto de gasto" styleClass="shadow" style="margin-bottom: 25px">
         <p:outputPanel styleClass="p-grid">
 
             <p:outputPanel styleClass="p-col">
@@ -45,7 +45,7 @@
                  currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
                  rowsPerPageTemplate="10,15,20,25,30">
 
-        <f:facet name="header">Formas de pago</f:facet>
+        <f:facet name="header">Conceptos de gasto</f:facet>
 
         <p:ajax event="cellEdit" listener="#{ConceptosGastosFace.onCellEdit}" update=":form:messages"
                 oncomplete="updateConceptosGastosTable()"/>

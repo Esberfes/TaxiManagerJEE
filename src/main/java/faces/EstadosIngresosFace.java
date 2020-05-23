@@ -30,6 +30,8 @@ public class EstadosIngresosFace implements Serializable {
 
     private LazyDataModel<EstadosIngreso> lazyModel;
 
+    private String nombre;
+
     @PostConstruct
     public void init() {
         this.lazyModel = new LazyEstadosIngresoDataModel(estadosIngresosBean);
@@ -54,6 +56,11 @@ public class EstadosIngresosFace implements Serializable {
 
     public void insert() {
         try {
+            EstadosIngreso estadosIngreso = new EstadosIngreso(nombre);
+
+            estadosIngresosBean.insert(estadosIngreso);
+
+            nombre = null;
 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Nueva estado de ingreso insertado", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -80,5 +87,13 @@ public class EstadosIngresosFace implements Serializable {
 
     public void setLazyModel(LazyDataModel<EstadosIngreso> lazyModel) {
         this.lazyModel = lazyModel;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 }

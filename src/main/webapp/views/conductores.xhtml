@@ -16,7 +16,7 @@
 
             <p:outputPanel styleClass="p-col">
                 <p:outputLabel>Nombre</p:outputLabel>
-                <p:inputText style="width: 100%" value="#{ConductoresFace.nombre}"/>
+                <p:inputText style="width: 100%" inputStyle="width: 100%" value="#{ConductoresFace.nombre}"/>
             </p:outputPanel>
 
             <p:outputPanel styleClass="p-col">
@@ -30,30 +30,34 @@
             <p:outputPanel styleClass="p-col">
                 <p:outputLabel>C. IVA</p:outputLabel>
                 <p:inputNumber converter="javax.faces.BigDecimal" value="#{ConductoresFace.complementoIva}"
-                               style="width:100%" decimalPlaces="2"/>
+                               style="width:100%" inputStyle="width: 100%" decimalPlaces="2"/>
             </p:outputPanel>
 
             <p:outputPanel styleClass="p-col">
                 <p:outputLabel>T065</p:outputLabel>
                 <p:inputNumber converter="javax.faces.BigDecimal" value="#{ConductoresFace.t065}" style="width:100%"
+                               inputStyle="width: 100%"
                                decimalPlaces="2"/>
             </p:outputPanel>
 
             <p:outputPanel styleClass="p-col">
                 <p:outputLabel>T060</p:outputLabel>
                 <p:inputNumber converter="javax.faces.BigDecimal" value="#{ConductoresFace.t060}" style="width:100%"
+                               inputStyle="width: 100%"
                                decimalPlaces="2"/>
             </p:outputPanel>
 
             <p:outputPanel styleClass="p-col">
                 <p:outputLabel>T055</p:outputLabel>
                 <p:inputNumber converter="javax.faces.BigDecimal" value="#{ConductoresFace.t055}" style="width:100%"
+                               inputStyle="width: 100%"
                                decimalPlaces="2"/>
             </p:outputPanel>
 
             <p:outputPanel styleClass="p-col">
                 <p:outputLabel>T050</p:outputLabel>
                 <p:inputNumber converter="javax.faces.BigDecimal" value="#{ConductoresFace.t050}" style="width:100%"
+                               inputStyle="width: 100%"
                                decimalPlaces="2"/>
             </p:outputPanel>
 

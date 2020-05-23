@@ -10,8 +10,7 @@ CREATE TABLE `conceptos_gastos`
     KEY `FK_TIPO_GASTO_idx` (`id_tipo_gasto`),
     CONSTRAINT `FK_TIPO_GASTO` FOREIGN KEY (`id_tipo_gasto`) REFERENCES `tipos_gastos` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
+  DEFAULT CHARSET = utf8mb4;
 
 
 CREATE TABLE `conductores`
@@ -31,9 +30,8 @@ CREATE TABLE `conductores`
     KEY `FK_CONDUCTORES_EMPRESA_idx` (`id_empresa`),
     CONSTRAINT `FK_CONDUCTORES_EMPRESA` FOREIGN KEY (`id_empresa`) REFERENCES `empresas` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 453301
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4;
 
 
 
@@ -46,9 +44,8 @@ CREATE TABLE `empresas`
     PRIMARY KEY (`id`),
     UNIQUE KEY `UNIQUE_NOMBRE` (`nombre`)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 1513
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4;
 
 CREATE TABLE `formas_pagos_gastos`
 (
@@ -59,8 +56,7 @@ CREATE TABLE `formas_pagos_gastos`
     PRIMARY KEY (`id`),
     UNIQUE KEY `UNIQUE_NOMBRE` (`nombre`)
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
+  DEFAULT CHARSET = utf8mb4;
 
 CREATE TABLE `gastos`
 (
@@ -79,8 +75,7 @@ CREATE TABLE `gastos`
     CONSTRAINT `FK_GASTOS_FORMA` FOREIGN KEY (`id_forma_pago`) REFERENCES `formas_pagos_gastos` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT `FK_GASTOS_LICENCIA` FOREIGN KEY (`id_licencia`) REFERENCES `licencias` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
+  DEFAULT CHARSET = utf8mb4;
 
 CREATE TABLE `licencias`
 (
@@ -95,8 +90,7 @@ CREATE TABLE `licencias`
     KEY `FK_LICENCIAS_EMPRESAS_idx` (`id_empresa`),
     CONSTRAINT `FK_LICENCIAS_EMPRESAS` FOREIGN KEY (`id_empresa`) REFERENCES `empresas` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
+  DEFAULT CHARSET = utf8mb4;
 
 CREATE TABLE `recaudacion_ingresos`
 (
@@ -120,8 +114,7 @@ CREATE TABLE `recaudacion_ingresos`
     CONSTRAINT `FK_INGRESO_ESTADO` FOREIGN KEY (`id_estado`) REFERENCES `recaudaciones_ingresos_estados` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT `FK_INGRESO_RECAUDACION` FOREIGN KEY (`id_recaudacion`) REFERENCES `recaudaciones` (`id`) ON UPDATE CASCADE
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
+  DEFAULT CHARSET = utf8mb4;
 
 CREATE TABLE `recaudaciones`
 (
@@ -143,8 +136,7 @@ CREATE TABLE `recaudaciones`
     KEY `FK_RECAUDACION_LICENCIA_idx` (`id_licencia`),
     CONSTRAINT `FK_RECAUDACION_LICENCIA` FOREIGN KEY (`id_licencia`) REFERENCES `licencias` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
+  DEFAULT CHARSET = utf8mb4;
 
 CREATE TABLE `recaudaciones_ingresos_estados`
 (
@@ -155,8 +147,7 @@ CREATE TABLE `recaudaciones_ingresos_estados`
     PRIMARY KEY (`id`),
     UNIQUE KEY `UNIQUE_NOMBRE` (`nombre`)
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
+  DEFAULT CHARSET = utf8mb4;
 
 
 CREATE TABLE `tipos_gastos`
@@ -169,5 +160,4 @@ CREATE TABLE `tipos_gastos`
     PRIMARY KEY (`id`),
     UNIQUE KEY `UNIQUE_NOMBRE` (`nombre`)
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
+  DEFAULT CHARSET = utf8mb4;

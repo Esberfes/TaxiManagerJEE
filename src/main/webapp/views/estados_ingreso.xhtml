@@ -10,6 +10,22 @@
       xmlns:f="http://java.sun.com/jsf/core">
 
 <ui:composition>
+    <p:panel id="insertEstadosIngresos" header="Nuevo estado de ingreso" styleClass="shadow"
+             style="margin-bottom: 25px">
+        <p:outputPanel styleClass="p-grid">
+
+            <p:outputPanel styleClass="p-col">
+                <p:outputLabel>Nombre</p:outputLabel>
+                <p:inputText inputStyle="width: 100%" style="width: 100%" value="#{EstadosIngresosFace.nombre}"/>
+            </p:outputPanel>
+
+            <p:outputPanel styleClass="p-col" style="justify-content: flex-end;align-items: flex-end;display: flex;">
+                <p:commandButton value="Insertar" action="#{EstadosIngresosFace.insert}" ajax="true"
+                                 update=":form:messages insertEstadosIngresos estadosIgresosTable"/>
+            </p:outputPanel>
+
+        </p:outputPanel>
+    </p:panel>
     <p:dataTable id="estadosIgresosTable" var="estadoIngreso" value="#{EstadosIngresosFace.lazyModel}"
                  styleClass="shadow"
                  lazy="true"
@@ -21,10 +37,10 @@
                  currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
                  rowsPerPageTemplate="10,15,20,25,30">
 
-        <f:facet name="header">Formas de pago</f:facet>
+        <f:facet name="header">Estados de ingreso</f:facet>
 
-        <p:ajax event="cellEdit" listener="#{EstadosIngresosFace.onCellEdit}"
-                update=":form:messages"/>
+        <p:ajax event="cellEdit" listener="#{EstadosIngresosFace.onCellEdit}" update=":form:messages"
+                oncomplete="updateEstadosIgresosTable()"/>
 
         <p:column headerText="Nombre" filterBy="#{estadoIngreso.nombre}" sortBy="#{estadoIngreso.nombre}">
             <p:cellEditor>
@@ -41,6 +57,9 @@
         </p:column>
 
     </p:dataTable>
+
+    <p:remoteCommand name="updateEstadosIgresosTable" update="estadosIgresosTable"/>
+
 </ui:composition>
 
 </html>

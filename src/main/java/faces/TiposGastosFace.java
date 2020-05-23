@@ -82,7 +82,7 @@ public class TiposGastosFace implements Serializable {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Tipo de gasto eliminado con éxito", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Throwable e) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error eliminado empleado", e.getMessage());
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error eliminado tipo de gasto", e.getMessage());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }

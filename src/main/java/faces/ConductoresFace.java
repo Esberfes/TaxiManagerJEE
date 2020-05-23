@@ -90,7 +90,7 @@ public class ConductoresFace implements Serializable {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Nuevo conductor insertado", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Throwable e) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error insertando empleado", e.getMessage());
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error insertando conductor", e.getMessage());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
@@ -101,7 +101,7 @@ public class ConductoresFace implements Serializable {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Conductor eliminado con éxito", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Throwable e) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error eliminado empleado", e.getMessage());
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error eliminado conductor", e.getMessage());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
