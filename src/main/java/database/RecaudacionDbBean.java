@@ -5,7 +5,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortMeta;
 import org.primefaces.model.SortOrder;
-import pojos.Licencia;
 import pojos.Recaudacion;
 
 import javax.ejb.Stateless;
@@ -32,7 +31,7 @@ public class RecaudacionDbBean {
     private LicenciasDbBean licenciasDbBean;
 
     public List<RecaudacionesEntity> getData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
-        StringBuilder rawQuery = new StringBuilder("SELECT * FROM recaudaciones WHERE true ");
+        StringBuilder rawQuery = new StringBuilder("SELECT * FROM recaudaciones, licencias WHERE recaudaciones.id_licencia = licencias.id ");
 
         Query query = buildFilters(sortMeta, filterMeta, rawQuery, RecaudacionesEntity.class);
 
@@ -43,7 +42,7 @@ public class RecaudacionDbBean {
     }
 
     public int getTotal(Map<String, FilterMeta> filterMeta) {
-        StringBuilder rawQuery = new StringBuilder("SELECT COUNT(*) FROM recaudaciones WHERE true ");
+        StringBuilder rawQuery = new StringBuilder("SELECT COUNT(*) FROM recaudaciones, licencias WHERE recaudaciones.id_licencia = licencias.id ");
 
         Query query = buildFilters(null, filterMeta, rawQuery, null);
 
@@ -60,7 +59,12 @@ public class RecaudacionDbBean {
                         && entry.getValue().getFilterValue() != null
                         && StringUtils.isNotBlank(String.valueOf(entry.getValue().getFilterValue()))) {
 
-                    rawQuery.append(" AND ").append("recaudaciones.").append(entry.getKey()).append(" LIKE ").append(":").append(entry.getKey());
+                    if (entry.getKey().equalsIgnoreCase("licencia.codigo")) {
+                        rawQuery.append(" AND ").append(" licencias.codigo ").append("LIKE ").append(":").append(entry.getKey());
+                    } else {
+                        rawQuery.append(" AND ").append("recaudaciones.").append(entry.getKey()).append(" LIKE ").append(":").append(entry.getKey());
+                    }
+
 
                     parameters.put(entry.getKey(), entry.getValue());
                 }
@@ -69,7 +73,11 @@ public class RecaudacionDbBean {
 
         if (sortMeta != null && !sortMeta.isEmpty()) {
             SortMeta sort = sortMeta.entrySet().iterator().next().getValue();
-            rawQuery.append(" ORDER BY ").append("recaudaciones.").append(sort.getSortField()).append(" ").append(sort.getSortOrder() == SortOrder.DESCENDING ? " DESC " : " ASC ");
+            if (sort.getSortField().equals("licencia.codigo")) {
+                rawQuery.append(" ORDER BY ").append("licencias.codigo").append(" ").append(sort.getSortOrder() == SortOrder.DESCENDING ? " DESC " : " ASC ");
+            } else {
+                rawQuery.append(" ORDER BY ").append("recaudaciones.").append(sort.getSortField()).append(" ").append(sort.getSortOrder() == SortOrder.DESCENDING ? " DESC " : " ASC ");
+            }
         }
 
         Query query;
@@ -85,12 +93,24 @@ public class RecaudacionDbBean {
     }
 
     public void insert(Recaudacion recaudacion) {
-
+        em.persist(new RecaudacionesEntity(recaudacion));
     }
 
+    public void update(Recaudacion recaudacion) {
+        RecaudacionesEntity recaudacionesEntity = em.find(RecaudacionesEntity.class, recaudacion.getId());
+        recaudacionesEntity.setLicenciasEntity(licenciasDbBean.findSingleByCodigo(recaudacion.getLicencia().getCodigo()));
+        recaudacionesEntity.setServiciosInicio(recaudacion.getServicios_inicio());
+        recaudacionesEntity.setServiciosFin(recaudacion.getServicios_fin());
+        recaudacionesEntity.setNumeracionInicio(recaudacion.getNumeracion_inicio());
+        recaudacionesEntity.setNumeracionFin(recaudacion.getNumeracion_fin());
+        recaudacionesEntity.setKmTotalesInicio(recaudacion.getKm_totales_inicio());
+        recaudacionesEntity.setKmTotalesFin(recaudacion.getKm_totales_fin());
+        recaudacionesEntity.setKmCargadoInicio(recaudacion.getKm_cargado_inicio());
+        recaudacionesEntity.setKmCargadoFin(recaudacion.getKm_cargado_fin());
+        recaudacionesEntity.setMes(recaudacion.getMes());
+        recaudacionesEntity.setAno(recaudacion.getAno());
 
-    public void update(Licencia licencia) {
-
+        em.persist(recaudacionesEntity);
     }
 
     public void delete(Long id) {

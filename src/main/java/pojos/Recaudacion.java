@@ -13,14 +13,14 @@ public class Recaudacion {
     private Integer id;
     private Licencia licencia;
     private List<RecaudacionIngreso> recaudacionIngresos;
-    private Integer serviciosInicio;
-    private Integer servicionsFin;
-    private BigDecimal numeracionInicio;
-    private BigDecimal numeracionFin;
-    private Integer kmTotalesInicio;
-    private Integer kmTotalesFin;
-    private Integer kmCargadoInicio;
-    private Integer kmCargadoFin;
+    private Integer servicios_inicio;
+    private Integer servicios_fin;
+    private BigDecimal numeracion_inicio;
+    private BigDecimal numeracion_fin;
+    private Integer km_totales_inicio;
+    private Integer km_totales_fin;
+    private Integer km_cargado_inicio;
+    private Integer km_cargado_fin;
     private Integer mes;
     private Integer ano;
     private Date creado;
@@ -43,14 +43,14 @@ public class Recaudacion {
             }
         }
 
-        this.serviciosInicio = recaudacionesEntity.getServiciosInicio();
-        this.servicionsFin = recaudacionesEntity.getServicionsFin();
-        this.numeracionInicio = recaudacionesEntity.getNumeracionInicio();
-        this.numeracionFin = recaudacionesEntity.getNumeracionFin();
-        this.kmTotalesInicio = recaudacionesEntity.getKmTotalesInicio();
-        this.kmTotalesFin = recaudacionesEntity.getKmTotalesFin();
-        this.kmCargadoInicio = recaudacionesEntity.getKmCargadoInicio();
-        this.kmCargadoFin = recaudacionesEntity.getKmCargadoFin();
+        this.servicios_inicio = recaudacionesEntity.getServiciosInicio();
+        this.servicios_fin = recaudacionesEntity.getServiciosFin();
+        this.numeracion_inicio = recaudacionesEntity.getNumeracionInicio();
+        this.numeracion_fin = recaudacionesEntity.getNumeracionFin();
+        this.km_totales_inicio = recaudacionesEntity.getKmTotalesInicio();
+        this.km_totales_fin = recaudacionesEntity.getKmTotalesFin();
+        this.km_cargado_inicio = recaudacionesEntity.getKmCargadoInicio();
+        this.km_cargado_fin = recaudacionesEntity.getKmCargadoFin();
         this.mes = recaudacionesEntity.getMes();
         this.ano = recaudacionesEntity.getAno();
         this.creado = recaudacionesEntity.getCreado();
@@ -81,68 +81,68 @@ public class Recaudacion {
         this.recaudacionIngresos = recaudacionIngresos;
     }
 
-    public Integer getServiciosInicio() {
-        return serviciosInicio;
+    public Integer getServicios_inicio() {
+        return servicios_inicio;
     }
 
-    public void setServiciosInicio(Integer serviciosInicio) {
-        this.serviciosInicio = serviciosInicio;
+    public void setServicios_inicio(Integer servicios_inicio) {
+        this.servicios_inicio = servicios_inicio;
     }
 
-    public Integer getServicionsFin() {
-        return servicionsFin;
+    public Integer getServicios_fin() {
+        return servicios_fin;
     }
 
-    public void setServicionsFin(Integer servicionsFin) {
-        this.servicionsFin = servicionsFin;
+    public void setServicios_fin(Integer servicios_fin) {
+        this.servicios_fin = servicios_fin;
     }
 
-    public BigDecimal getNumeracionInicio() {
-        return numeracionInicio;
+    public BigDecimal getNumeracion_inicio() {
+        return numeracion_inicio;
     }
 
-    public void setNumeracionInicio(BigDecimal numeracionInicio) {
-        this.numeracionInicio = numeracionInicio;
+    public void setNumeracion_inicio(BigDecimal numeracion_inicio) {
+        this.numeracion_inicio = numeracion_inicio;
     }
 
-    public BigDecimal getNumeracionFin() {
-        return numeracionFin;
+    public BigDecimal getNumeracion_fin() {
+        return numeracion_fin;
     }
 
-    public void setNumeracionFin(BigDecimal numeracionFin) {
-        this.numeracionFin = numeracionFin;
+    public void setNumeracion_fin(BigDecimal numeracion_fin) {
+        this.numeracion_fin = numeracion_fin;
     }
 
-    public Integer getKmTotalesInicio() {
-        return kmTotalesInicio;
+    public Integer getKm_totales_inicio() {
+        return km_totales_inicio;
     }
 
-    public void setKmTotalesInicio(Integer kmTotalesInicio) {
-        this.kmTotalesInicio = kmTotalesInicio;
+    public void setKm_totales_inicio(Integer km_totales_inicio) {
+        this.km_totales_inicio = km_totales_inicio;
     }
 
-    public Integer getKmTotalesFin() {
-        return kmTotalesFin;
+    public Integer getKm_totales_fin() {
+        return km_totales_fin;
     }
 
-    public void setKmTotalesFin(Integer kmTotalesFin) {
-        this.kmTotalesFin = kmTotalesFin;
+    public void setKm_totales_fin(Integer km_totales_fin) {
+        this.km_totales_fin = km_totales_fin;
     }
 
-    public Integer getKmCargadoInicio() {
-        return kmCargadoInicio;
+    public Integer getKm_cargado_inicio() {
+        return km_cargado_inicio;
     }
 
-    public void setKmCargadoInicio(Integer kmCargadoInicio) {
-        this.kmCargadoInicio = kmCargadoInicio;
+    public void setKm_cargado_inicio(Integer km_cargado_inicio) {
+        this.km_cargado_inicio = km_cargado_inicio;
     }
 
-    public Integer getKmCargadoFin() {
-        return kmCargadoFin;
+    public Integer getKm_cargado_fin() {
+        return km_cargado_fin;
     }
 
-    public void setKmCargadoFin(Integer kmCargadoFin) {
-        this.kmCargadoFin = kmCargadoFin;
+    public void setKm_cargado_fin(Integer km_cargado_fin) {
+        this.km_cargado_fin = km_cargado_fin;
     }
 
     public Integer getMes() {

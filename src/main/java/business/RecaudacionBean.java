@@ -31,4 +31,16 @@ public class RecaudacionBean implements LazyLoad<Recaudacion> {
     public int getTotal(Map<String, FilterMeta> filterMeta) {
         return recaudacionDbBean.getTotal(filterMeta);
     }
+
+    public void update(Recaudacion recaudacion) {
+        recaudacionDbBean.update(recaudacion);
+    }
+
+    public void insert(Recaudacion recaudacion) {
+        recaudacionDbBean.insert(recaudacion);
+    }
+
+    public void delete(Long id) {
+        recaudacionDbBean.delete(id);
+    }
 }

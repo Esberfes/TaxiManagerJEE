@@ -121,7 +121,7 @@ CREATE TABLE `recaudaciones`
     `id`                int(11) NOT NULL AUTO_INCREMENT,
     `id_licencia`       int(11) NOT NULL,
     `servicios_inicio`  int(11)        DEFAULT NULL,
-    `servicions_fin`    int(11)        DEFAULT NULL,
+    `servicios_fin`     int(11)        DEFAULT NULL,
     `numeracion_inicio` decimal(10, 2) DEFAULT NULL,
     `numeracion_fin`    decimal(10, 2) DEFAULT NULL,
     `km_totales_inicio` int(11)        DEFAULT NULL,

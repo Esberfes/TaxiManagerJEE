@@ -33,6 +33,14 @@ public class LicenciasBean implements LazyLoad<Licencia> {
         return licenciasDbBean.getTotal(filterMeta);
     }
 
+    public List<Licencia> findByCodigo(Integer codigo) {
+        return licenciasDbBean.findByCodigo(codigo).stream().map(Licencia::new).collect(Collectors.toList());
+    }
+
+    public Licencia findSingleByCodigo(Integer codigo) {
+        return new Licencia(licenciasDbBean.findSingleByCodigo(codigo));
+    }
+
     public void update(Licencia licencia) {
         licenciasDbBean.update(licencia);
     }

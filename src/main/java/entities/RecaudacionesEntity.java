@@ -29,8 +29,8 @@ public class RecaudacionesEntity {
     @Column(name = "servicios_inicio")
     private Integer serviciosInicio;
 
-    @Column(name = "servicions_fin")
-    private Integer servicionsFin;
+    @Column(name = "servicios_fin")
+    private Integer serviciosFin;
 
     @Column(name = "numeracion_inicio")
     private BigDecimal numeracionInicio;
@@ -79,14 +79,14 @@ public class RecaudacionesEntity {
             }
         }
 
-        this.serviciosInicio = recaudacion.getServiciosInicio();
-        this.servicionsFin = recaudacion.getServicionsFin();
-        this.numeracionInicio = recaudacion.getNumeracionInicio();
-        this.numeracionFin = recaudacion.getNumeracionFin();
-        this.kmTotalesInicio = recaudacion.getKmTotalesInicio();
-        this.kmTotalesFin = recaudacion.getKmTotalesFin();
-        this.kmCargadoInicio = recaudacion.getKmCargadoInicio();
-        this.kmCargadoFin = recaudacion.getKmCargadoFin();
+        this.serviciosInicio = recaudacion.getServicios_inicio();
+        this.serviciosFin = recaudacion.getServicios_fin();
+        this.numeracionInicio = recaudacion.getNumeracion_inicio();
+        this.numeracionFin = recaudacion.getNumeracion_fin();
+        this.kmTotalesInicio = recaudacion.getKm_totales_inicio();
+        this.kmTotalesFin = recaudacion.getKm_totales_fin();
+        this.kmCargadoInicio = recaudacion.getKm_cargado_inicio();
+        this.kmCargadoFin = recaudacion.getKm_cargado_fin();
         this.mes = recaudacion.getMes();
         this.ano = recaudacion.getAno();
         this.creado = recaudacion.getCreado();
@@ -111,7 +111,7 @@ public class RecaudacionesEntity {
         RecaudacionesEntity that = (RecaudacionesEntity) o;
         return Objects.equals(id, that.id) &&
                 Objects.equals(serviciosInicio, that.serviciosInicio) &&
-                Objects.equals(servicionsFin, that.servicionsFin) &&
+                Objects.equals(serviciosFin, that.serviciosFin) &&
                 Objects.equals(numeracionInicio, that.numeracionInicio) &&
                 Objects.equals(numeracionFin, that.numeracionFin) &&
                 Objects.equals(kmTotalesInicio, that.kmTotalesInicio) &&
@@ -126,7 +126,7 @@ public class RecaudacionesEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, serviciosInicio, servicionsFin, numeracionInicio, numeracionFin, kmTotalesInicio, kmTotalesFin, kmCargadoInicio, kmCargadoFin, mes, ano, creado, actualizado);
+        return Objects.hash(id, serviciosInicio, serviciosFin, numeracionInicio, numeracionFin, kmTotalesInicio, kmTotalesFin, kmCargadoInicio, kmCargadoFin, mes, ano, creado, actualizado);
     }
 
     public Integer getId() {
@@ -161,12 +161,12 @@ public class RecaudacionesEntity {
         this.serviciosInicio = serviciosInicio;
     }
 
-    public Integer getServicionsFin() {
-        return servicionsFin;
+    public Integer getServiciosFin() {
+        return serviciosFin;
     }
 
-    public void setServicionsFin(Integer servicionsFin) {
-        this.servicionsFin = servicionsFin;
+    public void setServiciosFin(Integer servicionsFin) {
+        this.serviciosFin = servicionsFin;
     }
 
     public BigDecimal getNumeracionInicio() {

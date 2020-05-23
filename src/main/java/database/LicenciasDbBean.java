@@ -114,4 +114,25 @@ public class LicenciasDbBean {
     public void delete(Long id) {
         em.remove(em.find(LicenciasEntity.class, id));
     }
+
+    public List<LicenciasEntity> findByCodigo(Integer codigo) {
+        String rawQuery = "SELECT * FROM licencias WHERE codigo LIKE :codigo ORDER BY codigo ASC";
+        String codeString = "%" + codigo + "%";
+        Query query = em.createNativeQuery(rawQuery, LicenciasEntity.class);
+        query.setParameter("codigo", codeString);
+
+        return query.setMaxResults(10).getResultList();
+    }
+
+    public LicenciasEntity findSingleByCodigo(Integer codigo) {
+        String rawQuery = "SELECT * FROM licencias WHERE codigo LIKE :codigo ORDER BY codigo ASC";
+        Query query = em.createNativeQuery(rawQuery, LicenciasEntity.class);
+        query.setParameter("codigo", codigo);
+
+        return (LicenciasEntity) query.getSingleResult();
+    }
+
+    public LicenciasEntity findSingle(Long id) {
+        return em.find(LicenciasEntity.class, id);
+    }
 }
