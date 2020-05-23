@@ -32,6 +32,16 @@ public class TiposGastosBean implements LazyLoad<TiposGasto> {
         return tiposGastoDbBean.getTotal(filterMeta);
     }
 
+    @Override
+    public List<TiposGasto> getData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta, Long parentId) {
+        return null;
+    }
+
+    @Override
+    public int getTotal(Map<String, FilterMeta> filterMeta, Long parentId) {
+        return 0;
+    }
+
     public void delete(Long id) {
         tiposGastoDbBean.delete(id);
     }

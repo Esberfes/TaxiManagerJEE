@@ -32,6 +32,16 @@ public class ConceptosGastosBean implements LazyLoad<ConceptosGastos> {
         return conceptosGastosDbBean.getTotal(filterMeta);
     }
 
+    @Override
+    public List<ConceptosGastos> getData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta, Long parentId) {
+        return null;
+    }
+
+    @Override
+    public int getTotal(Map<String, FilterMeta> filterMeta, Long parentId) {
+        return 0;
+    }
+
     public void update(ConceptosGastos conceptosGastos) {
         conceptosGastosDbBean.update(conceptosGastos);
     }

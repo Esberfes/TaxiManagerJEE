@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition>
+    <p:panel
+            header="Recaudacion del #{RecaudacionFace.selectedRecaudacion.mes}/#{RecaudacionFace.selectedRecaudacion.ano}"
+            styleClass="shadow" style="margin-bottom: 25px">
+        <p:commandButton value="Volver" ajax="true"
+                         update=":form:messages :form:insertRecaudacion recaudacionTable :form"
+                         action="#{RecaudacionFace.onUnSelectedRecaudacion()}"/>
+    </p:panel>
+
+    <p:panel id="insertRecaudacionIngreso" header="Nuevo ingreso" styleClass="shadow" style="margin-bottom: 25px">
+
+    </p:panel>
+
+    <p:dataTable widgetVar="recaudacionIngresosTable" id="recaudacionIngresosTable" var="ingreso"
+                 value="#{RecaudacionFace.lazyModelIngresos}"
+                 styleClass="shadow"
+                 lazy="true"
+                 editable="true"
+                 editMode="cell"
+                 rows="10"
+                 paginator="true"
+                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                 rowsPerPageTemplate="10,15,20,25,30">
+
+        <f:facet name="header">Ingresos</f:facet>
+
+        <p:column headerText="Dia" filterBy="#{ingreso.dia}" sortBy="#{ingreso.dia}">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{ingreso.dia}"/></f:facet>
+                <f:facet name="input">
+                    <p:inputNumber value="#{ingreso.dia}" style="width:100%" decimalPlaces="0"/>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+
+    </p:dataTable>
+
+    <p:remoteCommand name="updateRecaudacionIngresosTable" update="recaudacionIngresosTable"/>
+</ui:composition>
+
+</html>

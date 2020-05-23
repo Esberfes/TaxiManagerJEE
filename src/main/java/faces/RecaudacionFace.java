@@ -2,12 +2,15 @@ package faces;
 
 import business.LicenciasBean;
 import business.RecaudacionBean;
+import business.RecaudacionIngresosBean;
 import datamodels.LazyRecaudacionDataModel;
+import datamodels.LazyRecaudacionIngresoDataModel;
 import org.apache.log4j.Logger;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.model.LazyDataModel;
 import pojos.Recaudacion;
+import pojos.RecaudacionIngreso;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -28,12 +31,18 @@ public class RecaudacionFace implements Serializable {
     private RecaudacionBean recaudacionBean;
 
     @Inject
+    private RecaudacionIngresosBean recaudacionIngresosBean;
+
+    @Inject
     private LicenciasBean licenciasBean;
 
     @Inject
     private transient Logger logger;
 
     private LazyDataModel<Recaudacion> lazyModel;
+    private LazyDataModel<RecaudacionIngreso> lazyModelIngresos;
+
+    private Recaudacion selectedRecaudacion;
 
     private Integer licencia;
     private Integer servicios_inicio;
@@ -133,6 +142,14 @@ public class RecaudacionFace implements Serializable {
         this.lazyModel = lazyModel;
     }
 
+    public LazyDataModel<RecaudacionIngreso> getLazyModelIngresos() {
+        return lazyModelIngresos;
+    }
+
+    public void setLazyModelIngresos(LazyDataModel<RecaudacionIngreso> lazyModelIngresos) {
+        this.lazyModelIngresos = lazyModelIngresos;
+    }
+
     public Integer getLicencia() {
         return licencia;
     }
@@ -219,5 +236,28 @@ public class RecaudacionFace implements Serializable {
 
     public void setAno(Integer ano) {
         this.ano = ano;
+    }
+
+    public Recaudacion getSelectedRecaudacion() {
+        return selectedRecaudacion;
+    }
+
+    public void setSelectedRecaudacion(Recaudacion selectedRecaudacion) {
+        this.selectedRecaudacion = selectedRecaudacion;
+    }
+
+    public void onSelectedRecaudacion(Long id) {
+        try {
+            this.selectedRecaudacion = recaudacionBean.findSingle(id);
+            this.lazyModelIngresos = new LazyRecaudacionIngresoDataModel(recaudacionIngresosBean, selectedRecaudacion.getId());
+        } catch (Throwable e) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error selecionando recaudacion", e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+    }
+
+    public void onUnSelectedRecaudacion() {
+        this.selectedRecaudacion = null;
+        this.lazyModelIngresos = null;
     }
 }

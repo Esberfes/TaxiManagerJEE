@@ -33,6 +33,16 @@ public class LicenciasBean implements LazyLoad<Licencia> {
         return licenciasDbBean.getTotal(filterMeta);
     }
 
+    @Override
+    public List<Licencia> getData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta, Long parentId) {
+        return null;
+    }
+
+    @Override
+    public int getTotal(Map<String, FilterMeta> filterMeta, Long parentId) {
+        return 0;
+    }
+
     public List<Licencia> findByCodigo(Integer codigo) {
         return licenciasDbBean.findByCodigo(codigo).stream().map(Licencia::new).collect(Collectors.toList());
     }

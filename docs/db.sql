@@ -94,7 +94,7 @@ CREATE TABLE `licencias`
 
 CREATE TABLE `recaudacion_ingresos`
 (
-    `id`             int(11) NOT NULL,
+    `id`             int(11) NOT NULL AUTO_INCREMENT,
     `id_recaudacion` int(11)                 DEFAULT NULL,
     `id_conductor`   int(11)                 DEFAULT NULL,
     `dia`            int(2)                  DEFAULT NULL,

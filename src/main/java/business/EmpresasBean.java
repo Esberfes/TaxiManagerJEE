@@ -41,6 +41,16 @@ public class EmpresasBean implements LazyLoad<Empresa> {
         return empresasDbBean.getTotal(filterMeta);
     }
 
+    @Override
+    public List<Empresa> getData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta, Long parentId) {
+        return null;
+    }
+
+    @Override
+    public int getTotal(Map<String, FilterMeta> filterMeta, Long parentId) {
+        return 0;
+    }
+
     public Empresa getSingle(Long id) {
         return new Empresa(empresasDbBean.getSingleEmpresa(id));
     }

@@ -116,4 +116,8 @@ public class RecaudacionDbBean {
     public void delete(Long id) {
         em.remove(em.find(RecaudacionesEntity.class, id));
     }
+
+    public RecaudacionesEntity findSingle(Long id) {
+        return em.find(RecaudacionesEntity.class, id);
+    }
 }

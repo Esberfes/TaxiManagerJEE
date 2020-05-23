@@ -11,4 +11,8 @@ import java.util.Map;
 public interface LazyLoad<T> {
     List<T> getData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta);
     int getTotal(Map<String, FilterMeta> filterMeta);
+
+    List<T> getData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta, Long parentId);
+
+    int getTotal(Map<String, FilterMeta> filterMeta, Long parentId);
 }

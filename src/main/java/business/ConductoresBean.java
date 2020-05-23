@@ -50,6 +50,16 @@ public class ConductoresBean implements LazyLoad<Conductor> {
         return conductoresDbBean.getTotal(filterMeta);
     }
 
+    @Override
+    public List<Conductor> getData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta, Long parentId) {
+        return null;
+    }
+
+    @Override
+    public int getTotal(Map<String, FilterMeta> filterMeta, Long parentId) {
+        return 0;
+    }
+
     public void update(Conductor conductor) {
         conductoresDbBean.update(conductor);
     }
