@@ -1,5 +1,7 @@
 package entities;
 
+import pojos.RecaudacionIngreso;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -13,6 +15,18 @@ public class RecaudacionIngresosEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
     private Integer id;
+
+    @ManyToOne
+    @JoinColumn(name = "id_recaudacion", referencedColumnName = "id")
+    private RecaudacionesEntity recaudacionesEntity;
+
+    @ManyToOne
+    @JoinColumn(name = "id_conductor", referencedColumnName = "id")
+    private ConductorEntity conductorEntity;
+
+    @ManyToOne
+    @JoinColumn(name = "id_estado", referencedColumnName = "id")
+    private RecaudacionesIngresosEstadosEntity recaudacionesIngresosEstadosEntity;
 
     @Column(name = "dia")
     private Integer dia;
@@ -39,6 +53,13 @@ public class RecaudacionIngresosEntity {
     @Column(name = "actualizado")
     @Temporal(TemporalType.TIMESTAMP)
     private Date actualizado;
+
+    public RecaudacionIngresosEntity() {
+    }
+
+    public RecaudacionIngresosEntity(RecaudacionIngreso recaudacionIngreso) {
+
+    }
 
     @PrePersist
     public void prePersist() {
@@ -70,5 +91,101 @@ public class RecaudacionIngresosEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, dia, turno, numeracion, anulados, recaudacion, observaciones, creado, actualizado);
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public RecaudacionesEntity getRecaudacionesEntity() {
+        return recaudacionesEntity;
+    }
+
+    public void setRecaudacionesEntity(RecaudacionesEntity recaudacionesEntity) {
+        this.recaudacionesEntity = recaudacionesEntity;
+    }
+
+    public ConductorEntity getConductorEntity() {
+        return conductorEntity;
+    }
+
+    public void setConductorEntity(ConductorEntity conductorEntity) {
+        this.conductorEntity = conductorEntity;
+    }
+
+    public RecaudacionesIngresosEstadosEntity getRecaudacionesIngresosEstadosEntity() {
+        return recaudacionesIngresosEstadosEntity;
+    }
+
+    public void setRecaudacionesIngresosEstadosEntity(RecaudacionesIngresosEstadosEntity recaudacionesIngresosEstadosEntity) {
+        this.recaudacionesIngresosEstadosEntity = recaudacionesIngresosEstadosEntity;
+    }
+
+    public Integer getDia() {
+        return dia;
+    }
+
+    public void setDia(Integer dia) {
+        this.dia = dia;
+    }
+
+    public String getTurno() {
+        return turno;
+    }
+
+    public void setTurno(String turno) {
+        this.turno = turno;
+    }
+
+    public BigDecimal getNumeracion() {
+        return numeracion;
+    }
+
+    public void setNumeracion(BigDecimal numeracion) {
+        this.numeracion = numeracion;
+    }
+
+    public BigDecimal getAnulados() {
+        return anulados;
+    }
+
+    public void setAnulados(BigDecimal anulados) {
+        this.anulados = anulados;
+    }
+
+    public BigDecimal getRecaudacion() {
+        return recaudacion;
+    }
+
+    public void setRecaudacion(BigDecimal recaudacion) {
+        this.recaudacion = recaudacion;
+    }
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
+    }
+
+    public Date getCreado() {
+        return creado;
+    }
+
+    public void setCreado(Date creado) {
+        this.creado = creado;
+    }
+
+    public Date getActualizado() {
+        return actualizado;
+    }
+
+    public void setActualizado(Date actualizado) {
+        this.actualizado = actualizado;
     }
 }

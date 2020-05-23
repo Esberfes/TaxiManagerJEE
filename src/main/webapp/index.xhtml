@@ -27,7 +27,10 @@
                     <p:menu id="menu" styleClass="shadow" style=" width: 100%;position: sticky;top: 15px;">
 
                         <p:submenu label="Entradas">
-                            <p:menuitem value="Recaudación" update="messages content menu" ajax="true"/>
+                            <p:menuitem value="Recaudación" update="messages content menu" ajax="true"
+                                        action="#{NavigationFace.navigate(NavigationEnum.recaudacion)}"
+                                        styleClass="#{NavigationFace.navigation eq NavigationEnum.recaudacion ? 'active' : ''}"/>
+
                             <p:menuitem value="Gastos" update="messages content menu" ajax="true"/>
                         </p:submenu>
 
@@ -68,6 +71,14 @@
                     </p:menu>
                 </p:outputPanel>
                 <p:outputPanel styleClass="p-col-10 content" id="content">
+                    <!-- ENTRADAS -->
+                    <!-- Recaudacion -->
+                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.recaudacion}">
+                        <ui:include src="./views/recaudacion.xhtml"/>
+                    </p:outputPanel>
+
+
+                    <!-- SALIDAS -->
 
                     <!-- CONFIGURACION  -->
                     <!-- Licencias -->

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition>
+
+    <p:dataTable widgetVar="recaudacionTable" id="recaudacionTable" var="recaudacion"
+                 value="#{RecaudacionFace.lazyModel}"
+                 styleClass="shadow"
+                 lazy="true"
+                 editable="true"
+                 editMode="cell"
+                 rows="10"
+                 paginator="true"
+                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                 rowsPerPageTemplate="10,15,20,25,30">
+
+        <f:facet name="header">Licencias</f:facet>
+
+        <p:ajax event="cellEdit" listener="#{RecaudacionFace.onCellEdit}" update=":form:messages"
+                oncomplete="updateRecaudacionTable()"/>
+
+        <p:column headerText="Licencia" filterBy="#{recaudacion.licencia.codigo}"
+                  sortBy="#{recaudacion.licencia.codigo}">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{recaudacion.licencia.codigo}"/></f:facet>
+                <f:facet name="input"><p:inputNumber value="#{recaudacion.licencia.codigo}"
+                                                     style="width:100%"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="" style="text-align: center">
+            <p:commandButton icon="fas fa-trash-alt" ajax="true" update=":form:messages recaudacionTable"
+                             action="#{RecaudacionFace.delete(recaudacion.id)}">
+                <p:confirm header="Confirmation" message="Estás seguro?" icon="pi pi-exclamation-triangle"/>
+            </p:commandButton>
+        </p:column>
+
+    </p:dataTable>
+
+    <p:remoteCommand name="updateRecaudacionTable" update="recaudacionTable"/>
+</ui:composition>
+
+</html>
