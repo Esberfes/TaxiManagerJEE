@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Recaudacion {
 
-    private Integer id;
+    private Long id;
     private Licencia licencia;
     private List<RecaudacionIngreso> recaudacionIngresos;
     private Integer servicios_inicio;
@@ -57,11 +57,11 @@ public class Recaudacion {
         this.actualizado = recaudacionesEntity.getActualizado();
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

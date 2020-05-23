@@ -17,7 +17,7 @@ public class RecaudacionesEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
-    private Integer id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "id_licencia", referencedColumnName = "id")
@@ -129,11 +129,11 @@ public class RecaudacionesEntity {
         return Objects.hash(id, serviciosInicio, serviciosFin, numeracionInicio, numeracionFin, kmTotalesInicio, kmTotalesFin, kmCargadoInicio, kmCargadoFin, mes, ano, creado, actualizado);
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
