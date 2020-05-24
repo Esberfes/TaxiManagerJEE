@@ -36,11 +36,83 @@
 
         <f:facet name="header">Ingresos</f:facet>
 
+        <p:column headerText="Conductor" filterBy="#{ingreso.conductor.nombre}" sortBy="#{ingreso.conductor.nombre}">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{ingreso.conductor.nombre}"/></f:facet>
+                <f:facet name="input">
+                    <p:inputText value="#{ingreso.conductor.nombre}" style="width:100%"/>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+
         <p:column headerText="Dia" filterBy="#{ingreso.dia}" sortBy="#{ingreso.dia}">
             <p:cellEditor>
                 <f:facet name="output"><h:outputText value="#{ingreso.dia}"/></f:facet>
                 <f:facet name="input">
                     <p:inputNumber value="#{ingreso.dia}" style="width:100%" decimalPlaces="0"/>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="Turno" filterBy="#{ingreso.turno}" sortBy="#{ingreso.turno}">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{ingreso.turno}"/></f:facet>
+                <f:facet name="input">
+                    <p:inputText value="#{ingreso.turno}" style="width:100%"/>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="Numeración" filterBy="#{ingreso.numeracion}" sortBy="#{ingreso.numeracion}">
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText converter="javax.faces.BigDecimal" value="#{ingreso.numeracion}"/>
+                </f:facet>
+                <f:facet name="input">
+                    <p:inputNumber converter="javax.faces.BigDecimal" value="#{ingreso.numeracion}" style="width:100%"
+                                   decimalPlaces="2"/>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="Anulados" filterBy="#{ingreso.anulados}" sortBy="#{ingreso.anulados}">
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText converter="javax.faces.BigDecimal" value="#{ingreso.anulados}"/>
+                </f:facet>
+                <f:facet name="input">
+                    <p:inputNumber converter="javax.faces.BigDecimal" value="#{ingreso.anulados}" style="width:100%"
+                                   decimalPlaces="2"/>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="Recaudación" filterBy="#{ingreso.recaudacion}" sortBy="#{ingreso.recaudacion}">
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText converter="javax.faces.BigDecimal" value="#{ingreso.recaudacion}"/>
+                </f:facet>
+                <f:facet name="input">
+                    <p:inputNumber converter="javax.faces.BigDecimal" value="#{ingreso.recaudacion}" style="width:100%"
+                                   decimalPlaces="2"/>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="Observaciones" filterBy="#{ingreso.observaciones}" sortBy="#{ingreso.observaciones}">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{ingreso.observaciones}"/></f:facet>
+                <f:facet name="input">
+                    <p:inputText value="#{ingreso.observaciones}" style="width:100%"/>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="Estado" filterBy="#{ingreso.estado.nombre}" sortBy="#{ingreso.estado.nombre}">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{ingreso.estado.nombre}"/></f:facet>
+                <f:facet name="input">
+                    <p:inputText value="#{ingreso.estado.nombre}" style="width:100%"/>
                 </f:facet>
             </p:cellEditor>
         </p:column>

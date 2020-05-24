@@ -9,7 +9,7 @@ public class RecaudacionIngreso {
 
     private Integer id;
     private Conductor conductor;
-    private EstadosIngreso estadosIngreso;
+    private EstadosIngreso estado;
     private Integer dia;
     private String turno;
     private BigDecimal numeracion;
@@ -25,7 +25,7 @@ public class RecaudacionIngreso {
     public RecaudacionIngreso(RecaudacionIngresosEntity recaudacionIngresosEntity) {
         this.id = recaudacionIngresosEntity.getId();
         this.conductor = new Conductor(recaudacionIngresosEntity.getConductorEntity());
-        this.estadosIngreso = new EstadosIngreso(recaudacionIngresosEntity.getRecaudacionesIngresosEstadosEntity());
+        this.estado = new EstadosIngreso(recaudacionIngresosEntity.getRecaudacionesIngresosEstadosEntity());
         this.dia = recaudacionIngresosEntity.getDia();
         this.turno = recaudacionIngresosEntity.getTurno();
         this.numeracion = recaudacionIngresosEntity.getNumeracion();
@@ -52,12 +52,12 @@ public class RecaudacionIngreso {
         this.conductor = conductor;
     }
 
-    public EstadosIngreso getEstadosIngreso() {
-        return estadosIngreso;
+    public EstadosIngreso getEstado() {
+        return estado;
     }
 
-    public void setEstadosIngreso(EstadosIngreso estadosIngreso) {
-        this.estadosIngreso = estadosIngreso;
+    public void setEstado(EstadosIngreso estado) {
+        this.estado = estado;
     }
 
     public Integer getDia() {
