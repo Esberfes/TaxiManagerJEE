@@ -133,6 +133,7 @@ CREATE TABLE `recaudaciones`
     `creado`            datetime       DEFAULT NULL,
     `actualizado`       datetime       DEFAULT NULL,
     PRIMARY KEY (`id`),
+    UNIQUE KEY `UNIQUE_RECAUDACIO_MES_ANO` (`ano`, `mes`),
     KEY `FK_RECAUDACION_LICENCIA_idx` (`id_licencia`),
     CONSTRAINT `FK_RECAUDACION_LICENCIA` FOREIGN KEY (`id_licencia`) REFERENCES `licencias` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE = InnoDB

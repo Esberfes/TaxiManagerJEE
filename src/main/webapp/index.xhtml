@@ -124,6 +124,11 @@
                 <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times"/>
             </p:confirmDialog>
 
+            <p:ajaxStatus style="display:block;height:50px; position: fixed; top: 20px; left: 20px;">
+                <f:facet name="start">
+                    <p:graphicImage name="/img/ajax-loader.gif"/>
+                </f:facet>
+            </p:ajaxStatus>
 
         </h:form>
     </f:view>

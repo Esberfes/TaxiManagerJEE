@@ -36,6 +36,9 @@
 
         <f:facet name="header">Ingresos</f:facet>
 
+        <p:ajax event="cellEdit" listener="#{RecaudacionFace.onCellIngresoEdit}" update=":form:messages"
+                oncomplete="updateRecaudacionIngresosTable()"/>
+
         <p:column headerText="Conductor" filterBy="#{ingreso.conductor.nombre}" sortBy="#{ingreso.conductor.nombre}">
             <p:cellEditor>
                 <f:facet name="output"><h:outputText value="#{ingreso.conductor.nombre}"/></f:facet>

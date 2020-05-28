@@ -44,6 +44,7 @@ public class RecaudacionFace implements Serializable {
 
     private Recaudacion selectedRecaudacion;
 
+    // Insert recaudacion
     private Integer licencia;
     private Integer servicios_inicio;
     private Integer servicios_fin;
@@ -55,6 +56,8 @@ public class RecaudacionFace implements Serializable {
     private Integer km_cargado_fin;
     private Integer mes;
     private Integer ano;
+
+    // Insert recaudacion ingreo
 
     @PostConstruct
     public void init() {
@@ -75,6 +78,24 @@ public class RecaudacionFace implements Serializable {
             }
         } catch (Throwable e) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error actualizando recaudacion", e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+    }
+
+    public void onCellIngresoEdit(CellEditEvent event) {
+        try {
+            Object oldValue = event.getOldValue();
+            Object newValue = event.getNewValue();
+            RecaudacionIngreso recaudacion = (RecaudacionIngreso) ((DataTable) event.getComponent()).getRowData();
+
+            recaudacionIngresosBean.update(recaudacion);
+
+            if (newValue != null && !newValue.equals(oldValue)) {
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Celda modificada", "Anterior: " + oldValue + ", Nuevo:" + newValue);
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+            }
+        } catch (Throwable e) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error actualizando ingreso", e.getMessage());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }

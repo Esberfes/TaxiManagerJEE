@@ -1,10 +1,13 @@
 package database;
 
+import entities.ConductorEntity;
 import entities.RecaudacionIngresosEntity;
+import entities.RecaudacionesIngresosEstadosEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortMeta;
 import org.primefaces.model.SortOrder;
+import pojos.RecaudacionIngreso;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -80,5 +83,20 @@ public class RecaudacionIngresoDbBean {
             query.setParameter(parameter.getKey(), getFilterFieldValue(parameter.getValue()));
 
         return query;
+    }
+
+    public void update(RecaudacionIngreso recaudacionIngreso) {
+        RecaudacionIngresosEntity recaudacionIngresosEntity = em.find(RecaudacionIngresosEntity.class, recaudacionIngreso.getId());
+        recaudacionIngresosEntity.setConductorEntity(new ConductorEntity(recaudacionIngreso.getConductor()));
+        recaudacionIngresosEntity.setDia(recaudacionIngreso.getDia());
+        recaudacionIngresosEntity.setTurno(recaudacionIngreso.getTurno());
+        recaudacionIngresosEntity.setNumeracion(recaudacionIngreso.getNumeracion());
+        recaudacionIngresosEntity.setAnulados(recaudacionIngreso.getAnulados());
+        recaudacionIngresosEntity.setAnulados(recaudacionIngreso.getAnulados());
+        recaudacionIngresosEntity.setRecaudacion(recaudacionIngreso.getRecaudacion());
+        recaudacionIngresosEntity.setObservaciones(recaudacionIngreso.getObservaciones());
+        recaudacionIngresosEntity.setRecaudacionesIngresosEstadosEntity(new RecaudacionesIngresosEstadosEntity(recaudacionIngreso.getEstado()));
+
+        em.merge(recaudacionIngresosEntity);
     }
 }

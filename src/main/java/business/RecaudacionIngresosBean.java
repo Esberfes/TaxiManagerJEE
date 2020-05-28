@@ -41,4 +41,8 @@ public class RecaudacionIngresosBean implements LazyLoad<RecaudacionIngreso> {
     public int getTotal(Map<String, FilterMeta> filterMeta, Long parentId) {
         return recaudacionIngresoDbBean.getTotal(filterMeta, parentId);
     }
+
+    public void update(RecaudacionIngreso recaudacionIngreso) {
+        recaudacionIngresoDbBean.update(recaudacionIngreso);
+    }
 }
