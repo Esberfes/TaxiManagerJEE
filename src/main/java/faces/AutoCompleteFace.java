@@ -37,6 +37,12 @@ public class AutoCompleteFace implements Serializable {
     @Inject
     private EstadosIngresosBean estadosIngresosBean;
 
+    @Inject
+    private FormasPagosBean formasPagosBean;
+
+    @Inject
+    private ConceptosGastosBean conceptosGastosBean;
+
     public List<String> completeEmpesa(String value) {
         try {
             return empresasBean.findByName(value).stream().map(Empresa::getNombre).collect(Collectors.toList());
@@ -99,6 +105,30 @@ public class AutoCompleteFace implements Serializable {
 
         } catch (Throwable e) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error auto completando tipos de gastos", e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            PrimeFaces.current().ajax().update("form:messages");
+            return new ArrayList<>();
+        }
+    }
+
+    public List<String> completeFormaPago(String value) {
+        try {
+            return formasPagosBean.findByName(value).stream().map(FormasPago::getNombre).collect(Collectors.toList());
+
+        } catch (Throwable e) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error auto completando formas de pago", e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            PrimeFaces.current().ajax().update("form:messages");
+            return new ArrayList<>();
+        }
+    }
+
+    public List<String> completeConceptos(String value) {
+        try {
+            return conceptosGastosBean.findByName(value).stream().map(ConceptosGastos::getNombre).collect(Collectors.toList());
+
+        } catch (Throwable e) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error auto completando conceptos de gasto", e.getMessage());
             FacesContext.getCurrentInstance().addMessage(null, msg);
             PrimeFaces.current().ajax().update("form:messages");
             return new ArrayList<>();

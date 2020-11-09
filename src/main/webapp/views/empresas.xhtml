@@ -41,9 +41,12 @@
 
         <p:ajax event="rowEditInit" oncomplete="$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).hide()});" />
 
-        <p:ajax event="rowEdit" listener="#{RecaudacionFace.onRowIngresoEdit}" update=":form:messages" oncomplete="PF('recaudacionIngresosTable').filter();$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).show()});"/>
+        <p:ajax event="rowEdit" listener="#{EmpresasFace.onRowIngresoEdit}" update=":form:messages"
+                oncomplete="PF('empresasTable').filter();$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).show()});"/>
 
-        <p:ajax event="rowEditCancel" listener="#{RecaudacionFace.onRowCancel}" update=":form:messages" onstart="$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).show()});"/>
+        <p:ajax event="rowEditCancel" listener="#{EmpresasFace.onRowCancel}" update=":form:messages"
+                onstart="$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).show()});"/>
+
         <p:column headerText="Nombre" filterBy="#{empresa.nombre}" sortBy="#{empresa.nombre}">
             <p:cellEditor>
                 <f:facet name="output"><h:outputText value="#{empresa.nombre}"/></f:facet>

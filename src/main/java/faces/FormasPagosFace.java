@@ -3,13 +3,9 @@ package faces;
 import business.FormasPagosBean;
 import datamodels.LazyFormasPagoDataModel;
 import org.apache.log4j.Logger;
-import org.primefaces.component.datatable.DataTable;
-import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.LazyDataModel;
-import pojos.Conductor;
 import pojos.FormasPago;
-import pojos.RecaudacionIngreso;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -53,7 +49,7 @@ public class FormasPagosFace implements Serializable {
         }
     }
 
-    public void onRowCancel(RowEditEvent<RecaudacionIngreso> event) {
+    public void onRowCancel(RowEditEvent<FormasPago> event) {
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Edición cancelada",  String.valueOf(event.getObject().getId()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }

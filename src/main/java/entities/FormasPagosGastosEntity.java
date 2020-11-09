@@ -30,7 +30,10 @@ public class FormasPagosGastosEntity {
     }
 
     public FormasPagosGastosEntity(FormasPago formasPago) {
+        this.id = formasPago.getId();
         this.nombre = formasPago.getNombre();
+        this.creado = formasPago.getCreado();
+        this.actualizado = formasPago.getActualizado();
     }
 
     @PrePersist

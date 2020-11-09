@@ -113,4 +113,15 @@ public class ConceptosGastosDbBean {
     public void delete(Long id) {
         em.remove(em.find(ConceptosGastosEntity.class, id));
     }
+
+    public List<ConceptosGastosEntity> findByName(String value) {
+        Query query = em.createNativeQuery("SELECT * FROM conceptos_gastos WHERE nombre LIKE '%" + value + "%'  ORDER BY nombre ",
+                ConceptosGastosEntity.class);
+
+        return query.setMaxResults(10).getResultList();
+    }
+
+    public ConceptosGastosEntity findSingleByName(String value) {
+        return findByName(value).get(0);
+    }
 }

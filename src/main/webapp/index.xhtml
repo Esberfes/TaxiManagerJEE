@@ -15,6 +15,7 @@
     <p:importEnum type="enums.ShiftType" var="ShiftType" allSuffix="ALL_ENUM_VALUES"/>
 
     <h:outputScript name="js/charts.js"/>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </h:head>
 
 <h:body>
@@ -31,12 +32,18 @@
                                         action="#{NavigationFace.navigate(NavigationEnum.recaudacion)}"
                                         styleClass="#{NavigationFace.navigation eq NavigationEnum.recaudacion ? 'active' : ''}"/>
 
-                            <p:menuitem value="Gastos" update="messages content menu" ajax="true"/>
+                            <p:menuitem value="Gastos" update="messages content menu" ajax="true"
+                                        action="#{NavigationFace.navigate(NavigationEnum.gastos)}"
+                                        styleClass="#{NavigationFace.navigation eq NavigationEnum.gastos ? 'active' : ''}"/>
                         </p:submenu>
 
                         <p:submenu label="Salidas">
                             <p:menuitem value="Resultados" update="messages content menu" ajax="true"/>
                             <p:menuitem value="Resumen" update="messages content menu" ajax="true"/>
+
+                            <p:menuitem value="Graficas" update="messages content menu" ajax="true"
+                                        action="#{NavigationFace.navigate(NavigationEnum.graficas)}"
+                                        styleClass="#{NavigationFace.navigation eq NavigationEnum.graficas ? 'active' : ''}"/>
                         </p:submenu>
 
                         <p:submenu label="Configuracion">
@@ -90,12 +97,14 @@
                         <ui:include src="./views/recaudacion.xhtml"/>
                     </p:outputPanel>
 
-                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.gastos}">
+                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum  .gastos}">
                         <ui:include src="./views/gastos.xhtml"/>
                     </p:outputPanel>
 
                     <!-- SALIDAS -->
-
+                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.graficas}">
+                        <ui:include src="./views/graficas.xhtml"/>
+                    </p:outputPanel>
                     <!-- CONFIGURACION  -->
                     <!-- Licencias -->
                     <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.licencias}">
@@ -171,7 +180,7 @@
         body .ui-datatable .ui-datatable-data > tr .ui-row-editor .ui-icon.ui-icon-pencil {
             color: #007ad9;
             vertical-align: bottom;
-            font-size: 3rem;
+            font-size: 2.5rem;
         }
 
         body .ui-datatable .ui-datatable-data > tr.ui-state-highlight {

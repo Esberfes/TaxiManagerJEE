@@ -4,13 +4,9 @@ import business.EmpresasBean;
 import business.LicenciasBean;
 import datamodels.LazyLicenciaDataModel;
 import org.apache.log4j.Logger;
-import org.primefaces.component.datatable.DataTable;
-import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.LazyDataModel;
-import pojos.FormasPago;
 import pojos.Licencia;
-import pojos.RecaudacionIngreso;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -60,7 +56,7 @@ public class LicenciasFace implements Serializable {
         }
     }
 
-    public void onRowCancel(RowEditEvent<RecaudacionIngreso> event) {
+    public void onRowCancel(RowEditEvent<Licencia> event) {
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Edición cancelada",  String.valueOf(event.getObject().getId()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }

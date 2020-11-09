@@ -1,5 +1,7 @@
 package entities;
 
+import pojos.Gasto;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -14,6 +16,18 @@ public class GastosEntity {
     @Column(name = "id", unique = true, nullable = false)
     private Integer id;
 
+    @ManyToOne
+    @JoinColumn(name = "id_licencia", referencedColumnName = "id")
+    private LicenciasEntity licenciasEntity;
+
+    @ManyToOne
+    @JoinColumn(name = "id_forma_pago", referencedColumnName = "id")
+    private FormasPagosGastosEntity formasPagosGastosEntity;
+
+    @ManyToOne
+    @JoinColumn(name = "id_concepto", referencedColumnName = "id")
+    private ConceptosGastosEntity conceptosGastosEntity;
+
     @Column(name = "importe")
     private BigDecimal importe;
 
@@ -24,6 +38,20 @@ public class GastosEntity {
     @Column(name = "actualizado")
     @Temporal(TemporalType.TIMESTAMP)
     private Date actualizado;
+
+    public GastosEntity() {
+
+    }
+
+    public GastosEntity(Gasto gasto) {
+        this.id = gasto.getId();
+        this.licenciasEntity = new LicenciasEntity(gasto.getLicencia());
+        this.formasPagosGastosEntity = new FormasPagosGastosEntity(gasto.getFormaPago());
+        this.conceptosGastosEntity = new ConceptosGastosEntity(gasto.getConcepto());
+        this.importe = gasto.getImporte();
+        this.actualizado = gasto.getActualizado();
+        this.creado = gasto.getCreado();
+    }
 
     @PrePersist
     public void prePersist() {
@@ -50,5 +78,61 @@ public class GastosEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, importe, creado, actualizado);
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public LicenciasEntity getLicenciasEntity() {
+        return licenciasEntity;
+    }
+
+    public void setLicenciasEntity(LicenciasEntity licenciasEntity) {
+        this.licenciasEntity = licenciasEntity;
+    }
+
+    public FormasPagosGastosEntity getFormasPagosGastosEntity() {
+        return formasPagosGastosEntity;
+    }
+
+    public void setFormasPagosGastosEntity(FormasPagosGastosEntity formasPagosGastosEntity) {
+        this.formasPagosGastosEntity = formasPagosGastosEntity;
+    }
+
+    public ConceptosGastosEntity getConceptosGastosEntity() {
+        return conceptosGastosEntity;
+    }
+
+    public void setConceptosGastosEntity(ConceptosGastosEntity conceptosGastosEntity) {
+        this.conceptosGastosEntity = conceptosGastosEntity;
+    }
+
+    public BigDecimal getImporte() {
+        return importe;
+    }
+
+    public void setImporte(BigDecimal importe) {
+        this.importe = importe;
+    }
+
+    public Date getCreado() {
+        return creado;
+    }
+
+    public void setCreado(Date creado) {
+        this.creado = creado;
+    }
+
+    public Date getActualizado() {
+        return actualizado;
+    }
+
+    public void setActualizado(Date actualizado) {
+        this.actualizado = actualizado;
     }
 }

@@ -4,13 +4,9 @@ import business.ConductoresBean;
 import business.EmpresasBean;
 import datamodels.LazyConductorDataModel;
 import org.apache.log4j.Logger;
-import org.primefaces.component.datatable.DataTable;
-import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.LazyDataModel;
-import pojos.ConceptosGastos;
 import pojos.Conductor;
-import pojos.RecaudacionIngreso;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -65,7 +61,7 @@ public class ConductoresFace implements Serializable {
         }
     }
 
-    public void onRowCancel(RowEditEvent<RecaudacionIngreso> event) {
+    public void onRowCancel(RowEditEvent<Conductor> event) {
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Edición cancelada",  String.valueOf(event.getObject().getId()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }

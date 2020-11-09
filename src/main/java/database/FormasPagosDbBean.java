@@ -94,4 +94,16 @@ public class FormasPagosDbBean {
     public void delete(Long id) {
         em.remove(em.find(FormasPagosGastosEntity.class, id));
     }
+
+    public List<FormasPagosGastosEntity> findByName(String value) {
+        Query query = em.createNativeQuery("SELECT * FROM formas_pagos_gastos WHERE nombre LIKE '%" + value + "%'  ORDER BY nombre ",
+                FormasPagosGastosEntity.class);
+
+        return query.setMaxResults(10).getResultList();
+    }
+
+    public FormasPagosGastosEntity findSingleByName(String value) {
+        return findByName(value).get(0);
+    }
 }
+

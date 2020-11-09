@@ -4,12 +4,9 @@ import business.ConceptosGastosBean;
 import business.TiposGastosBean;
 import datamodels.LazyConceptosGastosDataModel;
 import org.apache.log4j.Logger;
-import org.primefaces.component.datatable.DataTable;
-import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.LazyDataModel;
 import pojos.ConceptosGastos;
-import pojos.RecaudacionIngreso;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -57,27 +54,9 @@ public class ConceptosGastosFace implements Serializable {
         }
     }
 
-    public void onRowCancel(RowEditEvent<RecaudacionIngreso> event) {
+    public void onRowCancel(RowEditEvent<ConceptosGastos> event) {
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Edición cancelada",  String.valueOf(event.getObject().getId()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
-
-    public void onCellEdit(CellEditEvent event) {
-        try {
-            Object oldValue = event.getOldValue();
-            Object newValue = event.getNewValue();
-            ConceptosGastos conceptosGastos = (ConceptosGastos) ((DataTable) event.getComponent()).getRowData();
-
-            conceptosGastosBean.update(conceptosGastos);
-
-            if (newValue != null && !newValue.equals(oldValue)) {
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Celda modificada", "Anterior: " + oldValue + ", Nuevo:" + newValue);
-                FacesContext.getCurrentInstance().addMessage(null, msg);
-            }
-        } catch (Throwable e) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error actualizando concepto de gasto", e.getMessage());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-        }
     }
 
 

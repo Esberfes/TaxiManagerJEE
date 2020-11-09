@@ -48,9 +48,11 @@
 
         <p:ajax event="rowEditInit" oncomplete="$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).hide()});" />
 
-        <p:ajax event="rowEdit" listener="#{RecaudacionFace.onRowIngresoEdit}" update=":form:messages" oncomplete="PF('recaudacionIngresosTable').filter();$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).show()});"/>
+        <p:ajax event="rowEdit" listener="#{TiposGastosFace.onRowIngresoEdit}" update=":form:messages"
+                oncomplete="PF('tiposGastoTable').filter();$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).show()});"/>
 
-        <p:ajax event="rowEditCancel" listener="#{RecaudacionFace.onRowCancel}" update=":form:messages" onstart="$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).show()});"/>
+        <p:ajax event="rowEditCancel" listener="#{TiposGastosFace.onRowCancel}" update=":form:messages"
+                onstart="$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).show()});"/>
         <p:column headerText="Nombre" filterBy="#{tipoGasto.nombre}" sortBy="#{tipoGasto.nombre}">
             <p:cellEditor>
                 <f:facet name="output"><h:outputText value="#{tipoGasto.nombre}"/></f:facet>
@@ -70,11 +72,18 @@
             </p:cellEditor>
         </p:column>
 
-        <p:column headerText="" style="text-align: center">
-            <p:commandButton icon="fas fa-trash-alt" ajax="true" update=":form:messages tiposGastoTable"
-                             action="#{TiposGastosFace.delete(tipoGasto.id)}">
-                <p:confirm header="Confirmation" message="Estás seguro?" icon="pi pi-exclamation-triangle"/>
-            </p:commandButton>
+
+        <p:column style="width: 100px; padding: 0;">
+            <p:rowEditor/>
+        </p:column>
+
+        <p:column headerText="" style="width: 40px">
+            <p:outputPanel style="display: flex; justify-content: center; align-items: center">
+                <p:commandButton icon="fas fa-trash-alt" ajax="true" update=":form:messages tiposGastoTable"
+                                 action="#{TiposGastosFace.delete(tipoGasto.id)}">
+                    <p:confirm header="Confirmation" message="Estás seguro?" icon="pi pi-exclamation-triangle"/>
+                </p:commandButton>
+            </p:outputPanel>
         </p:column>
 
     </p:dataTable>

@@ -53,4 +53,12 @@ public class ConceptosGastosBean implements LazyLoad<ConceptosGastos> {
     public void insert(ConceptosGastos conceptosGastos) {
         conceptosGastosDbBean.insert(conceptosGastos);
     }
+
+    public List<ConceptosGastos> findByName(String value) {
+        return conceptosGastosDbBean.findByName(value).stream().map(ConceptosGastos::new).collect(Collectors.toList());
+    }
+
+    public ConceptosGastos findSingleByName(String value) {
+        return new ConceptosGastos(conceptosGastosDbBean.findSingleByName(value));
+    }
 }

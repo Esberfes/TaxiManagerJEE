@@ -11,7 +11,126 @@
 
 <ui:composition>
 
+    <p:panel id="insertGasto" header="Nuevo gasto" styleClass="shadow" style="margin-bottom: 25px">
+        <p:outputPanel styleClass="p-grid">
 
+            <p:outputPanel styleClass="p-col">
+                <p:outputLabel>Licencia</p:outputLabel>
+                <p:autoComplete inputStyle="width: 100%" style="width: 100%" minQueryLength="0"
+                                value="#{GastosFace.licencia}"
+                                completeMethod="#{AutoCompleteFace.completeLicencia}"
+                                forceSelection="true" effect="fade"/>
+            </p:outputPanel>
+
+            <p:outputPanel styleClass="p-col">
+                <p:outputLabel>Forma de pago</p:outputLabel>
+                <p:autoComplete inputStyle="width: 100%" style="width: 100%" minQueryLength="0"
+                                value="#{GastosFace.formaPago}"
+                                completeMethod="#{AutoCompleteFace.completeFormaPago}"
+                                forceSelection="true" effect="fade"/>
+            </p:outputPanel>
+
+            <p:outputPanel styleClass="p-col">
+                <p:outputLabel>Concepto</p:outputLabel>
+                <p:autoComplete inputStyle="width: 100%" style="width: 100%" minQueryLength="0"
+                                value="#{GastosFace.concepto}"
+                                completeMethod="#{AutoCompleteFace.completeConceptos}"
+                                forceSelection="true" effect="fade"/>
+            </p:outputPanel>
+
+            <p:outputPanel styleClass="p-col">
+                <p:outputLabel>Importe</p:outputLabel>
+                <p:inputNumber converter="javax.faces.BigDecimal" value="#{GastosFace.importe}" style="width:100%"/>
+            </p:outputPanel>
+
+            <p:outputPanel styleClass="p-col" style="justify-content: flex-end;align-items: flex-end;display: flex;">
+                <p:commandButton value="Insertar" action="#{GastosFace.insert}" ajax="true"
+                                 update=":form:messages insertGasto gastosTable"/>
+            </p:outputPanel>
+
+        </p:outputPanel>
+    </p:panel>
+
+    <p:dataTable widgetVar="gastosTable" id="gastosTable" var="gasto" value="#{GastosFace.lazyModel}"
+                 styleClass="shadow"
+                 lazy="true"
+                 editable="true"
+                 rows="10"
+                 paginator="true"
+                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                 rowsPerPageTemplate="10,15,20,25,30">
+
+        <f:facet name="header">Gastos</f:facet>
+
+        <p:ajax event="rowEditInit"
+                oncomplete="$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).hide()});"/>
+
+        <p:ajax event="rowEdit" listener="#{GastosFace.onRowEdit}" update=":form:messages"
+                oncomplete="PF('gastosTable').filter();$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).show()});"/>
+
+        <p:ajax event="rowEditCancel" listener="#{GastosFace.onRowCancel}" update=":form:messages"
+                onstart="$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).show()});"/>
+
+
+        <p:column headerText="Licencia" filterBy="#{gasto.licencia.codigo}" sortBy="#{gasto.licencia.codigo}">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{gasto.licencia.codigo}"/></f:facet>
+                <f:facet name="input">
+                    <p:autoComplete inputStyle="width: 100%" style="width: 100%" minQueryLength="0"
+                                    value="#{gasto.licencia.codigo}"
+                                    completeMethod="#{AutoCompleteFace.completeLicencia}"
+                                    forceSelection="true" effect="fade"/>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="Forma de pago" filterBy="#{gasto.formaPago.nombre}" sortBy="#{gasto.formaPago.nombre}">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{gasto.formaPago.nombre}"/></f:facet>
+                <f:facet name="input">
+                    <p:autoComplete inputStyle="width: 100%" style="width: 100%" minQueryLength="0"
+                                    value="#{gasto.formaPago.nombre}"
+                                    completeMethod="#{AutoCompleteFace.completeFormaPago}"
+                                    forceSelection="true" effect="fade"/>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="Concepto" filterBy="#{gasto.concepto.nombre}" sortBy="#{gasto.concepto.nombre}">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{gasto.concepto.nombre}"/></f:facet>
+                <f:facet name="input">
+                    <p:autoComplete inputStyle="width: 100%" style="width: 100%" minQueryLength="0"
+                                    value="#{gasto.concepto.nombre}"
+                                    completeMethod="#{AutoCompleteFace.completeConceptos}"
+                                    forceSelection="true" effect="fade"/>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="Importe" filterBy="#{gasto.importe}" sortBy="#{gasto.importe}">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{gasto.importe}"/></f:facet>
+                <f:facet name="input"><p:inputNumber converter="javax.faces.BigDecimal" value="#{gasto.importe}"
+                                                     style="width:100%"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+
+
+        <p:column style="width: 100px; padding: 0;">
+            <p:rowEditor/>
+        </p:column>
+
+        <p:column headerText="" style="width: 40px">
+            <p:outputPanel style="display: flex; justify-content: center; align-items: center">
+                <p:commandButton icon="fas fa-trash-alt" ajax="true" update=":form:messages gastosTable"
+                                 action="#{LicenciasFace.delete(licencia.id)}">
+                    <p:confirm header="Confirmation" message="Estás seguro?" icon="pi pi-exclamation-triangle"/>
+                </p:commandButton>
+            </p:outputPanel>
+        </p:column>
+    </p:dataTable>
 </ui:composition>
 
 </html>

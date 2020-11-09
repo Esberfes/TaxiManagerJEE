@@ -53,4 +53,12 @@ public class FormasPagosBean implements LazyLoad<FormasPago> {
     public void insert(FormasPago formasPago) {
         formasPagosDbBean.insert(formasPago);
     }
+
+    public List<FormasPago> findByName(String value) {
+        return formasPagosDbBean.findByName(value).stream().map(FormasPago::new).collect(Collectors.toList());
+    }
+
+    public FormasPago findSingleByName(String value) {
+        return new FormasPago(formasPagosDbBean.findSingleByName(value));
+    }
 }

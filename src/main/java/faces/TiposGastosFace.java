@@ -3,12 +3,8 @@ package faces;
 import business.TiposGastosBean;
 import datamodels.LazyTiposGastoDataModel;
 import org.apache.log4j.Logger;
-import org.primefaces.component.datatable.DataTable;
-import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.LazyDataModel;
-import pojos.FormasPago;
-import pojos.RecaudacionIngreso;
 import pojos.TiposGasto;
 
 import javax.annotation.PostConstruct;
@@ -54,7 +50,7 @@ public class TiposGastosFace implements Serializable {
         }
     }
 
-    public void onRowCancel(RowEditEvent<RecaudacionIngreso> event) {
+    public void onRowCancel(RowEditEvent<TiposGasto> event) {
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Edición cancelada",  String.valueOf(event.getObject().getId()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }

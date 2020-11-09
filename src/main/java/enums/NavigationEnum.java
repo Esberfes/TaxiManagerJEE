@@ -12,6 +12,8 @@ public enum NavigationEnum {
      */
     resultados,
     resumen,
+    graficas,
+
     /**
      * Configuracion
      */

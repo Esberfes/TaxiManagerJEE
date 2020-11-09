@@ -3,13 +3,9 @@ package faces;
 import business.EstadosIngresosBean;
 import datamodels.LazyEstadosIngresoDataModel;
 import org.apache.log4j.Logger;
-import org.primefaces.component.datatable.DataTable;
-import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.LazyDataModel;
-import pojos.Conductor;
 import pojos.EstadosIngreso;
-import pojos.RecaudacionIngreso;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -53,7 +49,7 @@ public class EstadosIngresosFace implements Serializable {
         }
     }
 
-    public void onRowCancel(RowEditEvent<RecaudacionIngreso> event) {
+    public void onRowCancel(RowEditEvent<EstadosIngreso> event) {
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Edición cancelada",  String.valueOf(event.getObject().getId()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }

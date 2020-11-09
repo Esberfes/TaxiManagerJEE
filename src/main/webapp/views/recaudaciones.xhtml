@@ -111,7 +111,8 @@
 
         <p:ajax event="rowEditInit" oncomplete="$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).hide()});" />
 
-        <p:ajax event="rowEdit" listener="#{RecaudacionFace.onRowRecaudacionEdit}" update=":form:messages" oncomplete="PF('recaudacionIngresosTable').filter();$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).show()});"/>
+        <p:ajax event="rowEdit" listener="#{RecaudacionFace.onRowRecaudacionEdit}" update=":form:messages"
+                oncomplete="PF('recaudacionTable').filter();$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).show()});"/>
 
         <p:ajax event="rowEditCancel" listener="#{RecaudacionFace.onRowCancel}" update=":form:messages" onstart="$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).show()});"/>
 
@@ -218,7 +219,7 @@
             </p:cellEditor>
         </p:column>
 
-        <p:column style="width: 40px; padding: 0;">
+        <p:column style="width: 65px;">
             <p:rowEditor/>
         </p:column>
 
