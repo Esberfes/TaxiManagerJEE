@@ -6,8 +6,10 @@ import datamodels.LazyConceptosGastosDataModel;
 import org.apache.log4j.Logger;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.CellEditEvent;
+import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.LazyDataModel;
 import pojos.ConceptosGastos;
+import pojos.RecaudacionIngreso;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -42,6 +44,24 @@ public class ConceptosGastosFace implements Serializable {
         lazyModel = new LazyConceptosGastosDataModel(conceptosGastosBean);
     }
 
+    public void onRowEdit(RowEditEvent<ConceptosGastos> event) {
+        try {
+            conceptosGastosBean.update(event.getObject());
+
+             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Entrada modificada", String.valueOf(event.getObject().getId()) );
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+
+        } catch (Throwable e) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error actualizando entrada", e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+    }
+
+    public void onRowCancel(RowEditEvent<RecaudacionIngreso> event) {
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Edición cancelada",  String.valueOf(event.getObject().getId()));
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
     public void onCellEdit(CellEditEvent event) {
         try {
             Object oldValue = event.getOldValue();
@@ -59,6 +79,7 @@ public class ConceptosGastosFace implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
+
 
     public void insert() {
         try {

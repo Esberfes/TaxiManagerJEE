@@ -1,5 +1,7 @@
 package entities;
 
+import pojos.Conductor;
+import pojos.EstadosIngreso;
 import pojos.RecaudacionIngreso;
 
 import javax.persistence.*;
@@ -58,7 +60,17 @@ public class RecaudacionIngresosEntity {
     }
 
     public RecaudacionIngresosEntity(RecaudacionIngreso recaudacionIngreso) {
-
+        this.id = recaudacionIngreso.getId();
+        this.conductorEntity = new ConductorEntity(recaudacionIngreso.getConductor());
+        this.recaudacionesIngresosEstadosEntity = new RecaudacionesIngresosEstadosEntity(recaudacionIngreso.getEstado());
+        this.dia = recaudacionIngreso.getDia();
+        this.turno = recaudacionIngreso.getTurno();
+        this.numeracion = recaudacionIngreso.getNumeracion();
+        this.anulados = recaudacionIngreso.getAnulados();
+        this.recaudacion = recaudacionIngreso.getRecaudacion();
+        this.observaciones = recaudacionIngreso.getObservaciones();
+        this.creado = recaudacionIngreso.getCreado();
+        this.actualizado = recaudacionIngreso.getActualizado();
     }
 
     @PrePersist

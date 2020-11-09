@@ -9,6 +9,7 @@ import pojos.EstadosIngreso;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -52,5 +53,13 @@ public class EstadosIngresosBean implements LazyLoad<EstadosIngreso> {
 
     public void insert(EstadosIngreso estadosIngreso) {
         estadosIngresoDbBean.insert(estadosIngreso);
+    }
+
+    public EstadosIngreso findSingleByName(String name) {
+        return new EstadosIngreso(estadosIngresoDbBean.findSingleByName(name));
+    }
+
+    public List<EstadosIngreso> findByName(String value) {
+        return estadosIngresoDbBean.findByName(value).stream().map(EstadosIngreso::new).collect(Collectors.toList());
     }
 }

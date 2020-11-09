@@ -1,18 +1,20 @@
 package faces;
 
-import business.LicenciasBean;
-import business.RecaudacionBean;
-import business.RecaudacionIngresosBean;
+import business.*;
 import datamodels.LazyRecaudacionDataModel;
 import datamodels.LazyRecaudacionIngresoDataModel;
 import org.apache.log4j.Logger;
+import org.primefaces.PrimeFaces;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.CellEditEvent;
+import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.LazyDataModel;
 import pojos.Recaudacion;
 import pojos.RecaudacionIngreso;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -37,6 +39,12 @@ public class RecaudacionFace implements Serializable {
     private LicenciasBean licenciasBean;
 
     @Inject
+    private ConductoresBean conductoresBean;
+
+    @Inject
+    private EstadosIngresosBean estadosIngresosBean;
+
+    @Inject
     private transient Logger logger;
 
     private LazyDataModel<Recaudacion> lazyModel;
@@ -58,44 +66,84 @@ public class RecaudacionFace implements Serializable {
     private Integer ano;
 
     // Insert recaudacion ingreo
+    private String conductor;
+    private String estado;
+    private Integer dia;
+    private String turno;
+    private BigDecimal numeracion;
+    private BigDecimal anulados;
+    private BigDecimal recaudacion;
+    private String observaciones;
+
+    @PreDestroy
+    public void destroy() {
+        System.out.println();
+    }
 
     @PostConstruct
     public void init() {
         this.lazyModel = new LazyRecaudacionDataModel(recaudacionBean);
     }
 
-    public void onCellEdit(CellEditEvent event) {
+    public void onRowIngresoEdit(RowEditEvent<RecaudacionIngreso> event) {
         try {
-            Object oldValue = event.getOldValue();
-            Object newValue = event.getNewValue();
-            Recaudacion recaudacion = (Recaudacion) ((DataTable) event.getComponent()).getRowData();
+            recaudacionIngresosBean.update(event.getObject());
 
-            recaudacionBean.update(recaudacion);
+             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Entrada modificada", String.valueOf(event.getObject().getId()) );
+            FacesContext.getCurrentInstance().addMessage(null, msg);
 
-            if (newValue != null && !newValue.equals(oldValue)) {
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Celda modificada", "Anterior: " + oldValue + ", Nuevo:" + newValue);
-                FacesContext.getCurrentInstance().addMessage(null, msg);
-            }
         } catch (Throwable e) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error actualizando recaudacion", e.getMessage());
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error actualizando entrada", e.getMessage());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
 
-    public void onCellIngresoEdit(CellEditEvent event) {
+    public void onRowRecaudacionEdit(RowEditEvent<Recaudacion> event) {
         try {
-            Object oldValue = event.getOldValue();
-            Object newValue = event.getNewValue();
-            RecaudacionIngreso recaudacion = (RecaudacionIngreso) ((DataTable) event.getComponent()).getRowData();
+            recaudacionBean.update(event.getObject());
 
-            recaudacionIngresosBean.update(recaudacion);
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Entrada modificada", String.valueOf(event.getObject().getId()) );
+            FacesContext.getCurrentInstance().addMessage(null, msg);
 
-            if (newValue != null && !newValue.equals(oldValue)) {
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Celda modificada", "Anterior: " + oldValue + ", Nuevo:" + newValue);
-                FacesContext.getCurrentInstance().addMessage(null, msg);
-            }
         } catch (Throwable e) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error actualizando ingreso", e.getMessage());
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error actualizando entrada", e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+    }
+    public void onRowCancel(RowEditEvent<?> event) {
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Edición cancelada",  "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+
+    public void insertIngreso() {
+        try {
+            RecaudacionIngreso ingreso = new RecaudacionIngreso();
+
+            ingreso.setConductor(conductoresBean.findEmployeesByFullName(conductor).get(0));
+            ingreso.setEstado(estadosIngresosBean.findSingleByName(estado));
+            ingreso.setDia(dia);
+            ingreso.setTurno(turno);
+            ingreso.setNumeracion(numeracion);
+            ingreso.setRecaudacion(recaudacion);
+            ingreso.setAnulados(anulados);
+            ingreso.setObservaciones(observaciones);
+
+            selectedRecaudacion.addRecaudacionIngresos(ingreso);
+
+            recaudacionIngresosBean.insert(ingreso, selectedRecaudacion);
+
+            this.conductor = null;
+            this.estado = null;
+            this.dia = null;
+            this.turno = null;
+            this.numeracion = null;
+            this.anulados = null;
+            this.recaudacion = null;
+            this.observaciones = null;
+
+        } catch (Throwable e) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error insertando ingreso", e.getMessage());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
@@ -146,6 +194,18 @@ public class RecaudacionFace implements Serializable {
     public void delete(Long id) {
         try {
             recaudacionBean.delete(id);
+
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "recaudacion eliminado con éxito", "");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        } catch (Throwable e) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error eliminado recaudacion", e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+    }
+
+    public void deleteIngreso(Long id) {
+        try {
+            recaudacionIngresosBean.delete(id);
 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "recaudacion eliminado con éxito", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -265,6 +325,70 @@ public class RecaudacionFace implements Serializable {
 
     public void setSelectedRecaudacion(Recaudacion selectedRecaudacion) {
         this.selectedRecaudacion = selectedRecaudacion;
+    }
+
+    public String getConductor() {
+        return conductor;
+    }
+
+    public void setConductor(String conductor) {
+        this.conductor = conductor;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public Integer getDia() {
+        return dia;
+    }
+
+    public void setDia(Integer dia) {
+        this.dia = dia;
+    }
+
+    public String getTurno() {
+        return turno;
+    }
+
+    public void setTurno(String turno) {
+        this.turno = turno;
+    }
+
+    public BigDecimal getNumeracion() {
+        return numeracion;
+    }
+
+    public void setNumeracion(BigDecimal numeracion) {
+        this.numeracion = numeracion;
+    }
+
+    public BigDecimal getAnulados() {
+        return anulados;
+    }
+
+    public void setAnulados(BigDecimal anulados) {
+        this.anulados = anulados;
+    }
+
+    public BigDecimal getRecaudacion() {
+        return recaudacion;
+    }
+
+    public void setRecaudacion(BigDecimal recaudacion) {
+        this.recaudacion = recaudacion;
+    }
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
     }
 
     public void onSelectedRecaudacion(Long id) {

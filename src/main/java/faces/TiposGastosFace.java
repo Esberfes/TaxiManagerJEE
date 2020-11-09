@@ -5,7 +5,10 @@ import datamodels.LazyTiposGastoDataModel;
 import org.apache.log4j.Logger;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.CellEditEvent;
+import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.LazyDataModel;
+import pojos.FormasPago;
+import pojos.RecaudacionIngreso;
 import pojos.TiposGasto;
 
 import javax.annotation.PostConstruct;
@@ -38,22 +41,22 @@ public class TiposGastosFace implements Serializable {
         this.lazyModel = new LazyTiposGastoDataModel(tiposGastosBean);
     }
 
-    public void onCellEdit(CellEditEvent event) {
+    public void onRowEdit(RowEditEvent<TiposGasto> event) {
         try {
-            Object oldValue = event.getOldValue();
-            Object newValue = event.getNewValue();
-            TiposGasto tiposGasto = (TiposGasto) ((DataTable) event.getComponent()).getRowData();
+            tiposGastosBean.update(event.getObject());
 
-            tiposGastosBean.update(tiposGasto);
+             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Entrada modificada", String.valueOf(event.getObject().getId()) );
+            FacesContext.getCurrentInstance().addMessage(null, msg);
 
-            if (newValue != null && !newValue.equals(oldValue)) {
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Celda modificada", "Anterior: " + oldValue + ", Nuevo:" + newValue);
-                FacesContext.getCurrentInstance().addMessage(null, msg);
-            }
         } catch (Throwable e) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error actualizando tipo de gasto", e.getMessage());
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error actualizando entrada", e.getMessage());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
+    }
+
+    public void onRowCancel(RowEditEvent<RecaudacionIngreso> event) {
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Edición cancelada",  String.valueOf(event.getObject().getId()));
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     public void insert() {

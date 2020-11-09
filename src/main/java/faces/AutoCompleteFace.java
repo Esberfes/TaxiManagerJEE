@@ -1,12 +1,8 @@
 package faces;
 
-import business.EmpresasBean;
-import business.LicenciasBean;
-import business.TiposGastosBean;
+import business.*;
 import org.primefaces.PrimeFaces;
-import pojos.Empresa;
-import pojos.Licencia;
-import pojos.TiposGasto;
+import pojos.*;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -35,6 +31,12 @@ public class AutoCompleteFace implements Serializable {
     @Inject
     private LicenciasBean licenciasBean;
 
+    @Inject
+    private ConductoresBean conductoresBean;
+
+    @Inject
+    private EstadosIngresosBean estadosIngresosBean;
+
     public List<String> completeEmpesa(String value) {
         try {
             return empresasBean.findByName(value).stream().map(Empresa::getNombre).collect(Collectors.toList());
@@ -47,6 +49,20 @@ public class AutoCompleteFace implements Serializable {
         }
     }
 
+    public List<String> completeConductor(String value) {
+        try {
+            return conductoresBean.findEmployeesByFullName(value).stream().map(Conductor::getNombre).collect(Collectors.toList());
+
+        } catch (Throwable e) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error auto completando conductores", e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            PrimeFaces.current().ajax().update("form:messages");
+
+            return new ArrayList<>();
+        }
+    }
+
+
     public List<String> completeTipoGasto(String value) {
         try {
             return tiposGastosBean.findByName(value).stream().map(TiposGasto::getNombre).collect(Collectors.toList());
@@ -58,6 +74,19 @@ public class AutoCompleteFace implements Serializable {
             return new ArrayList<>();
         }
     }
+
+    public List<String> completeEstadoIngreso(String value) {
+        try {
+            return estadosIngresosBean.findByName(value).stream().map(EstadosIngreso::getNombre).collect(Collectors.toList());
+
+        } catch (Throwable e) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error auto completando estados de ingreso de gastos", e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            PrimeFaces.current().ajax().update("form:messages");
+            return new ArrayList<>();
+        }
+    }
+
 
     public List<Integer> completeLicencia(String value) {
         try {

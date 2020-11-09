@@ -1,5 +1,6 @@
 package database;
 
+import entities.ConductorEntity;
 import entities.RecaudacionesIngresosEstadosEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.FilterMeta;
@@ -92,5 +93,18 @@ public class EstadosIngresoDbBean {
 
     public void insert(EstadosIngreso estadosIngreso) {
         em.persist(new RecaudacionesIngresosEstadosEntity(estadosIngreso));
+    }
+
+    public RecaudacionesIngresosEstadosEntity findSingleByName(String name) {
+        return em.createQuery("SELECT e FROM RecaudacionesIngresosEstadosEntity e WHERE nombre = :nombre",
+                RecaudacionesIngresosEstadosEntity.class).setParameter("nombre", name).getSingleResult();
+    }
+
+    public List<RecaudacionesIngresosEstadosEntity> findByName(String value) {
+
+        Query query = em.createNativeQuery( "SELECT * FROM recaudaciones_ingresos_estados WHERE nombre LIKE '%" + value + "%'  ORDER BY nombre ",
+                RecaudacionesIngresosEstadosEntity.class);
+
+        return query.setMaxResults(10).getResultList();
     }
 }

@@ -6,8 +6,11 @@ import datamodels.LazyConductorDataModel;
 import org.apache.log4j.Logger;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.CellEditEvent;
+import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.LazyDataModel;
+import pojos.ConceptosGastos;
 import pojos.Conductor;
+import pojos.RecaudacionIngreso;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -49,21 +52,22 @@ public class ConductoresFace implements Serializable {
     }
 
 
-    public void onCellEdit(CellEditEvent event) {
+    public void onRowEdit(RowEditEvent<Conductor> event) {
         try {
-            Object oldValue = event.getOldValue();
-            Object newValue = event.getNewValue();
-            Conductor conductor = (Conductor) ((DataTable) event.getComponent()).getRowData();
-            conductoresBean.update(conductor);
+            conductoresBean.update(event.getObject());
 
-            if (newValue != null && !newValue.equals(oldValue)) {
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Celda modificada", "Anterior: " + oldValue + ", Nuevo:" + newValue);
-                FacesContext.getCurrentInstance().addMessage(null, msg);
-            }
+             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Entrada modificada", String.valueOf(event.getObject().getId()) );
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+
         } catch (Throwable e) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error actualizando empleado", e.getMessage());
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error actualizando entrada", e.getMessage());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
+    }
+
+    public void onRowCancel(RowEditEvent<RecaudacionIngreso> event) {
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Edición cancelada",  String.valueOf(event.getObject().getId()));
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     public void insert() {

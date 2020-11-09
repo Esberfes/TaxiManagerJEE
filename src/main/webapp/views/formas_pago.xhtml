@@ -27,11 +27,10 @@
         </p:outputPanel>
     </p:panel>
 
-    <p:dataTable id="formasPagoTable" var="forma" value="#{FormasPagosFace.lazyModel}"
+    <p:dataTable id="formasPagoTable" widgetVar="formasPagoTable" var="forma" value="#{FormasPagosFace.lazyModel}"
                  styleClass="shadow"
                  lazy="true"
                  editable="true"
-                 editMode="cell"
                  rows="10"
                  paginator="true"
                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -41,7 +40,7 @@
         <f:facet name="header">Formas de pago</f:facet>
 
         <p:ajax event="cellEdit" listener="#{FormasPagosFace.onCellEdit}" update=":form:messages"
-                oncomplete="updateformasPagoTable()"/>
+                oncomplete="PF('formasPagoTable').filter()" />
 
         <p:column headerText="Nombre" filterBy="#{forma.nombre}" sortBy="#{forma.nombre}">
             <p:cellEditor>
@@ -50,16 +49,21 @@
             </p:cellEditor>
         </p:column>
 
-        <p:column headerText="" style="text-align: center">
-            <p:commandButton icon="fas fa-trash-alt" ajax="true" update=":form:messages formasPagoTable"
-                             action="#{FormasPagosFace.delete(forma.id)}">
-                <p:confirm header="Confirmation" message="Estás seguro?" icon="pi pi-exclamation-triangle"/>
-            </p:commandButton>
+        <p:column style="width: 100px; padding: 0;">
+            <p:rowEditor/>
+        </p:column>
+
+        <p:column headerText="" style="width: 40px">
+            <p:outputPanel style="display: flex; justify-content: center; align-items: center">
+                <p:commandButton icon="fas fa-trash-alt" ajax="true" update=":form:messages formasPagoTable"
+                                 action="#{FormasPagosFace.delete(forma.id)}">
+                    <p:confirm header="Confirmation" message="Estás seguro?" icon="pi pi-exclamation-triangle"/>
+                </p:commandButton>
+            </p:outputPanel>
         </p:column>
 
     </p:dataTable>
 
-    <p:remoteCommand name="updateformasPagoTable" update="formasPagoTable"/>
 
 </ui:composition>
 

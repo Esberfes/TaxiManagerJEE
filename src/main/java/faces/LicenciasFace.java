@@ -6,8 +6,11 @@ import datamodels.LazyLicenciaDataModel;
 import org.apache.log4j.Logger;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.CellEditEvent;
+import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.LazyDataModel;
+import pojos.FormasPago;
 import pojos.Licencia;
+import pojos.RecaudacionIngreso;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -44,21 +47,22 @@ public class LicenciasFace implements Serializable {
         this.lazyModel = new LazyLicenciaDataModel(licenciasBean);
     }
 
-    public void onCellEdit(CellEditEvent event) {
+    public void onRowEdit(RowEditEvent<Licencia> event) {
         try {
-            Object oldValue = event.getOldValue();
-            Object newValue = event.getNewValue();
-            Licencia licencia = (Licencia) ((DataTable) event.getComponent()).getRowData();
-            licenciasBean.update(licencia);
+            licenciasBean.update(event.getObject());
 
-            if (newValue != null && !newValue.equals(oldValue)) {
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Celda modificada", "Anterior: " + oldValue + ", Nuevo:" + newValue);
-                FacesContext.getCurrentInstance().addMessage(null, msg);
-            }
+             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Entrada modificada", String.valueOf(event.getObject().getId()) );
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+
         } catch (Throwable e) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error actualizando licencia", e.getMessage());
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error actualizando entrada", e.getMessage());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
+    }
+
+    public void onRowCancel(RowEditEvent<RecaudacionIngreso> event) {
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Edición cancelada",  String.valueOf(event.getObject().getId()));
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     public void insert() {

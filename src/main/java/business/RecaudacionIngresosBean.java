@@ -2,8 +2,11 @@ package business;
 
 import database.RecaudacionIngresoDbBean;
 import datamodels.LazyLoad;
+import entities.RecaudacionIngresosEntity;
+import entities.RecaudacionesEntity;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortMeta;
+import pojos.Recaudacion;
 import pojos.RecaudacionIngreso;
 
 import javax.ejb.LocalBean;
@@ -44,5 +47,16 @@ public class RecaudacionIngresosBean implements LazyLoad<RecaudacionIngreso> {
 
     public void update(RecaudacionIngreso recaudacionIngreso) {
         recaudacionIngresoDbBean.update(recaudacionIngreso);
+    }
+
+    public RecaudacionIngreso insert(RecaudacionIngreso ingreso, Recaudacion selectedRecaudacion) {
+        RecaudacionIngresosEntity recaudacionIngresosEntity = new RecaudacionIngresosEntity(ingreso);
+        recaudacionIngresosEntity.setRecaudacionesEntity(new RecaudacionesEntity(selectedRecaudacion));
+
+        return new RecaudacionIngreso(recaudacionIngresoDbBean.insert(recaudacionIngresosEntity));
+    }
+
+    public void delete(Long id) {
+        recaudacionIngresoDbBean.delete(id);
     }
 }

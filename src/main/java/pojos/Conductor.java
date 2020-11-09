@@ -7,6 +7,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
 
+import static utils.BigDecimalUtils.ensureNotNull;
+
 public class Conductor implements Serializable {
 
     private Long id;
@@ -27,11 +29,11 @@ public class Conductor implements Serializable {
         this.id = conductorEntity.getId();
         this.nombre = conductorEntity.getNombre();
         this.empresa = new Empresa(conductorEntity.getEmpresasEntity());
-        this.complemento_iva = conductorEntity.getComplementoIva();
-        this.t065 = conductorEntity.getT065();
-        this.t060 = conductorEntity.getT060();
-        this.t055 = conductorEntity.getT055();
-        this.t050 = conductorEntity.getT050();
+        this.complemento_iva = ensureNotNull(conductorEntity.getComplementoIva());
+        this.t065 = ensureNotNull(conductorEntity.getT065());
+        this.t060 = ensureNotNull(conductorEntity.getT060());
+        this.t055 = ensureNotNull(conductorEntity.getT055());
+        this.t050 = ensureNotNull(conductorEntity.getT050());
         this.creado = conductorEntity.getCreado();
         this.actualizado = conductorEntity.getActualizado();
     }
@@ -39,11 +41,11 @@ public class Conductor implements Serializable {
     public Conductor(String nombre, Empresa empresa, BigDecimal complemento_iva, BigDecimal t065, BigDecimal t060, BigDecimal t055, BigDecimal t050) {
         this.nombre = nombre;
         this.empresa = empresa;
-        this.complemento_iva = complemento_iva;
-        this.t065 = t065;
-        this.t060 = t060;
-        this.t055 = t055;
-        this.t050 = t050;
+        this.complemento_iva = ensureNotNull(complemento_iva);
+        this.t065 = ensureNotNull(t065);
+        this.t060 = ensureNotNull(t060);
+        this.t055 = ensureNotNull(t055);
+        this.t050 = ensureNotNull(t050);
     }
 
     public Conductor(String name) {

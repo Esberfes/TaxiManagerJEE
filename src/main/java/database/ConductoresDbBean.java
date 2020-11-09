@@ -142,4 +142,10 @@ public class ConductoresDbBean {
         return query;
     }
 
+    public ConductorEntity getSingleByName(String nombre) {
+        String rawQuery = "SELECT * FROM conductores WHERE nombre LIKE '%" + nombre + "%' ORDER BY nombre ";
+        Query query = em.createNativeQuery(rawQuery, ConductorEntity.class);
+
+        return (ConductorEntity) query.getSingleResult();
+    }
 }

@@ -34,11 +34,10 @@
         </p:outputPanel>
     </p:panel>
 
-    <p:dataTable id="tiposGastoTable" var="tipoGasto" value="#{TiposGastosFace.lazyModel}"
+    <p:dataTable id="tiposGastoTable" widgetVar="tiposGastoTable"  var="tipoGasto" value="#{TiposGastosFace.lazyModel}"
                  styleClass="shadow"
                  lazy="true"
                  editable="true"
-                 editMode="cell"
                  rows="10"
                  paginator="true"
                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -47,9 +46,11 @@
 
         <f:facet name="header">Tipos de gasto</f:facet>
 
-        <p:ajax event="cellEdit" listener="#{TiposGastosFace.onCellEdit}" update=":form:messages"
-                oncomplete="updateTiposGastoTable()"/>
+        <p:ajax event="rowEditInit" oncomplete="$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).hide()});" />
 
+        <p:ajax event="rowEdit" listener="#{RecaudacionFace.onRowIngresoEdit}" update=":form:messages" oncomplete="PF('recaudacionIngresosTable').filter();$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).show()});"/>
+
+        <p:ajax event="rowEditCancel" listener="#{RecaudacionFace.onRowCancel}" update=":form:messages" onstart="$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).show()});"/>
         <p:column headerText="Nombre" filterBy="#{tipoGasto.nombre}" sortBy="#{tipoGasto.nombre}">
             <p:cellEditor>
                 <f:facet name="output"><h:outputText value="#{tipoGasto.nombre}"/></f:facet>
@@ -77,8 +78,6 @@
         </p:column>
 
     </p:dataTable>
-
-    <p:remoteCommand name="updateTiposGastoTable" update="tiposGastoTable"/>
 
 </ui:composition>
 

@@ -10,6 +10,7 @@ import org.primefaces.model.SortOrder;
 import pojos.RecaudacionIngreso;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -27,6 +28,12 @@ public class RecaudacionIngresoDbBean {
 
     @PersistenceContext
     private EntityManager em;
+
+    @Inject
+    private EstadosIngresoDbBean estadosIngresoDbBean;
+
+    @Inject
+    private ConductoresDbBean conductoresDbBean;
 
     public List<RecaudacionIngresosEntity> getData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta, Long parentId) {
         StringBuilder rawQuery = new StringBuilder("SELECT * FROM recaudacion_ingresos WHERE recaudacion_ingresos.id_recaudacion = :idrecaudacion ");
@@ -87,7 +94,7 @@ public class RecaudacionIngresoDbBean {
 
     public void update(RecaudacionIngreso recaudacionIngreso) {
         RecaudacionIngresosEntity recaudacionIngresosEntity = em.find(RecaudacionIngresosEntity.class, recaudacionIngreso.getId());
-        recaudacionIngresosEntity.setConductorEntity(new ConductorEntity(recaudacionIngreso.getConductor()));
+        recaudacionIngresosEntity.setConductorEntity(conductoresDbBean.getSingleByName(recaudacionIngreso.getConductor().getNombre()));
         recaudacionIngresosEntity.setDia(recaudacionIngreso.getDia());
         recaudacionIngresosEntity.setTurno(recaudacionIngreso.getTurno());
         recaudacionIngresosEntity.setNumeracion(recaudacionIngreso.getNumeracion());
@@ -95,8 +102,18 @@ public class RecaudacionIngresoDbBean {
         recaudacionIngresosEntity.setAnulados(recaudacionIngreso.getAnulados());
         recaudacionIngresosEntity.setRecaudacion(recaudacionIngreso.getRecaudacion());
         recaudacionIngresosEntity.setObservaciones(recaudacionIngreso.getObservaciones());
-        recaudacionIngresosEntity.setRecaudacionesIngresosEstadosEntity(new RecaudacionesIngresosEstadosEntity(recaudacionIngreso.getEstado()));
+        recaudacionIngresosEntity.setRecaudacionesIngresosEstadosEntity(estadosIngresoDbBean.findSingleByName(recaudacionIngreso.getEstado().getNombre()));
 
         em.merge(recaudacionIngresosEntity);
+    }
+
+    public RecaudacionIngresosEntity insert(RecaudacionIngresosEntity recaudacionIngreso) {
+        em.persist(recaudacionIngreso);
+
+        return recaudacionIngreso;
+    }
+
+    public void delete(Long id) {
+       em.remove( em.find(RecaudacionIngresosEntity.class, id));
     }
 }

@@ -69,6 +69,19 @@
                                         styleClass="#{NavigationFace.navigation eq NavigationEnum.estadosIngresos ? 'active' : ''}"/>
                         </p:submenu>
                     </p:menu>
+
+                    <p:ajaxStatus id="startAjax" widgetVar="startAjax" onstart="startHandler();"
+                                  oncomplete="endHandler();" style="display:block;height:50px;">
+                        <f:facet name="start">
+                            <p:outputPanel style="display: flex; justify-content: center; align-items: center;">
+                                <p:outputPanel id="startAjaxImg"
+                                               class="lds-roller"><p:outputPanel></p:outputPanel><p:outputPanel></p:outputPanel><p:outputPanel></p:outputPanel><p:outputPanel></p:outputPanel><p:outputPanel></p:outputPanel><p:outputPanel></p:outputPanel><p:outputPanel></p:outputPanel><p:outputPanel></p:outputPanel></p:outputPanel>
+                            </p:outputPanel>
+                        </f:facet>
+
+                    </p:ajaxStatus>
+
+
                 </p:outputPanel>
                 <p:outputPanel styleClass="p-col-10 content" id="content">
                     <!-- ENTRADAS -->
@@ -77,6 +90,9 @@
                         <ui:include src="./views/recaudacion.xhtml"/>
                     </p:outputPanel>
 
+                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.gastos}">
+                        <ui:include src="./views/gastos.xhtml"/>
+                    </p:outputPanel>
 
                     <!-- SALIDAS -->
 
@@ -124,12 +140,6 @@
                 <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times"/>
             </p:confirmDialog>
 
-            <p:ajaxStatus style="display:block;height:50px; position: fixed; top: 20px; left: 20px;">
-                <f:facet name="start">
-                    <p:graphicImage name="/img/ajax-loader.gif"/>
-                </f:facet>
-            </p:ajaxStatus>
-
         </h:form>
     </f:view>
     <p:outputPanel
@@ -156,6 +166,145 @@
 
         .ui-outputlabel {
             display: block;
+        }
+
+        body .ui-datatable .ui-datatable-data > tr .ui-row-editor .ui-icon.ui-icon-pencil {
+            color: #007ad9;
+            vertical-align: bottom;
+            font-size: 3rem;
+        }
+
+        body .ui-datatable .ui-datatable-data > tr.ui-state-highlight {
+            background-color: rgba(0, 122, 217, 0.5);
+        }
+
+        body .ui-datatable .ui-datatable-data > tr .ui-row-editor .ui-icon.ui-icon-check {
+            font-size: 1.9em;
+        }
+
+        body .ui-datatable .ui-datatable-data > tr .ui-row-editor .ui-icon.ui-icon-close {
+            font-size: 1.9em;
+            margin-left: 5px;
+        }
+
+        body .ui-datatable .ui-datatable-data > tr .ui-row-editor > a {
+            width: auto;
+            height: auto;
+        }
+
+        body .ui-datatable .ui-datatable-data > tr .ui-row-editor {
+            display: flex;
+            width: 100%;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        button .pi-pencil, button .pi-briefcase {
+            font-size: 1.6rem;
+        }
+
+        .lds-roller {
+            display: inline-block;
+            position: relative;
+            width: 80px;
+            height: 80px;
+        }
+
+        .lds-roller div {
+            animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+            transform-origin: 40px 40px;
+        }
+
+        .lds-roller div:after {
+            content: " ";
+            display: block;
+            position: absolute;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: rgba(0, 122, 217, 0.5);
+            margin: -4px 0 0 -4px;
+        }
+
+        .lds-roller div:nth-child(1) {
+            animation-delay: -0.036s;
+        }
+
+        .lds-roller div:nth-child(1):after {
+            top: 63px;
+            left: 63px;
+        }
+
+        .lds-roller div:nth-child(2) {
+            animation-delay: -0.072s;
+        }
+
+        .lds-roller div:nth-child(2):after {
+            top: 68px;
+            left: 56px;
+        }
+
+        .lds-roller div:nth-child(3) {
+            animation-delay: -0.108s;
+        }
+
+        .lds-roller div:nth-child(3):after {
+            top: 71px;
+            left: 48px;
+        }
+
+        .lds-roller div:nth-child(4) {
+            animation-delay: -0.144s;
+        }
+
+        .lds-roller div:nth-child(4):after {
+            top: 72px;
+            left: 40px;
+        }
+
+        .lds-roller div:nth-child(5) {
+            animation-delay: -0.18s;
+        }
+
+        .lds-roller div:nth-child(5):after {
+            top: 71px;
+            left: 32px;
+        }
+
+        .lds-roller div:nth-child(6) {
+            animation-delay: -0.216s;
+        }
+
+        .lds-roller div:nth-child(6):after {
+            top: 68px;
+            left: 24px;
+        }
+
+        .lds-roller div:nth-child(7) {
+            animation-delay: -0.252s;
+        }
+
+        .lds-roller div:nth-child(7):after {
+            top: 63px;
+            left: 17px;
+        }
+
+        .lds-roller div:nth-child(8) {
+            animation-delay: -0.288s;
+        }
+
+        .lds-roller div:nth-child(8):after {
+            top: 56px;
+            left: 12px;
+        }
+
+        @keyframes lds-roller {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
     </style>
     <script type="text/javascript">
@@ -184,6 +333,25 @@
             week: 'Semana',
             day: 'Día',
             allDayText: 'Todo el día'
+        }
+    </script>
+
+    <script type="text/javascript">
+        var ajaxInProgress;
+
+
+        var elmAjax = $(document.getElementById("form:startAjax_start"));
+
+        function startHandler() {
+            clearTimeout(ajaxInProgress);
+            elmAjax.show();
+            ajaxInProgress = null;
+        }
+
+        function endHandler() {
+            ajaxInProgress = setTimeout(function () {
+                elmAjax.hide();
+            }, 2500);
         }
     </script>
 </h:body>

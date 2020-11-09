@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static utils.BigDecimalUtils.ensureNotNull;
+
 public class Recaudacion {
 
     private Long id;
@@ -39,14 +41,15 @@ public class Recaudacion {
         if (recaudacionesEntity.getRecaudacionIngresosEntities() != null) {
             for (RecaudacionIngresosEntity recaudacionIngresosEntity : recaudacionesEntity.getRecaudacionIngresosEntities()) {
                 RecaudacionIngreso recaudacionIngreso = new RecaudacionIngreso(recaudacionIngresosEntity);
+                recaudacionIngreso.setRecaudacionObj(null);
                 this.recaudacionIngresos.add(recaudacionIngreso);
             }
         }
 
         this.servicios_inicio = recaudacionesEntity.getServiciosInicio();
         this.servicios_fin = recaudacionesEntity.getServiciosFin();
-        this.numeracion_inicio = recaudacionesEntity.getNumeracionInicio();
-        this.numeracion_fin = recaudacionesEntity.getNumeracionFin();
+        this.numeracion_inicio = ensureNotNull(recaudacionesEntity.getNumeracionInicio());
+        this.numeracion_fin = ensureNotNull(recaudacionesEntity.getNumeracionFin());
         this.km_totales_inicio = recaudacionesEntity.getKmTotalesInicio();
         this.km_totales_fin = recaudacionesEntity.getKmTotalesFin();
         this.km_cargado_inicio = recaudacionesEntity.getKmCargadoInicio();

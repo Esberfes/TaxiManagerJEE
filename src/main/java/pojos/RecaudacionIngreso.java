@@ -5,9 +5,12 @@ import entities.RecaudacionIngresosEntity;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import static utils.BigDecimalUtils.ensureNotNull;
+
 public class RecaudacionIngreso {
 
     private Integer id;
+    private Recaudacion recaudacionObj;
     private Conductor conductor;
     private EstadosIngreso estado;
     private Integer dia;
@@ -24,13 +27,14 @@ public class RecaudacionIngreso {
 
     public RecaudacionIngreso(RecaudacionIngresosEntity recaudacionIngresosEntity) {
         this.id = recaudacionIngresosEntity.getId();
+        this.recaudacionObj = null;
         this.conductor = new Conductor(recaudacionIngresosEntity.getConductorEntity());
         this.estado = new EstadosIngreso(recaudacionIngresosEntity.getRecaudacionesIngresosEstadosEntity());
         this.dia = recaudacionIngresosEntity.getDia();
         this.turno = recaudacionIngresosEntity.getTurno();
-        this.numeracion = recaudacionIngresosEntity.getNumeracion();
-        this.anulados = recaudacionIngresosEntity.getAnulados();
-        this.recaudacion = recaudacionIngresosEntity.getRecaudacion();
+        this.numeracion = ensureNotNull(recaudacionIngresosEntity.getNumeracion());
+        this.anulados = ensureNotNull(recaudacionIngresosEntity.getAnulados());
+        this.recaudacion = ensureNotNull(recaudacionIngresosEntity.getRecaudacion());
         this.observaciones = recaudacionIngresosEntity.getObservaciones();
         this.creado = recaudacionIngresosEntity.getCreado();
         this.actualizado = recaudacionIngresosEntity.getActualizado();
@@ -122,5 +126,13 @@ public class RecaudacionIngreso {
 
     public void setActualizado(Date actualizado) {
         this.actualizado = actualizado;
+    }
+
+    public Recaudacion getRecaudacionObj() {
+        return recaudacionObj;
+    }
+
+    public void setRecaudacionObj(Recaudacion recaudacionObj) {
+        this.recaudacionObj = recaudacionObj;
     }
 }

@@ -34,11 +34,10 @@
         </p:outputPanel>
     </p:panel>
 
-    <p:dataTable id="conceptosGastosTable" var="conceptoGasto" value="#{ConceptosGastosFace.lazyModel}"
+    <p:dataTable id="conceptosGastosTable" widgetVar="conceptosGastosTable" var="conceptoGasto" value="#{ConceptosGastosFace.lazyModel}"
                  styleClass="shadow"
                  lazy="true"
                  editable="true"
-                 editMode="cell"
                  rows="10"
                  paginator="true"
                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -47,8 +46,11 @@
 
         <f:facet name="header">Conceptos de gasto</f:facet>
 
-        <p:ajax event="cellEdit" listener="#{ConceptosGastosFace.onCellEdit}" update=":form:messages"
-                oncomplete="updateConceptosGastosTable()"/>
+        <p:ajax event="rowEditInit" oncomplete="$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).hide()});" />
+
+        <p:ajax event="rowEdit" listener="#{RecaudacionFace.onRowIngresoEdit}" update=":form:messages" oncomplete="PF('recaudacionIngresosTable').filter();$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).show()});"/>
+
+        <p:ajax event="rowEditCancel" listener="#{RecaudacionFace.onRowCancel}" update=":form:messages" onstart="$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).show()});"/>
 
         <p:column headerText="Nombre" filterBy="#{conceptoGasto.nombre}" sortBy="#{conceptoGasto.nombre}">
             <p:cellEditor>
@@ -62,22 +64,28 @@
             <p:cellEditor>
                 <f:facet name="output"><h:outputText value="#{conceptoGasto.tipoGasto.nombre}"/></f:facet>
                 <f:facet name="input">
-                    <p:inputText value="#{conceptoGasto.tipoGasto.nombre}" style="width:100%"/>
+                    <p:autoComplete inputStyle="width: 100%" style="width: 100%" minQueryLength="0"
+                                    value="#{conceptoGasto.tipoGasto.nombre}"
+                                    completeMethod="#{AutoCompleteFace.completeTipoGasto}"
+                                    forceSelection="true" effect="fade"/>
                 </f:facet>
             </p:cellEditor>
         </p:column>
 
-        <p:column headerText="" style="text-align: center">
-            <p:commandButton icon="fas fa-trash-alt" ajax="true" update=":form:messages conceptosGastosTable"
-                             action="#{ConceptosGastosFace.delete(conceptoGasto.id)}">
-                <p:confirm header="Confirmation" message="Estás seguro?" icon="pi pi-exclamation-triangle"/>
-            </p:commandButton>
+        <p:column style="width: 100px; padding: 0;">
+            <p:rowEditor/>
+        </p:column>
+
+        <p:column headerText="" style="width: 40px">
+            <p:outputPanel style="display: flex; justify-content: center; align-items: center">
+                <p:commandButton icon="fas fa-trash-alt" ajax="true" update=":form:messages conceptosGastosTable"
+                                 action="#{ConceptosGastosFace.delete(conceptoGasto.id)}">
+                    <p:confirm header="Confirmation" message="Estás seguro?" icon="pi pi-exclamation-triangle"/>
+                </p:commandButton>
+            </p:outputPanel>
         </p:column>
 
     </p:dataTable>
-
-    <p:remoteCommand name="updateConceptosGastosTable" update="conceptosGastosTable"/>
-
 </ui:composition>
 
 </html>

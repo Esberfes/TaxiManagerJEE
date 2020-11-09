@@ -99,8 +99,7 @@ public class ConceptosGastosDbBean {
 
     public void update(ConceptosGastos conceptosGastos) {
         ConceptosGastosEntity conceptosGastosEntity = em.find(ConceptosGastosEntity.class, conceptosGastos.getId());
-        TiposGastosEntity tiposGastosEntity = tiposGastoDbBean.findSingle(conceptosGastos.getTipoGasto().getId());
-
+        TiposGastosEntity tiposGastosEntity = tiposGastoDbBean.findSingleByName(conceptosGastos.getTipoGasto().getNombre());
         conceptosGastosEntity.setNombre(conceptosGastos.getNombre());
         conceptosGastosEntity.setTiposGastosEntity(tiposGastosEntity);
 
