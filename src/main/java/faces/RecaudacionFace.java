@@ -72,7 +72,6 @@ public class RecaudacionFace implements Serializable {
     private String turno;
     private BigDecimal numeracion;
     private BigDecimal anulados;
-    private BigDecimal recaudacion;
     private String observaciones;
 
     @PreDestroy
@@ -125,7 +124,6 @@ public class RecaudacionFace implements Serializable {
             ingreso.setDia(dia);
             ingreso.setTurno(turno);
             ingreso.setNumeracion(numeracion);
-            ingreso.setRecaudacion(recaudacion);
             ingreso.setAnulados(anulados);
             ingreso.setObservaciones(observaciones);
 
@@ -139,7 +137,6 @@ public class RecaudacionFace implements Serializable {
             this.turno = null;
             this.numeracion = null;
             this.anulados = null;
-            this.recaudacion = null;
             this.observaciones = null;
 
         } catch (Throwable e) {
@@ -373,14 +370,6 @@ public class RecaudacionFace implements Serializable {
 
     public void setAnulados(BigDecimal anulados) {
         this.anulados = anulados;
-    }
-
-    public BigDecimal getRecaudacion() {
-        return recaudacion;
-    }
-
-    public void setRecaudacion(BigDecimal recaudacion) {
-        this.recaudacion = recaudacion;
     }
 
     public String getObservaciones() {

@@ -27,12 +27,12 @@ public class RecaudacionIngresosBean implements LazyLoad<RecaudacionIngreso> {
 
     @Override
     public List<RecaudacionIngreso> getData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
-        return null;
+        return getData(first, pageSize, sortMeta, filterMeta, null);
     }
 
     @Override
     public int getTotal(Map<String, FilterMeta> filterMeta) {
-        return 0;
+        return getTotal(filterMeta, null);
     }
 
     @Override

@@ -117,6 +117,13 @@
             </p:cellEditor>
         </p:column>
 
+        <p:column headerText="Fecha" filterBy="#{gasto.creado}" sortBy="#{gasto.creado}">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{gasto.creado}"/></f:facet>
+                <f:facet name="input"> <p:datePicker id="inline" value="#{gasto.creado}"/>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
 
         <p:column style="width: 100px; padding: 0;">
             <p:rowEditor/>
@@ -125,7 +132,7 @@
         <p:column headerText="" style="width: 40px">
             <p:outputPanel style="display: flex; justify-content: center; align-items: center">
                 <p:commandButton icon="fas fa-trash-alt" ajax="true" update=":form:messages gastosTable"
-                                 action="#{LicenciasFace.delete(licencia.id)}">
+                                 action="#{GastosFace.delete(gasto.id)}">
                     <p:confirm header="Confirmation" message="Estás seguro?" icon="pi pi-exclamation-triangle"/>
                 </p:commandButton>
             </p:outputPanel>

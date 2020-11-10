@@ -48,7 +48,7 @@
 
         <p:ajax event="rowEditInit" oncomplete="$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).hide()});" />
 
-        <p:ajax event="rowEdit" listener="#{ConceptosGastosFace.onRowIngresoEdit}" update=":form:messages"
+        <p:ajax event="rowEdit" listener="#{ConceptosGastosFace.onRowEdit}" update=":form:messages"
                 oncomplete="PF('conceptosGastosTable').filter();$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).show()});"/>
 
         <p:ajax event="rowEditCancel" listener="#{ConceptosGastosFace.onRowCancel}" update=":form:messages"

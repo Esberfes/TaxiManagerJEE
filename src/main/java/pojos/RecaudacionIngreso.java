@@ -9,7 +9,7 @@ import static utils.BigDecimalUtils.ensureNotNull;
 
 public class RecaudacionIngreso {
 
-    private Integer id;
+    private Long id;
     private Recaudacion recaudacionObj;
     private Conductor conductor;
     private EstadosIngreso estado;
@@ -18,6 +18,7 @@ public class RecaudacionIngreso {
     private BigDecimal numeracion;
     private BigDecimal anulados;
     private BigDecimal recaudacion;
+    private BigDecimal liquido;
     private String observaciones;
     private Date creado;
     private Date actualizado;
@@ -29,10 +30,12 @@ public class RecaudacionIngreso {
         this.id = recaudacionIngresosEntity.getId();
         this.recaudacionObj = null;
         this.conductor = new Conductor(recaudacionIngresosEntity.getConductorEntity());
-        this.estado = new EstadosIngreso(recaudacionIngresosEntity.getRecaudacionesIngresosEstadosEntity());
+        this.estado = recaudacionIngresosEntity.getRecaudacionesIngresosEstadosEntity() != null ?
+                new EstadosIngreso(recaudacionIngresosEntity.getRecaudacionesIngresosEstadosEntity()) : null;
         this.dia = recaudacionIngresosEntity.getDia();
         this.turno = recaudacionIngresosEntity.getTurno();
         this.numeracion = ensureNotNull(recaudacionIngresosEntity.getNumeracion());
+        this.liquido = recaudacionIngresosEntity.getLiquido();
         this.anulados = ensureNotNull(recaudacionIngresosEntity.getAnulados());
         this.recaudacion = ensureNotNull(recaudacionIngresosEntity.getRecaudacion());
         this.observaciones = recaudacionIngresosEntity.getObservaciones();
@@ -40,11 +43,11 @@ public class RecaudacionIngreso {
         this.actualizado = recaudacionIngresosEntity.getActualizado();
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -135,4 +138,13 @@ public class RecaudacionIngreso {
     public void setRecaudacionObj(Recaudacion recaudacionObj) {
         this.recaudacionObj = recaudacionObj;
     }
+
+    public BigDecimal getLiquido() {
+        return liquido;
+    }
+
+    public void setLiquido(BigDecimal liquido) {
+        this.liquido = liquido;
+    }
 }
+

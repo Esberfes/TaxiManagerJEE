@@ -16,6 +16,7 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static utils.FilterUtils.getFilterFieldValue;
 
@@ -30,6 +31,9 @@ public class RecaudacionDbBean {
     @Inject
     private LicenciasDbBean licenciasDbBean;
 
+    @Inject
+    private RecaudacionIngresoDbBean recaudacionIngresoDbBean;
+
     public List<RecaudacionesEntity> getData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
         StringBuilder rawQuery = new StringBuilder("SELECT * FROM recaudaciones, licencias WHERE recaudaciones.id_licencia = licencias.id ");
 
@@ -38,7 +42,12 @@ public class RecaudacionDbBean {
         if (pageSize > 0)
             query = query.setMaxResults(pageSize).setFirstResult(first);
 
-        return query.getResultList();
+        List<RecaudacionesEntity> data = query.getResultList();
+
+        for(RecaudacionesEntity entity : data)
+            recaudacionIngresoDbBean.setRecaudacion(entity.getRecaudacionIngresosEntities());
+
+        return data;
     }
 
     public int getTotal(Map<String, FilterMeta> filterMeta) {

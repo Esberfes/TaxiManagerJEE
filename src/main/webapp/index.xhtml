@@ -38,8 +38,13 @@
                         </p:submenu>
 
                         <p:submenu label="Salidas">
-                            <p:menuitem value="Resultados" update="messages content menu" ajax="true"/>
-                            <p:menuitem value="Resumen" update="messages content menu" ajax="true"/>
+                            <p:menuitem value="Resultados" update="messages content menu" ajax="true"
+                                        action="#{NavigationFace.navigate(NavigationEnum.resultados)}"
+                                        styleClass="#{NavigationFace.navigation eq NavigationEnum.resultados ? 'active' : ''}"/>
+
+                            <p:menuitem value="Resumen" update="messages content menu" ajax="true"
+                                        action="#{NavigationFace.navigate(NavigationEnum.resumen)}"
+                                        styleClass="#{NavigationFace.navigation eq NavigationEnum.resumen ? 'active' : ''}"/>
 
                             <p:menuitem value="Graficas" update="messages content menu" ajax="true"
                                         action="#{NavigationFace.navigate(NavigationEnum.graficas)}"
@@ -102,9 +107,18 @@
                     </p:outputPanel>
 
                     <!-- SALIDAS -->
+                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.resultados}">
+                        <ui:include src="./views/resultados.xhtml"/>
+                    </p:outputPanel>
+
+                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.resumen}">
+                        <ui:include src="./views/resultados_resumen.xhtml"/>
+                    </p:outputPanel>
+
                     <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.graficas}">
                         <ui:include src="./views/graficas.xhtml"/>
                     </p:outputPanel>
+
                     <!-- CONFIGURACION  -->
                     <!-- Licencias -->
                     <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.licencias}">

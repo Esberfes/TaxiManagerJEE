@@ -16,7 +16,7 @@ public class RecaudacionIngresosEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
-    private Integer id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "id_recaudacion", referencedColumnName = "id")
@@ -42,8 +42,6 @@ public class RecaudacionIngresosEntity {
     @Column(name = "anulados")
     private BigDecimal anulados;
 
-    @Column(name = "recaudacion")
-    private BigDecimal recaudacion;
 
     @Column(name = "observaciones")
     private String observaciones;
@@ -56,18 +54,26 @@ public class RecaudacionIngresosEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date actualizado;
 
+    @Transient
+    private BigDecimal recaudacion;
+
+    @Transient
+    private BigDecimal liquido;
+
     public RecaudacionIngresosEntity() {
     }
 
     public RecaudacionIngresosEntity(RecaudacionIngreso recaudacionIngreso) {
         this.id = recaudacionIngreso.getId();
         this.conductorEntity = new ConductorEntity(recaudacionIngreso.getConductor());
-        this.recaudacionesIngresosEstadosEntity = new RecaudacionesIngresosEstadosEntity(recaudacionIngreso.getEstado());
+        this.recaudacionesIngresosEstadosEntity = recaudacionIngreso.getEstado() != null ?
+                new RecaudacionesIngresosEstadosEntity(recaudacionIngreso.getEstado()) : null;
         this.dia = recaudacionIngreso.getDia();
         this.turno = recaudacionIngreso.getTurno();
         this.numeracion = recaudacionIngreso.getNumeracion();
         this.anulados = recaudacionIngreso.getAnulados();
         this.recaudacion = recaudacionIngreso.getRecaudacion();
+        this.liquido = recaudacionIngreso.getLiquido();
         this.observaciones = recaudacionIngreso.getObservaciones();
         this.creado = recaudacionIngreso.getCreado();
         this.actualizado = recaudacionIngreso.getActualizado();
@@ -105,11 +111,11 @@ public class RecaudacionIngresosEntity {
         return Objects.hash(id, dia, turno, numeracion, anulados, recaudacion, observaciones, creado, actualizado);
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -199,5 +205,13 @@ public class RecaudacionIngresosEntity {
 
     public void setActualizado(Date actualizado) {
         this.actualizado = actualizado;
+    }
+
+    public BigDecimal getLiquido() {
+        return liquido;
+    }
+
+    public void setLiquido(BigDecimal liquido) {
+        this.liquido = liquido;
     }
 }

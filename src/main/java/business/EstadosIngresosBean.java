@@ -56,7 +56,11 @@ public class EstadosIngresosBean implements LazyLoad<EstadosIngreso> {
     }
 
     public EstadosIngreso findSingleByName(String name) {
-        return new EstadosIngreso(estadosIngresoDbBean.findSingleByName(name));
+        try {
+            return new EstadosIngreso(estadosIngresoDbBean.findSingleByName(name));
+        } catch (Throwable e) {
+            return null;
+        }
     }
 
     public List<EstadosIngreso> findByName(String value) {
