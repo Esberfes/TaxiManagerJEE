@@ -1,5 +1,6 @@
 package database;
 
+import entities.RecaudacionIngresosEntity;
 import entities.RecaudacionesEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.FilterMeta;
@@ -16,7 +17,6 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static utils.FilterUtils.getFilterFieldValue;
 
@@ -44,8 +44,24 @@ public class RecaudacionDbBean {
 
         List<RecaudacionesEntity> data = query.getResultList();
 
-        for(RecaudacionesEntity entity : data)
+        for (RecaudacionesEntity entity : data) {
+            RecaudacionIngresosEntity ingresosEntity = null;
+
+            for (RecaudacionIngresosEntity ingreso : entity.getRecaudacionIngresosEntities()) {
+                if (ingresosEntity == null)
+                    ingresosEntity = ingreso;
+                else if (ingreso.getDia() > ingresosEntity.getDia())
+                    ingresosEntity = ingreso;
+                else if (ingreso.getDia().equals(ingresosEntity.getDia()) && "mañana".equalsIgnoreCase(ingresosEntity.getTurno()))
+                    ingresosEntity = ingreso;
+            }
+
+            if (ingresosEntity != null)
+                entity.setNumeracionFin(ingresosEntity.getNumeracion());
+
             recaudacionIngresoDbBean.setRecaudacion(entity.getRecaudacionIngresosEntities());
+        }
+
 
         return data;
     }

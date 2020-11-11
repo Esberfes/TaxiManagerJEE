@@ -31,7 +31,7 @@ public class RecaudacionIngreso {
         this.recaudacionObj = null;
         this.conductor = new Conductor(recaudacionIngresosEntity.getConductorEntity());
         this.estado = recaudacionIngresosEntity.getRecaudacionesIngresosEstadosEntity() != null ?
-                new EstadosIngreso(recaudacionIngresosEntity.getRecaudacionesIngresosEstadosEntity()) : null;
+                new EstadosIngreso(recaudacionIngresosEntity.getRecaudacionesIngresosEstadosEntity()) : new EstadosIngreso();
         this.dia = recaudacionIngresosEntity.getDia();
         this.turno = recaudacionIngresosEntity.getTurno();
         this.numeracion = ensureNotNull(recaudacionIngresosEntity.getNumeracion());

@@ -61,19 +61,29 @@ public class RecaudacionIngresoDbBean {
     public void setRecaudacion(List<RecaudacionIngresosEntity> entities) {
         for (RecaudacionIngresosEntity entity : entities) {
             try {
-                String query = "SELECT * FROM recaudacion_ingresos WHERE  id != :id AND dia <= :dia ORDER BY dia DESC , turno  DESC LIMIT 1";
+                String query = "SELECT * FROM recaudacion_ingresos, recaudaciones WHERE " +
+                        "recaudacion_ingresos.id_recaudacion = recaudaciones.id " +
+                        "AND recaudaciones.id_licencia = :id_licencia " +
+                        "AND recaudacion_ingresos.id != :id " +
+                        "AND dia <= :dia " +
+                        "ORDER BY dia DESC , turno  DESC LIMIT 1";
+
                 List<RecaudacionIngresosEntity> found = (List<RecaudacionIngresosEntity>) em.createNativeQuery(query, RecaudacionIngresosEntity.class)
+                        .setParameter("id_licencia", entity.getRecaudacionesEntity().getLicenciasEntity().getId())
                         .setParameter("id", entity.getId())
                         .setParameter("dia", entity.getDia())
                         .getResultList();
 
-                if (!found.isEmpty()
-                        && !("mañana".equalsIgnoreCase(entity.getTurno()) && entity.getDia().equals(found.get(0).getDia()))) {
-                    BigDecimal rec = entity.getNumeracion().subtract(found.get(0).getNumeracion());
-                    if (rec.doubleValue() < 0)
+                if (!found.isEmpty()) {
+                    // Si estan en el mismo dia
+                    if (entity.getDia().equals(found.get(0).getDia()) && "mañana".equalsIgnoreCase(found.get(0).getTurno())) {
+                        BigDecimal rec = entity.getNumeracion().subtract(found.get(0).getNumeracion());
+                        if (rec.doubleValue() < 0)
+                            entity.setRecaudacion(entity.getNumeracion());
+                        else
+                            entity.setRecaudacion(rec);
+                    } else
                         entity.setRecaudacion(entity.getNumeracion());
-                    else
-                        entity.setRecaudacion(rec);
                 } else
                     entity.setRecaudacion(entity.getNumeracion());
 
@@ -85,13 +95,13 @@ public class RecaudacionIngresoDbBean {
                 BigDecimal liquido = total.add(entity.getConductorEntity().getComplementoIva());
 
                 if (entity.getRecaudacion().doubleValue() <= entity.getConductorEntity().getT065().doubleValue()) {
-                    liquido = liquido.add(percentage(entity.getRecaudacion(), new BigDecimal(35)));
+                    liquido = liquido.subtract(percentage(entity.getRecaudacion(), new BigDecimal(35)));
                 } else if (entity.getRecaudacion().doubleValue() <= entity.getConductorEntity().getT060().doubleValue()) {
-                    liquido = liquido.add(percentage(entity.getRecaudacion(), new BigDecimal(40)));
+                    liquido = liquido.subtract(percentage(entity.getRecaudacion(), new BigDecimal(40)));
                 } else if (entity.getRecaudacion().doubleValue() <= entity.getConductorEntity().getT055().doubleValue()) {
-                    liquido = liquido.add(percentage(entity.getRecaudacion(), new BigDecimal(45)));
+                    liquido = liquido.subtract(percentage(entity.getRecaudacion(), new BigDecimal(45)));
                 } else {
-                    liquido = liquido.add(percentage(entity.getRecaudacion(), new BigDecimal(50)));
+                    liquido = liquido.subtract(percentage(entity.getRecaudacion(), new BigDecimal(50)));
                 }
 
                 entity.setLiquido(liquido);
@@ -173,7 +183,10 @@ public class RecaudacionIngresoDbBean {
         recaudacionIngresosEntity.setAnulados(recaudacionIngreso.getAnulados());
         recaudacionIngresosEntity.setRecaudacion(recaudacionIngreso.getRecaudacion());
         recaudacionIngresosEntity.setObservaciones(recaudacionIngreso.getObservaciones());
-        recaudacionIngresosEntity.setRecaudacionesIngresosEstadosEntity(estadosIngresoDbBean.findSingleByName(recaudacionIngreso.getEstado().getNombre()));
+        if (recaudacionIngreso.getEstado() != null && recaudacionIngreso.getEstado().getNombre() != null)
+            recaudacionIngresosEntity.setRecaudacionesIngresosEstadosEntity(estadosIngresoDbBean.findSingleByName(recaudacionIngreso.getEstado().getNombre()));
+        else
+            recaudacionIngresosEntity.setRecaudacionesIngresosEstadosEntity(null);
 
         em.merge(recaudacionIngresosEntity);
     }

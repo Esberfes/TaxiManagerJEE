@@ -43,12 +43,6 @@
                     </p:outputPanel>
 
                     <p:outputPanel styleClass="p-col-2">
-                        <p:outputLabel>Num. fin</p:outputLabel>
-                        <p:inputNumber value="#{RecaudacionFace.numeracion_fin}" inputStyle="width: 100%" style="width:100%"
-                                       inputstyle="width:100%" decimalPlaces="2"/>
-                    </p:outputPanel>
-
-                    <p:outputPanel styleClass="p-col-2">
                         <p:outputLabel>Km. tot. ini</p:outputLabel>
                         <p:inputNumber value="#{RecaudacionFace.km_totales_inicio}" inputStyle="width: 100%" style="width:100%"
                                        inputstyle="width:100%" decimalPlaces="0"/>
@@ -157,13 +151,14 @@
             </p:cellEditor>
         </p:column>
 
-        <p:column headerText="Num. fin" filterBy="#{recaudacion.numeracion_fin}" sortBy="#{recaudacion.numeracion_fin}">
+        <p:column headerText="Num. fin">
             <p:cellEditor>
                 <f:facet name="output">
                     <h:outputText converter="javax.faces.BigDecimal" value="#{recaudacion.numeracion_fin}"/>
                 </f:facet>
                 <f:facet name="input">
-                    <p:inputNumber converter="javax.faces.BigDecimal" value="#{recaudacion.numeracion_fin}"
+                    <p:inputNumber readonly="true" converter="javax.faces.BigDecimal"
+                                   value="#{recaudacion.numeracion_fin}"
                                    style="width:100%"/>
                 </f:facet>
             </p:cellEditor>

@@ -35,7 +35,7 @@ public class RecaudacionesEntity {
     @Column(name = "numeracion_inicio")
     private BigDecimal numeracionInicio;
 
-    @Column(name = "numeracion_fin")
+    @Transient
     private BigDecimal numeracionFin;
 
     @Column(name = "km_totales_inicio")

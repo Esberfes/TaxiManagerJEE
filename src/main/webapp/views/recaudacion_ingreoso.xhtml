@@ -11,7 +11,7 @@
 
 <ui:composition>
     <p:panel
-            header="Recaudacion del #{RecaudacionFace.selectedRecaudacion.mes}/#{RecaudacionFace.selectedRecaudacion.ano}"
+            header="Recaudacion del #{RecaudacionFace.selectedRecaudacion.mes}/#{RecaudacionFace.selectedRecaudacion.ano} - Licencia: #{RecaudacionFace.selectedRecaudacion.licencia.codigo}"
             styleClass="shadow" style="margin-bottom: 25px">
         <p:commandButton value="Volver" ajax="true"
                          update=":form:messages :form:insertRecaudacion recaudacionTable :form"
@@ -217,7 +217,6 @@
             </p:outputPanel>
         </p:column>
     </p:dataTable>
-
 
 </ui:composition>
 

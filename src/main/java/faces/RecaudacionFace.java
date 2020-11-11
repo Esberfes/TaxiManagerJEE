@@ -4,9 +4,6 @@ import business.*;
 import datamodels.LazyRecaudacionDataModel;
 import datamodels.LazyRecaudacionIngresoDataModel;
 import org.apache.log4j.Logger;
-import org.primefaces.PrimeFaces;
-import org.primefaces.component.datatable.DataTable;
-import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.LazyDataModel;
 import pojos.Recaudacion;
@@ -14,7 +11,6 @@ import pojos.RecaudacionIngreso;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -393,5 +389,9 @@ public class RecaudacionFace implements Serializable {
     public void onUnSelectedRecaudacion() {
         this.selectedRecaudacion = null;
         this.lazyModelIngresos = null;
+    }
+
+    public String resolveState(RecaudacionIngreso recaudacionIngreso) {
+        return recaudacionIngreso.getEstado() != null ? recaudacionIngreso.getEstado().getNombre() : null;
     }
 }

@@ -22,6 +22,10 @@ public class EstadosIngreso {
         this.nombre = nombre;
     }
 
+    public EstadosIngreso() {
+
+    }
+
     public Integer getId() {
         return id;
     }
