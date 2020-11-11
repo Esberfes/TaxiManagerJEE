@@ -4,6 +4,7 @@ import business.*;
 import datamodels.LazyRecaudacionDataModel;
 import datamodels.LazyRecaudacionIngresoDataModel;
 import org.apache.log4j.Logger;
+import org.primefaces.PrimeFaces;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.LazyDataModel;
 import pojos.Recaudacion;
@@ -47,6 +48,7 @@ public class RecaudacionFace implements Serializable {
     private LazyDataModel<RecaudacionIngreso> lazyModelIngresos;
 
     private Recaudacion selectedRecaudacion;
+    private RecaudacionIngreso selectedRecaudacionIngreso;
 
     // Insert recaudacion
     private Integer licencia;
@@ -84,9 +86,9 @@ public class RecaudacionFace implements Serializable {
         try {
             recaudacionIngresosBean.update(event.getObject());
 
-             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Entrada modificada", String.valueOf(event.getObject().getId()) );
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Entrada modificada", String.valueOf(event.getObject().getId()));
             FacesContext.getCurrentInstance().addMessage(null, msg);
-
+            PrimeFaces.current().executeScript("PrimeFaces.info('Info message');");
         } catch (Throwable e) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error actualizando entrada", e.getMessage());
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -97,7 +99,7 @@ public class RecaudacionFace implements Serializable {
         try {
             recaudacionBean.update(event.getObject());
 
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Entrada modificada", String.valueOf(event.getObject().getId()) );
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Entrada modificada", String.valueOf(event.getObject().getId()));
             FacesContext.getCurrentInstance().addMessage(null, msg);
 
         } catch (Throwable e) {
@@ -105,8 +107,9 @@ public class RecaudacionFace implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
+
     public void onRowCancel(RowEditEvent<?> event) {
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Edición cancelada",  "");
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Edición cancelada", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
@@ -393,5 +396,13 @@ public class RecaudacionFace implements Serializable {
 
     public String resolveState(RecaudacionIngreso recaudacionIngreso) {
         return recaudacionIngreso.getEstado() != null ? recaudacionIngreso.getEstado().getNombre() : null;
+    }
+
+    public RecaudacionIngreso getSelectedRecaudacionIngreso() {
+        return selectedRecaudacionIngreso;
+    }
+
+    public void setSelectedRecaudacionIngreso(RecaudacionIngreso selectedRecaudacionIngreso) {
+        this.selectedRecaudacionIngreso = selectedRecaudacionIngreso;
     }
 }

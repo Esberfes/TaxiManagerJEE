@@ -65,25 +65,26 @@ public class RecaudacionIngresoDbBean {
                         "recaudacion_ingresos.id_recaudacion = recaudaciones.id " +
                         "AND recaudaciones.id_licencia = :id_licencia " +
                         "AND recaudacion_ingresos.id != :id " +
-                        "AND dia <= :dia " +
-                        "ORDER BY dia DESC , turno  DESC LIMIT 1";
+                        "AND (recaudaciones.ano < :ano " +
+                        "OR (recaudaciones.ano = :ano AND recaudaciones.mes < :mes) " +
+                        "OR (recaudaciones.ano = :ano AND recaudaciones.mes = :mes " + ("mañana".equalsIgnoreCase(entity.getTurno()) ? "AND dia < :dia )" : "AND dia <= :dia ) ") +
+                        ") ORDER BY ano DESC, mes DESC, dia DESC, turno  DESC LIMIT 1";
 
                 List<RecaudacionIngresosEntity> found = (List<RecaudacionIngresosEntity>) em.createNativeQuery(query, RecaudacionIngresosEntity.class)
                         .setParameter("id_licencia", entity.getRecaudacionesEntity().getLicenciasEntity().getId())
                         .setParameter("id", entity.getId())
                         .setParameter("dia", entity.getDia())
+                        .setParameter("mes", entity.getRecaudacionesEntity().getMes())
+                        .setParameter("ano", entity.getRecaudacionesEntity().getAno())
                         .getResultList();
 
                 if (!found.isEmpty()) {
-                    // Si estan en el mismo dia
-                    if (entity.getDia().equals(found.get(0).getDia()) && "mañana".equalsIgnoreCase(found.get(0).getTurno())) {
-                        BigDecimal rec = entity.getNumeracion().subtract(found.get(0).getNumeracion());
-                        if (rec.doubleValue() < 0)
-                            entity.setRecaudacion(entity.getNumeracion());
-                        else
-                            entity.setRecaudacion(rec);
-                    } else
+                    // Si estan en el mismo di  a
+                    BigDecimal rec = entity.getNumeracion().subtract(found.get(0).getNumeracion());
+                    if (rec.doubleValue() < 0)
                         entity.setRecaudacion(entity.getNumeracion());
+                    else
+                        entity.setRecaudacion(rec);
                 } else
                     entity.setRecaudacion(entity.getNumeracion());
 

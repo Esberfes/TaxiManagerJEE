@@ -23,6 +23,10 @@
         <h:form id="form">
             <p:growl id="messages" showDetail="true"/>
 
+            <p:outputPanel id="logWrapper">
+                <p:log widgetVar="log" id="log"/>
+            </p:outputPanel>
+
             <p:outputPanel styleClass="p-grid">
                 <p:outputPanel styleClass="p-col-2">
                     <p:menu id="menu" styleClass="shadow" style=" width: 100%;position: sticky;top: 15px;">
@@ -103,11 +107,18 @@
                 <p:outputPanel styleClass="p-col-10 content" id="content">
                     <!-- ENTRADAS -->
                     <!-- Recaudacion -->
-                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.recaudacion}">
-                        <ui:include src="./views/recaudacion.xhtml"/>
+
+                    <p:outputPanel
+                            rendered="#{NavigationFace.navigation eq NavigationEnum.recaudacion and RecaudacionFace.selectedRecaudacion ne null}">
+                        <ui:include src="./views/recaudacion_ingreoso.xhtml"/>
                     </p:outputPanel>
 
-                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum  .gastos}">
+                    <p:outputPanel
+                            rendered="#{NavigationFace.navigation eq NavigationEnum.recaudacion and RecaudacionFace.selectedRecaudacion eq null}">
+                        <ui:include src="./views/recaudaciones.xhtml"/>
+                    </p:outputPanel>
+
+                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum .gastos}">
                         <ui:include src="./views/gastos.xhtml"/>
                     </p:outputPanel>
 
@@ -167,10 +178,6 @@
                 <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
                 <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times"/>
             </p:confirmDialog>
-
-            <p:outputPanel id="logWrapper">
-                <p:log widgetVar="log" id="log"/>
-            </p:outputPanel>
 
         </h:form>
     </f:view>

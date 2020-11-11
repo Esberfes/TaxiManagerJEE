@@ -14,7 +14,7 @@
             header="Recaudacion del #{RecaudacionFace.selectedRecaudacion.mes}/#{RecaudacionFace.selectedRecaudacion.ano} - Licencia: #{RecaudacionFace.selectedRecaudacion.licencia.codigo}"
             styleClass="shadow" style="margin-bottom: 25px">
         <p:commandButton value="Volver" ajax="true"
-                         update=":form:messages :form:insertRecaudacion recaudacionTable :form"
+                         update=":form:messages :form:insertRecaudacion recaudacionTable form:content"
                          action="#{RecaudacionFace.onUnSelectedRecaudacion()}"/>
     </p:panel>
 
@@ -97,24 +97,34 @@
 
         <f:facet name="header">Ingresos</f:facet>
 
-        <p:ajax event="rowEditInit" oncomplete="$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).hide()});" />
+        <p:ajax event="rowEditInit"
+                oncomplete="$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).hide()});"/>
 
-        <p:ajax event="rowEdit" listener="#{RecaudacionFace.onRowIngresoEdit}" update=":form:messages" oncomplete="PF('recaudacionIngresosTable').filter();$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).show()});"/>
+        <p:ajax event="rowEdit" listener="#{RecaudacionFace.onRowIngresoEdit}" update=":form:messages"
+                oncomplete="PF('recaudacionIngresosTable').filter();$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).show()});"/>
 
-        <p:ajax event="rowEditCancel" listener="#{RecaudacionFace.onRowCancel}" update=":form:messages" onstart="$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).show()});"/>
+        <p:ajax event="rowEditCancel" listener="#{RecaudacionFace.onRowCancel}" update=":form:messages"
+                onstart="$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).show()});"/>
 
         <p:column headerText="Conductor" filterBy="#{ingreso.conductor.nombre}" sortBy="#{ingreso.conductor.nombre}">
-            <p:cellEditor>
-                <f:facet name="output"><h:outputText value="#{ingreso.conductor.nombre}"/></f:facet>
-                <f:facet name="input">
-                    <p:autoComplete inputStyle="width: 100%" style="width: 100%" minQueryLength="0"
-                                    value="#{ingreso.conductor.nombre}"
-                                    completeMethod="#{AutoCompleteFace.completeConductor}"
-                                    forceSelection="true" effect="fade"/>
-                </f:facet>
-            </p:cellEditor>
+            <p:outputPanel style="width:100%; display: flex; align-items: center; justify-content: space-between;">
+                <p:cellEditor>
+                    <f:facet name="output"><h:outputText value="#{ingreso.conductor.nombre}"/></f:facet>
+                    <f:facet name="input">
+                        <p:autoComplete inputStyle="width: 100%" style="width: 100%" minQueryLength="0"
+                                        value="#{ingreso.conductor.nombre}"
+                                        completeMethod="#{AutoCompleteFace.completeConductor}"
+                                        forceSelection="true" effect="fade"/>
+                    </f:facet>
+                </p:cellEditor>
+                <p:commandLink update=":form:conductorDetail" oncomplete="PF('conductorDialog').show()"
+                               title="Detalles">
+                    <h:outputText styleClass="pi pi-search" style="margin:0 auto;"/>
+                    <f:setPropertyActionListener value="#{ingreso}"
+                                                 target="#{RecaudacionFace.selectedRecaudacionIngreso}"/>
+                </p:commandLink>
+            </p:outputPanel>
         </p:column>
-
         <p:column headerText="Dia" filterBy="#{ingreso.dia}" sortBy="#{ingreso.dia}">
             <p:cellEditor>
                 <f:facet name="output"><h:outputText value="#{ingreso.dia}"/></f:facet>
@@ -217,6 +227,33 @@
             </p:outputPanel>
         </p:column>
     </p:dataTable>
+
+    <p:dialog header="Conductor info" widgetVar="conductorDialog" modal="true" showEffect="fade" hideEffect="fade"
+              resizable="false">
+        <p:outputPanel id="conductorDetail" style="text-align:center;">
+            <p:panelGrid columns="2" rendered="#{not empty RecaudacionFace.selectedRecaudacionIngreso}"
+                         columnClasses="label,value">
+
+                <h:outputText value="Nombre: "/>
+                <h:outputText value="#{RecaudacionFace.selectedRecaudacionIngreso.conductor.nombre}"/>
+
+                <h:outputText value="Complemento"/>
+                <h:outputText value="#{RecaudacionFace.selectedRecaudacionIngreso.conductor.complemento_iva}"/>
+
+                <h:outputText value="T065"/>
+                <h:outputText value="#{RecaudacionFace.selectedRecaudacionIngreso.conductor.t065}"/>
+
+                <h:outputText value="T060"/>
+                <h:outputText value="#{RecaudacionFace.selectedRecaudacionIngreso.conductor.t060}"/>
+
+                <h:outputText value="T055"/>
+                <h:outputText value="#{RecaudacionFace.selectedRecaudacionIngreso.conductor.t055}"/>
+
+                <h:outputText value="T050"/>
+                <h:outputText value="#{RecaudacionFace.selectedRecaudacionIngreso.conductor.t050}"/>
+            </p:panelGrid>
+        </p:outputPanel>
+    </p:dialog>
 
 </ui:composition>
 

@@ -44,6 +44,7 @@ public class NavigationFace implements Serializable {
             PrimeFaces.current().executeScript("PF('log').show();");
         else
             PrimeFaces.current().executeScript("PF('log').hide();");
+
         this.switchLog = switchLog;
     }
 

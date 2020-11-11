@@ -4,19 +4,12 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
 >
 
 <ui:composition>
 
-    <p:outputPanel rendered="#{RecaudacionFace.selectedRecaudacion ne null}">
-        <ui:include src="recaudacion_ingreoso.xhtml"/>
-    </p:outputPanel>
 
-    <p:outputPanel rendered="#{RecaudacionFace.selectedRecaudacion eq null}">
-        <ui:include src="recaudaciones.xhtml"/>
-    </p:outputPanel>
 
 </ui:composition>
 

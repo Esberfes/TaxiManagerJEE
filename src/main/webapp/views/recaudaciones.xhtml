@@ -12,7 +12,7 @@
 <ui:composition>
     <p:panel id="insertRecaudacion" header="Nueva recaudación" styleClass="shadow" style="margin-bottom: 25px">
         <p:outputPanel styleClass="p-grid">
-            
+
             <p:outputPanel styleClass="p-col-12">
                 <p:outputPanel styleClass="p-grid">
 
@@ -26,43 +26,50 @@
 
                     <p:outputPanel styleClass="p-col-2">
                         <p:outputLabel>Serv. ini</p:outputLabel>
-                        <p:inputNumber value="#{RecaudacionFace.servicios_inicio}" inputStyle="width: 100%" style="width:100%"
+                        <p:inputNumber value="#{RecaudacionFace.servicios_inicio}" inputStyle="width: 100%"
+                                       style="width:100%"
                                        inputstyle="width:100%" decimalPlaces="0"/>
                     </p:outputPanel>
 
                     <p:outputPanel styleClass="p-col-2">
                         <p:outputLabel>Serv. fin</p:outputLabel>
-                        <p:inputNumber value="#{RecaudacionFace.servicios_fin}" inputStyle="width: 100%" style="width:100%"
+                        <p:inputNumber value="#{RecaudacionFace.servicios_fin}" inputStyle="width: 100%"
+                                       style="width:100%"
                                        inputstyle="width:100%" decimalPlaces="0"/>
                     </p:outputPanel>
 
                     <p:outputPanel styleClass="p-col-2">
                         <p:outputLabel>Num. ini</p:outputLabel>
-                        <p:inputNumber value="#{RecaudacionFace.numeracion_inicio}" inputStyle="width: 100%" style="width:100%"
+                        <p:inputNumber value="#{RecaudacionFace.numeracion_inicio}" inputStyle="width: 100%"
+                                       style="width:100%"
                                        inputstyle="width:100%" decimalPlaces="2"/>
                     </p:outputPanel>
 
                     <p:outputPanel styleClass="p-col-2">
                         <p:outputLabel>Km. tot. ini</p:outputLabel>
-                        <p:inputNumber value="#{RecaudacionFace.km_totales_inicio}" inputStyle="width: 100%" style="width:100%"
+                        <p:inputNumber value="#{RecaudacionFace.km_totales_inicio}" inputStyle="width: 100%"
+                                       style="width:100%"
                                        inputstyle="width:100%" decimalPlaces="0"/>
                     </p:outputPanel>
 
                     <p:outputPanel styleClass="p-col-2">
                         <p:outputLabel>Km. tot. fin</p:outputLabel>
-                        <p:inputNumber value="#{RecaudacionFace.km_totales_fin}" inputStyle="width: 100%" style="width:100%"
+                        <p:inputNumber value="#{RecaudacionFace.km_totales_fin}" inputStyle="width: 100%"
+                                       style="width:100%"
                                        inputstyle="width:100%" decimalPlaces="0"/>
                     </p:outputPanel>
 
                     <p:outputPanel styleClass="p-col-2">
                         <p:outputLabel>Km carg. ini</p:outputLabel>
-                        <p:inputNumber value="#{RecaudacionFace.km_cargado_inicio}" inputStyle="width: 100%" style="width:100%"
+                        <p:inputNumber value="#{RecaudacionFace.km_cargado_inicio}" inputStyle="width: 100%"
+                                       style="width:100%"
                                        inputstyle="width:100%" decimalPlaces="0"/>
                     </p:outputPanel>
 
                     <p:outputPanel styleClass="p-col-2">
                         <p:outputLabel>Km carg. fin</p:outputLabel>
-                        <p:inputNumber value="#{RecaudacionFace.km_cargado_fin}" inputStyle="width: 100%" style="width:100%"
+                        <p:inputNumber value="#{RecaudacionFace.km_cargado_fin}" inputStyle="width: 100%"
+                                       style="width:100%"
                                        inputstyle="width:100%" decimalPlaces="0"/>
                     </p:outputPanel>
 
@@ -103,12 +110,14 @@
 
         <f:facet name="header">Recaudaciones</f:facet>
 
-        <p:ajax event="rowEditInit" oncomplete="$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).hide()});" />
+        <p:ajax event="rowEditInit"
+                oncomplete="$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).hide()});"/>
 
         <p:ajax event="rowEdit" listener="#{RecaudacionFace.onRowRecaudacionEdit}" update=":form:messages"
                 oncomplete="PF('recaudacionTable').filter();$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).show()});"/>
 
-        <p:ajax event="rowEditCancel" listener="#{RecaudacionFace.onRowCancel}" update=":form:messages" onstart="$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).show()});"/>
+        <p:ajax event="rowEditCancel" listener="#{RecaudacionFace.onRowCancel}" update=":form:messages"
+                onstart="$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).show()});"/>
 
         <p:column headerText="Licencia" filterBy="#{recaudacion.licencia.codigo}"
                   sortBy="#{recaudacion.licencia.codigo}">
@@ -218,10 +227,10 @@
             <p:rowEditor/>
         </p:column>
 
-        <p:column  style="width: 40px">
+        <p:column style="width: 40px">
             <p:outputPanel style="display: flex; justify-content: center; align-items: center">
                 <p:commandButton icon="pi pi-briefcase" ajax="true"
-                                 update=":form:messages :form:insertRecaudacion recaudacionTable :form"
+                                 update=":form:messages :form:insertRecaudacion recaudacionTable form:content"
                                  action="#{RecaudacionFace.onSelectedRecaudacion(recaudacion.id)}"/>
             </p:outputPanel>
         </p:column>
