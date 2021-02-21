@@ -152,8 +152,8 @@
         <p:column headerText="Num. ini" filterBy="#{recaudacion.numeracion_inicio}"
                   sortBy="#{recaudacion.numeracion_inicio}">
             <p:cellEditor>
-                <f:facet name="output"><h:outputText converter="javax.faces.BigDecimal"
-                                                     value="#{recaudacion.numeracion_inicio}"/></f:facet>
+                <f:facet name="output"><p:inputNumber readonly="true"  converter="javax.faces.BigDecimal"
+                                                     value="#{recaudacion.numeracion_inicio}"  style="width:100%"/></f:facet>
                 <f:facet name="input"><p:inputNumber converter="javax.faces.BigDecimal"
                                                      value="#{recaudacion.numeracion_inicio}"
                                                      style="width:100%"/></f:facet>
@@ -222,22 +222,19 @@
                 <f:facet name="input"><p:inputNumber value="#{recaudacion.ano}" style="width:100%"/></f:facet>
             </p:cellEditor>
         </p:column>
-
         <p:column style="width: 65px;">
             <p:rowEditor/>
         </p:column>
-
-        <p:column style="width: 40px">
-            <p:outputPanel style="display: flex; justify-content: center; align-items: center">
+        <p:column>
+            <p:outputPanel style="display: flex; justify-content: center; align-items: center; ">
                 <p:commandButton icon="pi pi-briefcase" ajax="true"
+                                 style="width: 65px;flex: 6;"
                                  update=":form:messages :form:insertRecaudacion recaudacionTable form:content"
                                  action="#{RecaudacionFace.onSelectedRecaudacion(recaudacion.id)}"/>
-            </p:outputPanel>
-        </p:column>
 
-        <p:column headerText="" style="width: 40px">
-            <p:outputPanel style="display: flex; justify-content: center; align-items: center">
-                <p:commandButton icon="fas fa-trash-alt" ajax="true" update=":form:messages recaudacionTable"
+
+                <p:commandButton icon="fas fa-trash-alt" ajax="true" style="width: 65px;flex: 6;"
+                                 update=":form:messages recaudacionTable"
                                  action="#{RecaudacionFace.delete(recaudacion.id)}">
                     <p:confirm header="Confirmation" message="Estás seguro?" icon="pi pi-exclamation-triangle"/>
                 </p:commandButton>

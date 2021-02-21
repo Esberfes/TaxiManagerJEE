@@ -40,8 +40,19 @@
 
             <p:outputPanel styleClass="p-col">
                 <p:outputLabel>Importe</p:outputLabel>
-                <p:inputNumber converter="javax.faces.BigDecimal" value="#{GastosFace.importe}" style="width:100%"/>
+                <p:inputNumber inputStyle="width: 100%" converter="javax.faces.BigDecimal" value="#{GastosFace.importe}" style="width:100%"/>
             </p:outputPanel>
+
+            <p:outputPanel styleClass="p-col">
+                <p:outputLabel>Definición</p:outputLabel>
+                <p:inputText inputStyle="width: 100%" value="#{GastosFace.definicion}" style="width:100%"/>
+            </p:outputPanel>
+
+            <p:outputPanel styleClass="p-col">
+                <p:outputLabel>F. Facturación</p:outputLabel>
+                <p:datePicker  inputStyle="width: 100%" value="#{GastosFace.fechaFactura}" style="width:100%"/>
+            </p:outputPanel>
+
 
             <p:outputPanel styleClass="p-col" style="justify-content: flex-end;align-items: flex-end;display: flex;">
                 <p:commandButton value="Insertar" action="#{GastosFace.insert}" ajax="true"
@@ -117,10 +128,18 @@
             </p:cellEditor>
         </p:column>
 
-        <p:column headerText="Fecha" filterBy="#{gasto.creado}" sortBy="#{gasto.creado}">
+        <p:column headerText="Definición" filterBy="#{gasto.definicion}" sortBy="#{gasto.definicion}">
             <p:cellEditor>
-                <f:facet name="output"><h:outputText value="#{gasto.creado}"/></f:facet>
-                <f:facet name="input"> <p:datePicker id="inline" value="#{gasto.creado}"/>
+                <f:facet name="output"><h:outputText value="#{gasto.definicion}"/></f:facet>
+                <f:facet name="input"><p:inputText  value="#{gasto.definicion}"
+                                                     style="width:100%"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="F. Fac" filterBy="#{gasto.fechaFactura}" sortBy="#{gasto.fechaFactura}">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{gasto.fechaFactura}"/></f:facet>
+                <f:facet name="input"> <p:datePicker id="inline" value="#{gasto.fechaFactura}"/>
                 </f:facet>
             </p:cellEditor>
         </p:column>

@@ -11,8 +11,8 @@
     <h:outputStylesheet library="webjars" name="font-awesome/5.12.0/css/all.min-jsf.css"/>
     <h:outputStylesheet library="webjars" name="font-awesome/5.12.0/css/v4-shims.min-jsf.css"/>
 
-    <p:importEnum type="enums.NavigationEnum" var="NavigationEnum" allSuffix="ALL_ENUM_VALUES"/>
-    <p:importEnum type="enums.ShiftType" var="ShiftType" allSuffix="ALL_ENUM_VALUES"/>
+    <p:importEnum type="com.taxi.enums.NavigationEnum" var="NavigationEnum" allSuffix="ALL_ENUM_VALUES"/>
+    <p:importEnum type="com.taxi.enums.ShiftType" var="ShiftType" allSuffix="ALL_ENUM_VALUES"/>
 
     <h:outputScript name="js/charts.js"/>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -23,9 +23,16 @@
         <h:form id="form">
             <p:growl id="messages" showDetail="true"/>
 
-            <p:outputPanel id="logWrapper">
-                <p:log widgetVar="log" id="log"/>
-            </p:outputPanel>
+            <p:dialog widgetVar="logDialog" styleClass="flex-log" draggable="true" visible="true" minHeight="100"
+                      width="700" height="500" showEffect="fade"
+                      minimizable="true" closable="false" maximizable="true">
+                <p:scrollPanel styleClass="flex-log" mode="native">
+                    <p:outputPanel styleClass="flex-log" id="log">
+
+                    </p:outputPanel>
+                </p:scrollPanel>
+            </p:dialog>
+
 
             <p:outputPanel styleClass="p-grid">
                 <p:outputPanel styleClass="p-col-2">
@@ -191,6 +198,12 @@
             margin: 0;
         }
 
+        body input:read-only {
+            border: none;
+            width: 100%;
+            background: transparent;
+        }
+
         #form {
             padding: 15px 15px 75px 15px;
         }
@@ -206,7 +219,9 @@
         .ui-outputlabel {
             display: block;
         }
-
+        body .ui-datatable thead th {
+            vertical-align: top;
+        }
         body .ui-datatable .ui-datatable-data > tr .ui-row-editor .ui-icon.ui-icon-pencil {
             color: #007ad9;
             vertical-align: bottom;
@@ -345,6 +360,12 @@
                 transform: rotate(360deg);
             }
         }
+
+        .flex-log {
+            flex: 1;
+            display: flex;
+            flex-direction: column;;
+        }
     </style>
     <script type="text/javascript">
         PrimeFaces.locales['es'] = {
@@ -377,8 +398,6 @@
 
     <script type="text/javascript">
         var ajaxInProgress;
-
-
         var elmAjax = $(document.getElementById("form:startAjax_start"));
 
         function startHandler() {
@@ -392,6 +411,58 @@
                 elmAjax.hide();
             }, 2500);
         }
+
+        $(document).ready(function () {
+            const endpoint = "ws";
+            const host = document.location.host;
+            const pathname = document.location.pathname;
+            const prot = document.location.protocol === "http:" ? "ws://" :  "wss://";
+
+            const ws = new WebSocket(prot + host + pathname + endpoint);
+            PF('logDialog').toggleMinimize()
+
+            ws.onopen = function (e) {
+                console.log("Connected ws", e);
+            };
+
+            function connectWS() {
+                console.log("Connecting to: " + prot + host + pathname + endpoint)
+
+                ws.onclose = function (e) {
+                    reconnectWS(e);
+                    console.log("Disconnect", e);
+                };
+
+                ws.onmessage = function (event) {
+                    console.log(event.data);
+
+                    const logContainer = $('#form\\:log');
+
+                    if (logContainer.children().length > 150) {
+                        logContainer.find('div:first').remove();
+                    }
+
+                    const data = JSON.parse(event.data);
+
+                    logContainer.append($(data.line));
+                };
+
+                ws.onerror = function (err) {
+                    console.error('Socket encountered error: ', err.message, 'Closing socket');
+                    ws.close();
+                };
+
+            }
+
+            function reconnectWS(e) {
+                console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
+                setTimeout(function () {
+                    connectWS();
+                }, 1000);
+            }
+
+            connectWS();
+        });
     </script>
 </h:body>
 

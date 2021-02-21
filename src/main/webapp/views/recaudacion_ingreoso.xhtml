@@ -56,13 +56,13 @@
                     <p:outputPanel styleClass="p-col">
                         <p:outputLabel>Numeración</p:outputLabel>
                         <p:inputNumber value="#{RecaudacionFace.numeracion}" style="width:100%"
-                                       inputStyle="width:100%" decimalPlaces="2"/>
+                                       converter="javax.faces.BigDecimal"  inputStyle="width:100%" decimalPlaces="2"/>
                     </p:outputPanel>
 
                     <p:outputPanel styleClass="p-col">
                         <p:outputLabel>Anulados</p:outputLabel>
                         <p:inputNumber value="#{RecaudacionFace.anulados}" style="width:100%"
-                                       inputStyle="width:100%" decimalPlaces="2"/>
+                                       converter="javax.faces.BigDecimal"  inputStyle="width:100%" decimalPlaces="2"/>
                     </p:outputPanel>
 
                     <p:outputPanel styleClass="p-col">

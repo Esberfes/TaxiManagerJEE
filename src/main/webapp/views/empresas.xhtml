@@ -41,7 +41,7 @@
 
         <p:ajax event="rowEditInit" oncomplete="$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).hide()});" />
 
-        <p:ajax event="rowEdit" listener="#{EmpresasFace.onRowIngresoEdit}" update=":form:messages"
+        <p:ajax event="rowEdit" listener="#{EmpresasFace.onRowEdit}" update=":form:messages"
                 oncomplete="PF('empresasTable').filter();$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).show()});"/>
 
         <p:ajax event="rowEditCancel" listener="#{EmpresasFace.onRowCancel}" update=":form:messages"
