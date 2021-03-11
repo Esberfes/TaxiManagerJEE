@@ -4,7 +4,6 @@ import com.taxi.business.*;
 import com.taxi.datamodels.LazyRecaudacionDataModel;
 import com.taxi.datamodels.LazyRecaudacionIngresoDataModel;
 import com.taxi.singletons.TaxiLogger;
-import org.apache.log4j.Logger;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.LazyDataModel;
@@ -71,6 +70,9 @@ public class RecaudacionFace implements Serializable {
     private String turno;
     private BigDecimal numeracion;
     private BigDecimal anulados;
+    private BigDecimal tarjeta;
+    private BigDecimal app;
+    private BigDecimal efectivo;
     private String observaciones;
 
     @PreDestroy
@@ -126,6 +128,9 @@ public class RecaudacionFace implements Serializable {
             ingreso.setTurno(turno);
             ingreso.setNumeracion(numeracion);
             ingreso.setAnulados(anulados);
+            ingreso.setTarjeta(tarjeta);
+            ingreso.setApp(app);
+            ingreso.setEfectivo(efectivo);
             ingreso.setObservaciones(observaciones);
 
             selectedRecaudacion.addRecaudacionIngresos(ingreso);
@@ -138,6 +143,9 @@ public class RecaudacionFace implements Serializable {
             this.turno = null;
             this.numeracion = null;
             this.anulados = null;
+            this.tarjeta = null;
+            this.app = null;
+            this.efectivo = null;
             this.observaciones = null;
 
         } catch (Throwable e) {
@@ -379,6 +387,30 @@ public class RecaudacionFace implements Serializable {
 
     public void setObservaciones(String observaciones) {
         this.observaciones = observaciones;
+    }
+
+    public BigDecimal getTarjeta() {
+        return tarjeta;
+    }
+
+    public void setTarjeta(BigDecimal tarjeta) {
+        this.tarjeta = tarjeta;
+    }
+
+    public BigDecimal getApp() {
+        return app;
+    }
+
+    public void setApp(BigDecimal app) {
+        this.app = app;
+    }
+
+    public BigDecimal getEfectivo() {
+        return efectivo;
+    }
+
+    public void setEfectivo(BigDecimal efectivo) {
+        this.efectivo = efectivo;
     }
 
     public void onSelectedRecaudacion(Long id) {

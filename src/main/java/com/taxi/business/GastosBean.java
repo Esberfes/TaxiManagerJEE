@@ -52,6 +52,7 @@ public class GastosBean implements LazyLoad<Gasto> {
     }
 
     public void insert(Gasto gasto) {
-        gastosDbBean.insert(new GastosEntity(gasto));
+        GastosEntity insert = gastosDbBean.insert(new GastosEntity(gasto));
+        gasto.setId(gasto.getId());
     }
 }

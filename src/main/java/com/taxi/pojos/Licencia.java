@@ -6,12 +6,12 @@ import java.util.Date;
 
 public class Licencia {
 
-    private Long id;
-    private Empresa empresa;
-    private Integer codigo;
-    private Boolean es_eurotaxi;
-    private Date creado;
-    private Date actualizado;
+    protected Long id;
+    protected Empresa empresa;
+    protected Integer codigo;
+    protected Boolean es_eurotaxi;
+    protected Date creado;
+    protected Date actualizado;
 
     public Licencia() {
     }

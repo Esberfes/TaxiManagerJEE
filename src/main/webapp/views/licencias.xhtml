@@ -16,13 +16,13 @@
 
             <p:outputPanel styleClass="p-col">
                 <p:outputLabel>Código</p:outputLabel>
-                <p:inputNumber decimalPlaces="0" converter="javax.faces.Integer" inputStyle="width: 100%"
+                <p:inputNumber tabindex="1" decimalPlaces="0" converter="javax.faces.Integer" inputStyle="width: 100%"
                                style="width: 100%" value="#{LicenciasFace.codigo}"/>
             </p:outputPanel>
 
             <p:outputPanel styleClass="p-col">
                 <p:outputLabel>Empresa</p:outputLabel>
-                <p:autoComplete inputStyle="width: 100%" style="width: 100%" minQueryLength="0"
+                <p:autoComplete tabindex="2" inputStyle="width: 100%" style="width: 100%" minQueryLength="0"
                                 value="#{LicenciasFace.empresa}"
                                 completeMethod="#{AutoCompleteFace.completeEmpesa}"
                                 forceSelection="true" effect="fade"/>
@@ -30,14 +30,14 @@
 
             <p:outputPanel styleClass="p-col">
                 <p:outputLabel>EuroTaxi</p:outputLabel>
-                <p:selectOneMenu value="#{LicenciasFace.esEuroTaxi}" inputStyle="width: 100%" style="width: 100%">
+                <p:selectOneMenu tabindex="3" value="#{LicenciasFace.esEuroTaxi}" inputStyle="width: 100%" style="width: 100%">
                     <f:selectItem itemLabel="Si" itemValue="true"/>
                     <f:selectItem itemLabel="No" itemValue="false"/>
                 </p:selectOneMenu>
             </p:outputPanel>
 
             <p:outputPanel styleClass="p-col" style="justify-content: flex-end;align-items: flex-end;display: flex;">
-                <p:commandButton value="Insertar" action="#{LicenciasFace.insert}" ajax="true"
+                <p:commandButton tabindex="4" value="Insertar" action="#{LicenciasFace.insert}" ajax="true"
                                  update=":form:messages insertLicencia licenciasTable"/>
             </p:outputPanel>
 

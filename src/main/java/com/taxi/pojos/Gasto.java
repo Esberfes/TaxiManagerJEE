@@ -2,9 +2,6 @@ package com.taxi.pojos;
 
 import com.taxi.entities.GastosEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -13,7 +10,7 @@ public class Gasto {
     private Long id;
     private Licencia licencia;
     private FormasPago formaPago;
-    private ConceptosGastos concepto;
+    private TiposGasto tipoGasto;
     private BigDecimal importe;
     private String definicion;
     private Date fechaFactura;
@@ -25,9 +22,9 @@ public class Gasto {
 
     public Gasto(GastosEntity gasto) {
         this.id = gasto.getId();
-        this.licencia = new Licencia(gasto.getLicenciasEntity());
+        this.licencia = gasto.getLicenciasEntity() != null ? new Licencia(gasto.getLicenciasEntity()) : new EmptyLicencia();
         this.formaPago = new FormasPago(gasto.getFormasPagosGastosEntity());
-        this.concepto = new ConceptosGastos(gasto.getConceptosGastosEntity());
+        this.tipoGasto = gasto.getTiposGastosEntity() != null ? new TiposGasto(gasto.getTiposGastosEntity()) : null;
         this.importe = gasto.getImporte();
         this.fechaFactura = gasto.getFechaFactura();
         this.definicion = gasto.getDefinicion();
@@ -59,12 +56,13 @@ public class Gasto {
         this.formaPago = formaPago;
     }
 
-    public ConceptosGastos getConcepto() {
-        return concepto;
+
+    public TiposGasto getTipoGasto() {
+        return tipoGasto;
     }
 
-    public void setConcepto(ConceptosGastos concepto) {
-        this.concepto = concepto;
+    public void setTipoGasto(TiposGasto tipoGasto) {
+        this.tipoGasto = tipoGasto;
     }
 
     public BigDecimal getImporte() {

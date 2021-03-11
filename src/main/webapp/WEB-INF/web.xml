@@ -35,6 +35,6 @@
     </context-param>
 
     <session-config>
-        <session-timeout>1000</session-timeout>
+        <session-timeout>1000000</session-timeout>
     </session-config>
 </web-app>

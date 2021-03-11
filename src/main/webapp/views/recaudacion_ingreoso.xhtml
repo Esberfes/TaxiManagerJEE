@@ -14,6 +14,7 @@
             header="Recaudacion del #{RecaudacionFace.selectedRecaudacion.mes}/#{RecaudacionFace.selectedRecaudacion.ano} - Licencia: #{RecaudacionFace.selectedRecaudacion.licencia.codigo} - Empresa: #{RecaudacionFace.selectedRecaudacion.licencia.empresa.nombre}"
             styleClass="shadow" style="margin-bottom: 25px">
         <p:commandButton value="Volver" ajax="true"
+                         type="reset"
                          update=":form:messages :form:insertRecaudacion recaudacionTable form:content"
                          action="#{RecaudacionFace.onUnSelectedRecaudacion()}"/>
     </p:panel>
@@ -56,13 +57,31 @@
                     <p:outputPanel styleClass="p-col">
                         <p:outputLabel>Numeración</p:outputLabel>
                         <p:inputNumber value="#{RecaudacionFace.numeracion}" style="width:100%"
-                                       converter="javax.faces.BigDecimal"  inputStyle="width:100%" decimalPlaces="2"/>
+                                       converter="javax.faces.BigDecimal" inputStyle="width:100%" decimalPlaces="2"/>
                     </p:outputPanel>
+
+                    <p:outputPanel styleClass="p-col">
+                        <p:outputLabel>Tarjeta</p:outputLabel>
+                        <p:inputNumber value="#{RecaudacionFace.tarjeta}" style="width:100%"
+                                       converter="javax.faces.BigDecimal" inputStyle="width:100%" decimalPlaces="2"/>
+                    </p:outputPanel>
+                    <p:outputPanel styleClass="p-col">
+                        <p:outputLabel>App</p:outputLabel>
+                        <p:inputNumber value="#{RecaudacionFace.app}" style="width:100%"
+                                       converter="javax.faces.BigDecimal" inputStyle="width:100%" decimalPlaces="2"/>
+                    </p:outputPanel>
+
+                    <p:outputPanel styleClass="p-col">
+                        <p:outputLabel>Efectivo</p:outputLabel>
+                        <p:inputNumber value="#{RecaudacionFace.efectivo}" style="width:100%"
+                                       converter="javax.faces.BigDecimal" inputStyle="width:100%" decimalPlaces="2"/>
+                    </p:outputPanel>
+
 
                     <p:outputPanel styleClass="p-col">
                         <p:outputLabel>Anulados</p:outputLabel>
                         <p:inputNumber value="#{RecaudacionFace.anulados}" style="width:100%"
-                                       converter="javax.faces.BigDecimal"  inputStyle="width:100%" decimalPlaces="2"/>
+                                       converter="javax.faces.BigDecimal" inputStyle="width:100%" decimalPlaces="2"/>
                     </p:outputPanel>
 
                     <p:outputPanel styleClass="p-col">
@@ -95,7 +114,31 @@
                  currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
                  rowsPerPageTemplate="10,15,20,25,30">
 
-        <f:facet name="header">Ingresos</f:facet>
+        <f:facet name="header">
+            <p:outputPanel style="display: flex;">
+                <div style="flex:5; display: flex; align-items: center;">
+                    Ingresos
+                </div>
+                <div class="no-print" style="display: flex; flex: 1; justify-content: flex-end;">
+                    <div>
+                        <p:commandButton id="toggler" type="button" value="Columns" icon="pi pi-align-justify"/>
+                        <p:columnToggler datasource="recaudacionIngresosTable" trigger="toggler"/>
+                    </div>
+                    <div>
+                        <p:commandButton value="XLS" styleClass="p-mr-2 p-mb-2" ajax="false" immediate="true">
+                            <p:dataExporter type="xls" target="recaudacionIngresosTable" fileName="recaudaciones-ingresos"/>
+                        </p:commandButton>
+                    </div>
+                    <div>
+                        <p:commandButton value="Print" type="button" icon="pi pi-print"
+                                         styleClass="p-d-block p-shadow-2 p-mb-3">
+                            <p:printer target="recaudacionIngresosTable"/>
+                        </p:commandButton>
+                    </div>
+                </div>
+            </p:outputPanel>
+
+        </f:facet>
 
         <p:ajax event="rowEditInit"
                 oncomplete="$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).hide()});"/>
@@ -170,7 +213,7 @@
             </p:cellEditor>
         </p:column>
 
-        <p:column headerText="Recaudación" sortable="false" filterable="false">
+        <p:column headerText="Recaudación" sortable="false" filterable="true">
             <p:cellEditor>
                 <f:facet name="output">
                     <h:outputText converter="javax.faces.BigDecimal" value="#{ingreso.recaudacion}"/>
@@ -181,6 +224,43 @@
                 </f:facet>
             </p:cellEditor>
         </p:column>
+
+        <p:column headerText="Tarjeta" sortable="true" filterable="true">
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText converter="javax.faces.BigDecimal" value="#{ingreso.tarjeta}"/>
+                </f:facet>
+                <f:facet name="input">
+                    <p:inputNumber converter="javax.faces.BigDecimal" value="#{ingreso.tarjeta}" style="width:100%"
+                                   decimalPlaces="2" readonly="false"/>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="App" sortable="true" filterable="true">
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText converter="javax.faces.BigDecimal" value="#{ingreso.app}"/>
+                </f:facet>
+                <f:facet name="input">
+                    <p:inputNumber converter="javax.faces.BigDecimal" value="#{ingreso.app}" style="width:100%"
+                                   decimalPlaces="2" readonly="false"/>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column id="efec" headerText="Efectivo" sortable="true" filterable="true" >
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText converter="javax.faces.BigDecimal" value="#{ingreso.efectivo}"/>
+                </f:facet>
+                <f:facet name="input">
+                    <p:inputNumber converter="javax.faces.BigDecimal" value="#{ingreso.efectivo}" style="width:100%"
+                                   decimalPlaces="2" readonly="false"/>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+
         <p:column headerText="Líquido" sortable="false" filterable="false">
             <p:cellEditor>
                 <f:facet name="output">
@@ -213,11 +293,11 @@
             </p:cellEditor>
         </p:column>
 
-        <p:column style="width: 100px; padding: 0;">
+        <p:column style="width: 100px; padding: 0;" styleClass="no-print">
             <p:rowEditor/>
         </p:column>
 
-        <p:column headerText="" style="width: 40px">
+        <p:column headerText="" style="width: 40px"  styleClass="no-print">
             <p:outputPanel style="display: flex; justify-content: center; align-items: center">
                 <p:commandButton icon="fas fa-trash-alt" ajax="true"
                                  update=":form:messages recaudacionIngresosTable"

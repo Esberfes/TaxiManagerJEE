@@ -10,11 +10,11 @@
       xmlns:f="http://java.sun.com/jsf/core">
 
 <ui:composition>
-    <p:panel id="insertConceptoGasto" header="Nuevo concepto de gasto" styleClass="shadow" style="margin-bottom: 25px">
+    <p:panel id="insertConceptoGasto" header="Nuevo proveedor" styleClass="shadow" style="margin-bottom: 25px">
         <p:outputPanel styleClass="p-grid">
 
             <p:outputPanel styleClass="p-col">
-                <p:outputLabel>Nombre</p:outputLabel>
+                <p:outputLabel>Proveedor</p:outputLabel>
                 <p:inputText inputStyle="width: 100%" style="width: 100%" value="#{ConceptosGastosFace.nombre}"/>
             </p:outputPanel>
 
@@ -44,7 +44,7 @@
                  currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
                  rowsPerPageTemplate="10,15,20,25,30">
 
-        <f:facet name="header">Conceptos de gasto</f:facet>
+        <f:facet name="header">Proveedores</f:facet>
 
         <p:ajax event="rowEditInit" oncomplete="$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).hide()});" />
 
@@ -54,7 +54,7 @@
         <p:ajax event="rowEditCancel" listener="#{ConceptosGastosFace.onRowCancel}" update=":form:messages"
                 onstart="$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).show()});"/>
 
-        <p:column headerText="Nombre" filterBy="#{conceptoGasto.nombre}" sortBy="#{conceptoGasto.nombre}">
+        <p:column headerText="Proveedor" filterBy="#{conceptoGasto.nombre}" sortBy="#{conceptoGasto.nombre}">
             <p:cellEditor>
                 <f:facet name="output"><h:outputText value="#{conceptoGasto.nombre}"/></f:facet>
                 <f:facet name="input"><p:inputText value="#{conceptoGasto.nombre}" style="width:100%"/></f:facet>

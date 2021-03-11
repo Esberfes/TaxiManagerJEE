@@ -1,5 +1,6 @@
 package com.taxi.entities;
 
+import com.taxi.pojos.EmptyLicencia;
 import com.taxi.pojos.Gasto;
 
 import javax.persistence.*;
@@ -25,8 +26,8 @@ public class GastosEntity {
     private FormasPagosGastosEntity formasPagosGastosEntity;
 
     @ManyToOne
-    @JoinColumn(name = "id_concepto", referencedColumnName = "id")
-    private ConceptosGastosEntity conceptosGastosEntity;
+    @JoinColumn(name = "id_tipo_gasto", referencedColumnName = "id")
+    private TiposGastosEntity tiposGastosEntity;
 
     @Column(name = "importe", nullable = false)
     private BigDecimal importe;
@@ -52,9 +53,9 @@ public class GastosEntity {
 
     public GastosEntity(Gasto gasto) {
         this.id = gasto.getId();
-        this.licenciasEntity = new LicenciasEntity(gasto.getLicencia());
+        this.licenciasEntity = gasto.getLicencia() != null && !(gasto.getLicencia() instanceof EmptyLicencia) ? new LicenciasEntity(gasto.getLicencia()) : null;
         this.formasPagosGastosEntity = new FormasPagosGastosEntity(gasto.getFormaPago());
-        this.conceptosGastosEntity = new ConceptosGastosEntity(gasto.getConcepto());
+        this.tiposGastosEntity = gasto.getTipoGasto() != null?  new TiposGastosEntity(gasto.getTipoGasto()) : null;
         this.importe = gasto.getImporte();
         this.fechaFactura = gasto.getFechaFactura();
         this.definicion = gasto.getDefinicion();
@@ -113,14 +114,6 @@ public class GastosEntity {
         this.formasPagosGastosEntity = formasPagosGastosEntity;
     }
 
-    public ConceptosGastosEntity getConceptosGastosEntity() {
-        return conceptosGastosEntity;
-    }
-
-    public void setConceptosGastosEntity(ConceptosGastosEntity conceptosGastosEntity) {
-        this.conceptosGastosEntity = conceptosGastosEntity;
-    }
-
     public BigDecimal getImporte() {
         return importe;
     }
@@ -159,5 +152,13 @@ public class GastosEntity {
 
     public void setFechaFactura(Date fechaFactura) {
         this.fechaFactura = fechaFactura;
+    }
+
+    public TiposGastosEntity getTiposGastosEntity() {
+        return tiposGastosEntity;
+    }
+
+    public void setTiposGastosEntity(TiposGastosEntity tiposGastosEntity) {
+        this.tiposGastosEntity = tiposGastosEntity;
     }
 }

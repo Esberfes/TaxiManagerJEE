@@ -2,6 +2,7 @@ package com.taxi.pojos;
 
 import com.taxi.entities.RecaudacionIngresosEntity;
 
+import javax.persistence.Column;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -19,6 +20,9 @@ public class RecaudacionIngreso {
     private BigDecimal anulados;
     private BigDecimal recaudacion;
     private BigDecimal liquido;
+    private BigDecimal tarjeta;
+    private BigDecimal efectivo;
+    private BigDecimal app;
     private String observaciones;
     private Date creado;
     private Date actualizado;
@@ -37,6 +41,9 @@ public class RecaudacionIngreso {
         this.numeracion = ensureNotNull(recaudacionIngresosEntity.getNumeracion());
         this.liquido = recaudacionIngresosEntity.getLiquido();
         this.anulados = ensureNotNull(recaudacionIngresosEntity.getAnulados());
+        this.tarjeta = recaudacionIngresosEntity.getTarjeta();
+        this.efectivo = recaudacionIngresosEntity.getEfectivo();
+        this.app = recaudacionIngresosEntity.getApp();
         this.recaudacion = ensureNotNull(recaudacionIngresosEntity.getRecaudacion());
         this.observaciones = recaudacionIngresosEntity.getObservaciones();
         this.creado = recaudacionIngresosEntity.getCreado();
@@ -145,6 +152,30 @@ public class RecaudacionIngreso {
 
     public void setLiquido(BigDecimal liquido) {
         this.liquido = liquido;
+    }
+
+    public BigDecimal getTarjeta() {
+        return tarjeta;
+    }
+
+    public void setTarjeta(BigDecimal tarjeta) {
+        this.tarjeta = tarjeta;
+    }
+
+    public BigDecimal getEfectivo() {
+        return efectivo;
+    }
+
+    public void setEfectivo(BigDecimal efectivo) {
+        this.efectivo = efectivo;
+    }
+
+    public BigDecimal getApp() {
+        return app;
+    }
+
+    public void setApp(BigDecimal app) {
+        this.app = app;
     }
 }
 

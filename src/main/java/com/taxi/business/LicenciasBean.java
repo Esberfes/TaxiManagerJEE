@@ -3,9 +3,9 @@ package com.taxi.business;
 import com.taxi.database.LicenciasDbBean;
 import com.taxi.datamodels.LazyLoad;
 import com.taxi.entities.LicenciasEntity;
+import com.taxi.pojos.Licencia;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortMeta;
-import com.taxi.pojos.Licencia;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -48,7 +48,15 @@ public class LicenciasBean implements LazyLoad<Licencia> {
     }
 
     public Licencia findSingleByCodigo(Integer codigo) {
-        return new Licencia(licenciasDbBean.findSingleByCodigo(codigo));
+        if (codigo == null)
+            return null;
+
+        LicenciasEntity licenciasEntity = licenciasDbBean.findSingleByCodigo(codigo);
+
+        if (licenciasEntity == null)
+            return null;
+
+        return new Licencia(licenciasEntity);
     }
 
     public void update(Licencia licencia) {

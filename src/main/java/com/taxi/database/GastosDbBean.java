@@ -1,11 +1,12 @@
 package com.taxi.database;
 
 import com.taxi.entities.GastosEntity;
+import com.taxi.entities.TiposGastosEntity;
+import com.taxi.pojos.Gasto;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortMeta;
 import org.primefaces.model.SortOrder;
-import com.taxi.pojos.Gasto;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -32,15 +33,13 @@ public class GastosDbBean {
     private FormasPagosDbBean formasPagosDbBean;
 
     @Inject
-    private ConceptosGastosDbBean conceptosGastosDbBean;
+    private TiposGastoDbBean tiposGastoDbBean;
 
     public List<GastosEntity> getData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
-        StringBuilder rawQuery = new StringBuilder("SELECT * FROM gastos, licencias, formas_pagos_gastos, conceptos_gastos, tipos_gastos" +
-                " WHERE " +
-                "gastos.id_licencia = licencias.id " +
-                "AND gastos.id_forma_pago = formas_pagos_gastos.id " +
-                "AND gastos.id_concepto = conceptos_gastos.id " +
-                "AND conceptos_gastos.id_tipo_gasto = tipos_gastos.id");
+        StringBuilder rawQuery = new StringBuilder("SELECT * FROM  gastos " +
+                " LEFT JOIN tipos_gastos on (gastos.id_tipo_gasto = tipos_gastos.id) " +
+                " LEFT JOIN formas_pagos_gastos on (gastos.id_forma_pago = formas_pagos_gastos.id) " +
+                "WHERE true ");
 
         Query query = buildFilters(sortMeta, filterMeta, rawQuery, GastosEntity.class);
 
@@ -52,12 +51,10 @@ public class GastosDbBean {
 
 
     public int getTotal(Map<String, FilterMeta> filterMeta) {
-        StringBuilder rawQuery = new StringBuilder("SELECT COUNT(*) FROM  gastos, licencias, formas_pagos_gastos, conceptos_gastos, tipos_gastos" +
-                " WHERE " +
-                "gastos.id_licencia = licencias.id " +
-                "AND gastos.id_forma_pago = formas_pagos_gastos.id " +
-                "AND gastos.id_concepto = conceptos_gastos.id " +
-                "AND conceptos_gastos.id_tipo_gasto = tipos_gastos.id");
+        StringBuilder rawQuery = new StringBuilder("SELECT count(*) FROM  gastos " +
+                " LEFT JOIN tipos_gastos on (gastos.id_tipo_gasto = tipos_gastos.id) " +
+                " LEFT JOIN formas_pagos_gastos on (gastos.id_forma_pago = formas_pagos_gastos.id) " +
+                "WHERE true ");
 
         Query query = buildFilters(null, filterMeta, rawQuery, null);
 
@@ -78,14 +75,14 @@ public class GastosDbBean {
                         case "licencia.codigo":
                             rawQuery.append(" AND ").append(" licencias.codigo ").append("LIKE ").append(":").append(entry.getKey());
                             break;
-                        case "concepto.nombre":
-                            rawQuery.append(" AND ").append(" conceptos_gastos.nombre ").append("LIKE ").append(":").append(entry.getKey());
-                            break;
                         case "formaPago.nombre":
                             rawQuery.append(" AND ").append(" formas_pagos_gastos ").append("LIKE ").append(":").append(entry.getKey());
                             break;
-                        case "tipos_gastos.es_operacional" :
+                        case "tipos_gastos.es_operacional":
                             rawQuery.append(" AND ").append(" tipos_gastos.es_operacional ").append("LIKE ").append(":").append(entry.getKey());
+                            break;
+                        case "tipos_gastos.enombre":
+                            rawQuery.append(" AND ").append(" tipos_gastos.nombre ").append("LIKE ").append(":").append(entry.getKey());
                             break;
                         default:
                             rawQuery.append(" AND ").append("gastos.").append(entry.getKey()).append(" LIKE ").append(":").append(entry.getKey());
@@ -104,11 +101,11 @@ public class GastosDbBean {
                 case "licencia.codigo":
                     rawQuery.append(" ORDER BY ").append("licencias.codigo").append(" ").append(sort.getSortOrder() == SortOrder.DESCENDING ? " DESC " : " ASC ");
                     break;
-                case "concepto.nombre":
-                    rawQuery.append(" ORDER BY ").append("conceptos_gastos.nombre").append(" ").append(sort.getSortOrder() == SortOrder.DESCENDING ? " DESC " : " ASC ");
-                    break;
                 case "formaPago.nombre":
                     rawQuery.append(" ORDER BY ").append("formas_pagos_gastos.nombre").append(" ").append(sort.getSortOrder() == SortOrder.DESCENDING ? " DESC " : " ASC ");
+                    break;
+                case "tipoGasto.nombre":
+                    rawQuery.append(" ORDER BY ").append(" tipos_gastos.nombre ").append(" ").append(sort.getSortOrder() == SortOrder.DESCENDING ? " DESC " : " ASC ");
                     break;
                 default:
                     rawQuery.append(" ORDER BY ").append("gastos.").append(sort.getSortField()).append(" ").append(sort.getSortOrder() == SortOrder.DESCENDING ? " DESC " : " ASC ");
@@ -143,7 +140,14 @@ public class GastosDbBean {
         GastosEntity gastosEntity = em.find(GastosEntity.class, gasto.getId());
         gastosEntity.setLicenciasEntity(licenciasDbBean.findSingleByCodigo(gasto.getLicencia().getCodigo()));
         gastosEntity.setFormasPagosGastosEntity(formasPagosDbBean.findSingleByName(gasto.getFormaPago().getNombre()));
-        gastosEntity.setConceptosGastosEntity(conceptosGastosDbBean.findSingleByName(gasto.getConcepto().getNombre()));
+        if (gasto.getTipoGasto() != null) {
+            try {
+                TiposGastosEntity tiposGastosEntity = tiposGastoDbBean.findSingleByName(gasto.getTipoGasto().getNombre());
+                gastosEntity.setTiposGastosEntity(tiposGastosEntity);
+            }catch (Throwable e) {
+                gastosEntity.setTiposGastosEntity(null);
+            }
+        }
         gastosEntity.setDefinicion(gasto.getDefinicion());
         gastosEntity.setFechaFactura(gasto.getFechaFactura());
         gastosEntity.setImporte(gasto.getImporte());

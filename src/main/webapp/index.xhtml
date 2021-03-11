@@ -79,7 +79,7 @@
                                         action="#{NavigationFace.navigate(NavigationEnum.formasPagos)}"
                                         styleClass="#{NavigationFace.navigation eq NavigationEnum.formasPagos ? 'active' : ''}"/>
 
-                            <p:menuitem value="Conceptos de gasto" update="messages content menu" ajax="true"
+                            <p:menuitem rendered="false" value="Proveedores" update="messages content menu" ajax="true"
                                         action="#{NavigationFace.navigate(NavigationEnum.conceptosGastos)}"
                                         styleClass="#{NavigationFace.navigation eq NavigationEnum.conceptosGastos ? 'active' : ''}"/>
 
@@ -366,6 +366,25 @@
             display: flex;
             flex-direction: column;;
         }
+        @media print {
+            .no-print {
+                display: none;
+            }
+            body .ui-datatable thead th .ui-sortable-column-icon {
+                display: none;
+            }
+            body .ui-datatable .ui-column-filter {
+                display: none;
+            }
+
+            body .ui-datatable .ui-paginator {
+                display: none;
+            }
+
+            body .ui-datatable thead th .ui-sortable-column-icon.ui-icon-carat-2-n-s {
+                display: none;
+            }
+        }
     </style>
     <script type="text/javascript">
         PrimeFaces.locales['es'] = {
@@ -462,6 +481,14 @@
             }
 
             connectWS();
+
+            PrimeFaces.widget.SelectOneMenu.prototype.handleEnterKey = function(event) {
+                if (this.panel.is(':visible')) {
+                    this.selectItem(this.getActiveItem());
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+            }
         });
     </script>
 </h:body>

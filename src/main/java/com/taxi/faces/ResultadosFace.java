@@ -245,7 +245,7 @@ public class ResultadosFace implements Serializable {
             sortMeta.put("creado", new SortMeta("creado", "creado", SortOrder.DESCENDING, null));
 
             List<Gasto> data = gastosBean.getData(0, 1000, sortMeta, filterMeta);
-
+/*
             for (Gasto gasto : data) {
                 if (result.containsKey(gasto.getConcepto().getNombre())) {
                     GastoResult gastoResult = result.get(gasto.getConcepto().getNombre());
@@ -257,7 +257,7 @@ public class ResultadosFace implements Serializable {
                     result.put(gasto.getConcepto().getNombre(), gastoResult);
                 }
             }
-
+*/
         } catch (Throwable e) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error recuperando recaudaciones", e.getMessage());
             FacesContext.getCurrentInstance().addMessage(null, msg);

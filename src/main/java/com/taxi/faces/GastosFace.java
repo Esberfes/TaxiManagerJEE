@@ -1,9 +1,6 @@
 package com.taxi.faces;
 
-import com.taxi.business.ConceptosGastosBean;
-import com.taxi.business.FormasPagosBean;
-import com.taxi.business.GastosBean;
-import com.taxi.business.LicenciasBean;
+import com.taxi.business.*;
 import com.taxi.datamodels.LazyGastosDataModel;
 import com.taxi.pojos.Gasto;
 import org.primefaces.event.RowEditEvent;
@@ -35,7 +32,7 @@ public class GastosFace implements Serializable {
     private FormasPagosBean formasPagosBean;
 
     @Inject
-    private ConceptosGastosBean conceptosGastosBean;
+    private TiposGastosBean tiposGastosBean;
 
     private LazyDataModel<Gasto> lazyModel;
 
@@ -45,6 +42,7 @@ public class GastosFace implements Serializable {
     private BigDecimal importe;
     private String definicion;
     private Date fechaFactura;
+    private String tipoGasto;
 
     @PostConstruct
     public void init() {
@@ -56,7 +54,9 @@ public class GastosFace implements Serializable {
             Gasto gasto = new Gasto();
             gasto.setLicencia(licenciasBean.findSingleByCodigo(licencia));
             gasto.setFormaPago(formasPagosBean.findSingleByName(formaPago));
-            gasto.setConcepto(conceptosGastosBean.findSingleByName(concepto));
+            if(tipoGasto != null)
+                gasto.setTipoGasto(tiposGastosBean.findSingleByName(tipoGasto));
+
             gasto.setImporte(importe);
             gasto.setDefinicion(definicion);
             gasto.setFechaFactura(fechaFactura);
@@ -68,6 +68,7 @@ public class GastosFace implements Serializable {
             importe = null;
             definicion = null;
             fechaFactura = null;
+            tipoGasto = null;
 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Nuevo concepto de gasto insertado", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -139,14 +140,6 @@ public class GastosFace implements Serializable {
         this.formasPagosBean = formasPagosBean;
     }
 
-    public ConceptosGastosBean getConceptosGastosBean() {
-        return conceptosGastosBean;
-    }
-
-    public void setConceptosGastosBean(ConceptosGastosBean conceptosGastosBean) {
-        this.conceptosGastosBean = conceptosGastosBean;
-    }
-
     public Integer getLicencia() {
         return licencia;
     }
@@ -193,5 +186,13 @@ public class GastosFace implements Serializable {
 
     public void setFechaFactura(Date fechaFacturacion) {
         this.fechaFactura = fechaFacturacion;
+    }
+
+    public String getTipoGasto() {
+        return tipoGasto;
+    }
+
+    public void setTipoGasto(String tipoGasto) {
+        this.tipoGasto = tipoGasto;
     }
 }

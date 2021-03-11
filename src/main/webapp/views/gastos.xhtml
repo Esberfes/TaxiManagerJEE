@@ -31,10 +31,10 @@
             </p:outputPanel>
 
             <p:outputPanel styleClass="p-col">
-                <p:outputLabel>Concepto</p:outputLabel>
+                <p:outputLabel>Tipo de gasto</p:outputLabel>
                 <p:autoComplete inputStyle="width: 100%" style="width: 100%" minQueryLength="0"
-                                value="#{GastosFace.concepto}"
-                                completeMethod="#{AutoCompleteFace.completeConceptos}"
+                                value="#{GastosFace.tipoGasto}"
+                                completeMethod="#{AutoCompleteFace.completeTipoGasto}"
                                 forceSelection="true" effect="fade"/>
             </p:outputPanel>
 
@@ -86,7 +86,7 @@
 
         <p:column headerText="Licencia" filterBy="#{gasto.licencia.codigo}" sortBy="#{gasto.licencia.codigo}">
             <p:cellEditor>
-                <f:facet name="output"><h:outputText value="#{gasto.licencia.codigo}"/></f:facet>
+                <f:facet name="output"><h:outputText value="#{gasto.licencia.codigo == -1 ? 'Común' : gasto.licencia.codigo}"/></f:facet>
                 <f:facet name="input">
                     <p:autoComplete inputStyle="width: 100%" style="width: 100%" minQueryLength="0"
                                     value="#{gasto.licencia.codigo}"
@@ -108,13 +108,14 @@
             </p:cellEditor>
         </p:column>
 
-        <p:column headerText="Concepto" filterBy="#{gasto.concepto.nombre}" sortBy="#{gasto.concepto.nombre}">
+        <p:column headerText="Tipo de gasto" filterBy="#{gasto.tipoGasto.nombre}"
+                  sortBy="#{gasto.tipoGasto.nombre}">
             <p:cellEditor>
-                <f:facet name="output"><h:outputText value="#{gasto.concepto.nombre}"/></f:facet>
+                <f:facet name="output"><h:outputText value="#{gasto.tipoGasto.nombre}"/></f:facet>
                 <f:facet name="input">
                     <p:autoComplete inputStyle="width: 100%" style="width: 100%" minQueryLength="0"
-                                    value="#{gasto.concepto.nombre}"
-                                    completeMethod="#{AutoCompleteFace.completeConceptos}"
+                                    value="#{gasto.tipoGasto.nombre}"
+                                    completeMethod="#{AutoCompleteFace.completeTipoGasto}"
                                     forceSelection="true" effect="fade"/>
                 </f:facet>
             </p:cellEditor>
