@@ -137,7 +137,6 @@ public class RecaudacionFace implements Serializable {
 
             recaudacionIngresosBean.insert(ingreso, selectedRecaudacion);
 
-            this.conductor = null;
             this.estado = null;
             this.dia = null;
             this.turno = null;
