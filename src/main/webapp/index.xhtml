@@ -49,6 +49,10 @@
                         </p:submenu>
 
                         <p:submenu label="Salidas">
+                            <p:menuitem value="Licencias" update="messages content menu" ajax="true"
+                                        action="#{NavigationFace.navigate(NavigationEnum.out_licencias)}"
+                                        styleClass="#{NavigationFace.navigation eq NavigationEnum.out_licencias ? 'active' : ''}"/>
+
                             <p:menuitem value="Resultados" update="messages content menu" ajax="true"
                                         action="#{NavigationFace.navigate(NavigationEnum.resultados)}"
                                         styleClass="#{NavigationFace.navigation eq NavigationEnum.resultados ? 'active' : ''}"/>
@@ -91,11 +95,6 @@
                                         action="#{NavigationFace.navigate(NavigationEnum.estadosIngresos)}"
                                         styleClass="#{NavigationFace.navigation eq NavigationEnum.estadosIngresos ? 'active' : ''}"/>
                         </p:submenu>
-                        <p:submenu label="Opciones">
-                            <p:menuitem value="Activar/desactivar log">
-                                <p:inputSwitch value="#{NavigationFace.switchLog}"/>
-                            </p:menuitem>
-                        </p:submenu>
                     </p:menu>
 
                     <p:ajaxStatus id="startAjax" widgetVar="startAjax" onstart="startHandler();"
@@ -130,6 +129,10 @@
                     </p:outputPanel>
 
                     <!-- SALIDAS -->
+                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.out_licencias}">
+                        <ui:include src="./views/out/out_licencias.xhtml"/>
+                    </p:outputPanel>
+
                     <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.resultados}">
                         <ui:include src="./views/resultados.xhtml"/>
                     </p:outputPanel>
@@ -204,6 +207,11 @@
             border: none;
             width: 100%;
             background: transparent;
+        }
+
+        .ui-widget-header .ui-inputfield, .ui-widget-content .ui-inputfield {
+            font-weight: normal;
+            width: 100%;
         }
 
         #form {

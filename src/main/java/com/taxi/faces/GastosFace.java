@@ -6,6 +6,7 @@ import com.taxi.business.LicenciasBean;
 import com.taxi.business.TiposGastosBean;
 import com.taxi.datamodels.LazyGastosDataModel;
 import com.taxi.pojos.Gasto;
+import com.taxi.singletons.TaxiLogger;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.LazyDataModel;
 
@@ -39,6 +40,9 @@ public class GastosFace implements Serializable {
     @Inject
     private TiposGastosBean tiposGastosBean;
 
+    @Inject
+    private transient TaxiLogger logger;
+
     private LazyDataModel<Gasto> lazyModel;
 
     private Integer licencia;
@@ -56,7 +60,7 @@ public class GastosFace implements Serializable {
         this.lazyModel = new LazyGastosDataModel(gastosBean);
         Calendar calendar = new GregorianCalendar();
         ano = calendar.get(Calendar.YEAR);
-        mes = calendar.get(Calendar.MONTH);
+        mes = calendar.get(Calendar.MONTH) ;
     }
 
     public void insert() {
@@ -70,6 +74,8 @@ public class GastosFace implements Serializable {
             gasto.setImporte(importe);
             gasto.setDefinicion(definicion);
             gasto.setFechaFactura(fechaFactura);
+            gasto.setMes(mes);
+            gasto.setAno(ano);
             gastosBean.insert(gasto);
 
             Calendar calendar = new GregorianCalendar();
@@ -79,15 +85,17 @@ public class GastosFace implements Serializable {
             importe = null;
             definicion = null;
             ano = calendar.get(Calendar.YEAR);
-            mes = calendar.get(Calendar.MONTH);
+            mes = calendar.get(Calendar.MONTH)  + 1;
             fechaFactura = null;
             tipoGasto = null;
+            logger.info("Gasto insertado", gasto);
 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Nuevo concepto de gasto insertado", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Throwable e) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error insertando concepto de gasto", e.getMessage());
             FacesContext.getCurrentInstance().addMessage(null, msg);
+            logger.error("Error insertando gasto", e);
         }
     }
 
@@ -101,6 +109,7 @@ public class GastosFace implements Serializable {
         } catch (Throwable e) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error actualizando entrada", e.getMessage());
             FacesContext.getCurrentInstance().addMessage(null, msg);
+            logger.error("Error editando gasto", e);
         }
     }
 
@@ -117,6 +126,7 @@ public class GastosFace implements Serializable {
         } catch (Throwable e) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error eliminado gasto", e.getMessage());
             FacesContext.getCurrentInstance().addMessage(null, msg);
+            logger.error("Error eliminando gasto", e);
         }
     }
 

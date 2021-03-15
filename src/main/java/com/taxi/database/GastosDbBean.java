@@ -149,6 +149,8 @@ public class GastosDbBean {
             }
         }
         gastosEntity.setDefinicion(gasto.getDefinicion());
+        gastosEntity.setMes(gasto.getMes());
+        gastosEntity.setAno(gasto.getAno());
         gastosEntity.setFechaFactura(gasto.getFechaFactura());
         gastosEntity.setImporte(gasto.getImporte());
         gastosEntity.setCreado(gasto.getCreado());

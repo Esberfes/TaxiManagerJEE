@@ -15,12 +15,10 @@ public class NavigationFace implements Serializable {
     public static final String BEAN_NAME = "NavigationFace";
 
     private NavigationEnum navigation;
-    private boolean switchLog;
 
     @PostConstruct
     public void init() {
         navigation = NavigationEnum.licencias;
-       // PrimeFaces.current().executeScript("PF('log').hide();");
     }
 
     public void navigate(NavigationEnum navigation) {
@@ -34,18 +32,4 @@ public class NavigationFace implements Serializable {
     public void setNavigation(NavigationEnum navigation) {
         this.navigation = navigation;
     }
-
-    public boolean isSwitchLog() {
-        return switchLog;
-    }
-
-    public void setSwitchLog(boolean switchLog) {/*
-        if (switchLog)
-            PrimeFaces.current().executeScript("PF('log').show();");
-        else
-            PrimeFaces.current().executeScript("PF('log').hide();");
-*/
-        this.switchLog = switchLog;
-    }
-
 }

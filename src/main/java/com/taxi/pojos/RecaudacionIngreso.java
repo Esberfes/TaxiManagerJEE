@@ -50,6 +50,35 @@ public class RecaudacionIngreso {
         this.actualizado = recaudacionIngresosEntity.getActualizado();
     }
 
+    public void replace(RecaudacionIngreso recaudacionIngreso) {
+        this.id = recaudacionIngreso.getId();
+        this.recaudacionObj = recaudacionIngreso.getRecaudacionObj();
+        this.conductor = recaudacionIngreso.getConductor();
+        this.estado = recaudacionIngreso.getEstado();
+        this.dia = recaudacionIngreso.getDia();
+        this.turno = recaudacionIngreso.getTurno();
+        this.numeracion = ensureNotNull(recaudacionIngreso.getNumeracion());
+        this.liquido = recaudacionIngreso.getLiquido();
+        this.anulados = ensureNotNull(recaudacionIngreso.getAnulados());
+        this.tarjeta = recaudacionIngreso.getTarjeta();
+        this.efectivo = recaudacionIngreso.getEfectivo();
+        this.app = recaudacionIngreso.getApp();
+        this.recaudacion = ensureNotNull(recaudacionIngreso.getRecaudacion());
+        this.observaciones = recaudacionIngreso.getObservaciones();
+        this.creado = recaudacionIngreso.getCreado();
+        this.actualizado = recaudacionIngreso.getActualizado();
+    }
+
+    public static RecaudacionIngreso createEmpty(Integer dia, String turno) {
+        RecaudacionIngreso recaudacionIngreso = new RecaudacionIngreso();
+        recaudacionIngreso.setDia(dia);
+        recaudacionIngreso.setTurno(turno);
+        recaudacionIngreso.setConductor(new Conductor());
+        recaudacionIngreso.setEstado(new EstadosIngreso());
+
+        return recaudacionIngreso;
+    }
+
     public Long getId() {
         return id;
     }

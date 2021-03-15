@@ -1,5 +1,6 @@
 package com.taxi.singletons;
 
+import com.google.gson.Gson;
 import org.apache.commons.io.input.Tailer;
 import org.apache.commons.io.input.TailerListenerAdapter;
 import org.apache.log4j.Level;
@@ -72,7 +73,9 @@ public class TaxiLogger extends TailerListenerAdapter {
     public void info(String message) {
         log(Level.INFO, message);
     }
-
+    public void info(String message, Object obj) {
+        log(Level.INFO, message + " - " + new Gson().toJson(obj));
+    }
     @Override
     public void handle(String line) {
         StringBuilder sb = new StringBuilder();

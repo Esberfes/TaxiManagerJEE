@@ -3,11 +3,10 @@ package com.taxi.faces;
 import com.taxi.business.ConceptosGastosBean;
 import com.taxi.business.TiposGastosBean;
 import com.taxi.datamodels.LazyConceptosGastosDataModel;
+import com.taxi.pojos.ConceptosGastos;
 import com.taxi.singletons.TaxiLogger;
-import org.apache.log4j.Logger;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.LazyDataModel;
-import com.taxi.pojos.ConceptosGastos;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -46,7 +45,7 @@ public class ConceptosGastosFace implements Serializable {
         try {
             conceptosGastosBean.update(event.getObject());
 
-             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Entrada modificada", String.valueOf(event.getObject().getId()) );
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Entrada modificada", String.valueOf(event.getObject().getId()));
             FacesContext.getCurrentInstance().addMessage(null, msg);
 
         } catch (Throwable e) {
@@ -56,7 +55,7 @@ public class ConceptosGastosFace implements Serializable {
     }
 
     public void onRowCancel(RowEditEvent<ConceptosGastos> event) {
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Edición cancelada",  String.valueOf(event.getObject().getId()));
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Edición cancelada", String.valueOf(event.getObject().getId()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 

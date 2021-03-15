@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+>
+
+<ui:composition>
+
+    <p:panel id="outLicenciasHeader" header="Salida licencias" styleClass="shadow"
+             style="margin-bottom: 25px">
+        <p:outputPanel styleClass="p-grid">
+
+            <p:outputPanel styleClass="p-col">
+                <p:outputLabel>Licencia</p:outputLabel>
+                <p:autoComplete inputStyle="width:100%" style="width:100%" minQueryLength="0"
+                                value="#{OutLicenciasFace.licencia}"
+                                completeMethod="#{AutoCompleteFace.completeLicencia}"
+                                forceSelection="true" effect="fade"/>
+            </p:outputPanel>
+
+            <p:outputPanel styleClass="p-col">
+                <p:outputLabel>Mes</p:outputLabel>
+                <p:inputNumber title="Mes" decimalPlaces="0" minValue="1" maxlength="12" value="#{OutLicenciasFace.mes}"
+                               inputStyle="margin-right: 10px;"/>
+            </p:outputPanel>
+
+            <p:outputPanel styleClass="p-col">
+                <p:outputLabel>Año</p:outputLabel>
+                <p:inputNumber title="Año" decimalPlaces="0" thousandSeparator="" value="#{OutLicenciasFace.ano}"
+                               inputStyle="margin-right: 10px;"/>
+            </p:outputPanel>
+
+            <p:outputPanel styleClass="p-col" style="justify-content: flex-end;align-items: flex-end;display: flex;">
+                <p:commandButton icon="pi pi-refresh" ajax="true"
+                                 update=":form:messages outLicenciasTable outLicenciasTableGastos"
+                                 action="#{OutLicenciasFace.refresh()}"/>
+            </p:outputPanel>
+
+        </p:outputPanel>
+        <p:outputPanel>
+
+        </p:outputPanel>
+    </p:panel>
+
+    <p:outputPanel styleClass="p-grid">
+        <p:panel styleClass="p-col-8" header="Ingresos por licencia">
+            <p:dataTable  widgetVar="outLicenciasTable" id="outLicenciasTable" var="ingreso"
+                         value="#{OutLicenciasFace.recaudacionIngresos}"
+                         sortBy="#{ingreso.dia}"
+                         rows="500"
+                         paginator="false"
+                         resizableColumns="true" liveResize="true" showGridlines="true">
+
+                <f:facet name="header">
+                    <p:outputPanel style="display: flex;">
+                        <p:outputPanel>
+                            <h:outputText rendered="${OutLicenciasFace.licenciaObj != null}" value="Licencia: ${OutLicenciasFace.licenciaObj.codigo} "/>
+                        </p:outputPanel>
+                        <p:outputPanel>
+                            <h:outputText rendered="${OutLicenciasFace.licenciaObj != null}" value=" Empresa: ${OutLicenciasFace.licenciaObj.empresa.nombre} "/>
+                        </p:outputPanel>
+                        <p:outputPanel>
+                            <h:outputText rendered="${OutLicenciasFace.licenciaObj != null}" value=" Mes: ${OutLicenciasFace.mes} "/>
+                        </p:outputPanel>
+                        <p:outputPanel>
+                            <h:outputText rendered="${OutLicenciasFace.licenciaObj != null}" value=" Recaudación: ${OutLicenciasFace.totalRecaudacion} "/>
+                        </p:outputPanel>
+                        <p:outputPanel>
+                            <h:outputText rendered="${OutLicenciasFace.licenciaObj != null}" value=" Servicios: ${OutLicenciasFace.totaServicios} "/>
+                        </p:outputPanel>
+                        <p:outputPanel>
+                            <h:outputText rendered="${OutLicenciasFace.licenciaObj != null}" value=" Kilometros: ${OutLicenciasFace.totalKilometros} "/>
+                        </p:outputPanel>
+                    </p:outputPanel>
+                </f:facet>
+
+
+                <p:column rowspan="2" rendered="${ingreso.turno != 'tarde'}" headerText="Dia">
+                    <h:outputText value="#{ingreso.dia}"/>
+                </p:column>
+
+                <p:column headerText="Turno">
+                    <h:outputText value="#{ingreso.turno}"/>
+                </p:column>
+
+                <p:column headerText="Conductor">
+                    <h:outputText value="#{ingreso.conductor.nombre}"/>
+                </p:column>
+
+                <p:column headerText="Observaciones">
+                    <h:outputText value="#{ingreso.observaciones}"/>
+                </p:column>
+
+                <p:column headerText="Recaudación">
+                    <h:outputText value="#{ingreso.recaudacion}"/>
+                </p:column>
+
+                <p:column headerText="Líquido">
+                    <h:outputText value="#{ingreso.liquido}"/>
+                </p:column>
+
+                <f:facet name="footer">
+                    <p:outputPanel style="display: flex; justify-content: flex-end;">
+                        <p:outputPanel>
+                            <h:outputText value="Recaudación: ${OutLicenciasFace.totalRecaudacion} "/>
+                        </p:outputPanel>
+                        <p:outputPanel>
+                            <h:outputText value=" Liquido: ${OutLicenciasFace.totalLiquido}€"/>
+                        </p:outputPanel>
+                    </p:outputPanel>
+                </f:facet>
+
+            </p:dataTable>
+
+        </p:panel>
+        <p:panel styleClass="p-col-4" header="Gastos">
+            <p:dataTable  widgetVar="outLicenciasTableGastos" id="outLicenciasTableGastos" var="gasto"
+                         value="#{OutLicenciasFace.gastos}"
+                         rows="500"
+                         paginator="false"
+                         resizableColumns="true" liveResize="true" showGridlines="true">
+
+                <p:column headerText="Tipo">
+                    <h:outputText value="#{gasto.tipoGasto.nombre}"/>
+                </p:column>
+
+                <p:column headerText="Importe">
+                    <h:outputText value="#{gasto.importe}"/>
+                </p:column>
+
+                <f:facet name="footer">
+                    <p:outputPanel style="display: flex; justify-content: flex-end;">
+                        <h:outputText value="${OutLicenciasFace.totalGastos}€"/>
+                    </p:outputPanel>
+                </f:facet>
+
+            </p:dataTable>
+        </p:panel>
+    </p:outputPanel>
+
+
+</ui:composition>
+
+</html>

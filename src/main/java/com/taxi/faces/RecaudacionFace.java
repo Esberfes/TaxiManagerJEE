@@ -87,7 +87,7 @@ public class RecaudacionFace implements Serializable {
         this.lazyModel = new LazyRecaudacionDataModel(recaudacionBean);
         Calendar calendar = new GregorianCalendar();
         ano = calendar.get(Calendar.YEAR);
-        mes = calendar.get(Calendar.MONTH);
+        mes = calendar.get(Calendar.MONTH)  + 1;
     }
 
     public void onRowIngresoEdit(RowEditEvent<RecaudacionIngreso> event) {
@@ -97,10 +97,12 @@ public class RecaudacionFace implements Serializable {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Entrada modificada", String.valueOf(event.getObject().getId()));
             FacesContext.getCurrentInstance().addMessage(null, msg);
             PrimeFaces.current().executeScript("PrimeFaces.info('Info message');");
+            logger.info("Recaudación ingreso editado", event.getObject());
         } catch (Throwable e) {
             logger.error("Error modificando racaudación", e);
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error actualizando entrada", e.getMessage());
             FacesContext.getCurrentInstance().addMessage(null, msg);
+            logger.error("Error editando reacaudación ingreso", e);
         }
     }
 
@@ -111,9 +113,11 @@ public class RecaudacionFace implements Serializable {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Entrada modificada", String.valueOf(event.getObject().getId()));
             FacesContext.getCurrentInstance().addMessage(null, msg);
 
+            logger.info("Recaudación editada", event.getObject());
         } catch (Throwable e) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error actualizando entrada", e.getMessage());
             FacesContext.getCurrentInstance().addMessage(null, msg);
+            logger.error("Error editando reacaudación", e);
         }
     }
 
@@ -152,9 +156,12 @@ public class RecaudacionFace implements Serializable {
             this.efectivo = null;
             this.observaciones = null;
 
+            logger.info("Recaudación ingreso insertado", ingreso);
+
         } catch (Throwable e) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error insertando ingreso", e.getMessage());
             FacesContext.getCurrentInstance().addMessage(null, msg);
+            logger.error("Error insertando reacaudación ingreso", e);
         }
     }
 
@@ -193,13 +200,16 @@ public class RecaudacionFace implements Serializable {
             km_cargado_inicio = null;
             km_cargado_fin = null;
             ano = calendar.get(Calendar.YEAR);
-            mes = calendar.get(Calendar.MONTH);
+            mes = calendar.get(Calendar.MONTH)  + 1;
+
+            logger.info("Recaudación insertada", recaudacion);
 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Nueva recaudacion insertada", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Throwable e) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error insertando recaudacion", e.getMessage());
             FacesContext.getCurrentInstance().addMessage(null, msg);
+            logger.error("Error insertando reacaudación ingreso", e);
         }
     }
 
@@ -209,9 +219,12 @@ public class RecaudacionFace implements Serializable {
 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "recaudacion eliminado con éxito", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
+
+            logger.info("Recaudación eliminada con id: " + id);
         } catch (Throwable e) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error eliminado recaudacion", e.getMessage());
             FacesContext.getCurrentInstance().addMessage(null, msg);
+            logger.error("Error eliminando reacaudación", e);
         }
     }
 
@@ -219,11 +232,14 @@ public class RecaudacionFace implements Serializable {
         try {
             recaudacionIngresosBean.delete(id);
 
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "recaudacion eliminado con éxito", "");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Recaudacion ingreso eliminado con éxito", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
+
+            logger.info("Recaudación ingreso eliminado con id: " + id);
         } catch (Throwable e) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error eliminado recaudacion", e.getMessage());
             FacesContext.getCurrentInstance().addMessage(null, msg);
+            logger.error("Error eliminando reacaudación ingreso", e);
         }
     }
 

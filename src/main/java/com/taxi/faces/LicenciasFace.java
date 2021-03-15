@@ -3,11 +3,10 @@ package com.taxi.faces;
 import com.taxi.business.EmpresasBean;
 import com.taxi.business.LicenciasBean;
 import com.taxi.datamodels.LazyLicenciaDataModel;
+import com.taxi.pojos.Licencia;
 import com.taxi.singletons.TaxiLogger;
-import org.apache.log4j.Logger;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.LazyDataModel;
-import com.taxi.pojos.Licencia;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -48,9 +47,10 @@ public class LicenciasFace implements Serializable {
         try {
             licenciasBean.update(event.getObject());
 
-             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Entrada modificada", String.valueOf(event.getObject().getId()) );
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Entrada modificada", String.valueOf(event.getObject().getId()));
             FacesContext.getCurrentInstance().addMessage(null, msg);
 
+            logger.info("Licencia editada", event.getObject());
         } catch (Throwable e) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error actualizando entrada", e.getMessage());
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -59,7 +59,7 @@ public class LicenciasFace implements Serializable {
     }
 
     public void onRowCancel(RowEditEvent<Licencia> event) {
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Edición cancelada",  String.valueOf(event.getObject().getId()));
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Edición cancelada", String.valueOf(event.getObject().getId()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
@@ -76,11 +76,14 @@ public class LicenciasFace implements Serializable {
             empresa = null;
             esEuroTaxi = null;
 
+            logger.info("Licencia insertada", licencia);
+
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Nueva licencia insertada", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Throwable e) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error insertando licencia", e.getMessage());
             FacesContext.getCurrentInstance().addMessage(null, msg);
+            logger.error("Error insertando licencia" , e);
         }
     }
 
@@ -89,9 +92,13 @@ public class LicenciasFace implements Serializable {
             licenciasBean.delete(id);
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Licencia eliminado con éxito", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
+
+            logger.info("Licencia eliminada con id.: ", id);
+
         } catch (Throwable e) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error eliminado licencia", e.getMessage());
             FacesContext.getCurrentInstance().addMessage(null, msg);
+            logger.error("Error eliminando licencia con id: " + id, e);
         }
     }
 
