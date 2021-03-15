@@ -76,16 +76,19 @@
                     <p:outputPanel styleClass="p-col-2">
                         <p:outputLabel>Mes</p:outputLabel>
                         <p:inputNumber value="#{RecaudacionFace.mes}" style="width:100%" inputStyle="width:100%"
+                                       maxValue="12"
+                                       minValue="1"
                                        decimalPlaces="0"/>
                     </p:outputPanel>
 
                     <p:outputPanel styleClass="p-col-2">
                         <p:outputLabel>Ano</p:outputLabel>
                         <p:inputNumber value="#{RecaudacionFace.ano}" style="width:100%" inputStyle="width:100%"
+                                       thousandSeparator=""
                                        decimalPlaces="0"/>
                     </p:outputPanel>
 
-                    <p:outputPanel styleClass="p-col-2"
+                    <p:outputPanel styleClass="p-col"
                                    style="justify-content: flex-end;align-items: flex-end;display: flex;">
                         <p:commandButton value="Insertar" ajax="true"
                                          update=":form:messages insertRecaudacion recaudacionTable"
@@ -106,7 +109,8 @@
                  paginator="true"
                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                  currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
-                 rowsPerPageTemplate="10,15,20,25,30">
+                 resizableColumns="true" liveResize="true" showGridlines="true"
+                 rowsPerPageTemplate="10,15,20,25,30,40,50,60,70,80,90,100">
 
         <f:facet name="header">Recaudaciones</f:facet>
 
@@ -152,8 +156,9 @@
         <p:column headerText="Num. ini" filterBy="#{recaudacion.numeracion_inicio}"
                   sortBy="#{recaudacion.numeracion_inicio}">
             <p:cellEditor>
-                <f:facet name="output"><p:inputNumber readonly="true"  converter="javax.faces.BigDecimal"
-                                                     value="#{recaudacion.numeracion_inicio}"  style="width:100%"/></f:facet>
+                <f:facet name="output"><p:inputNumber readonly="true" converter="javax.faces.BigDecimal"
+                                                      value="#{recaudacion.numeracion_inicio}"
+                                                      style="width:100%"/></f:facet>
                 <f:facet name="input"><p:inputNumber converter="javax.faces.BigDecimal"
                                                      value="#{recaudacion.numeracion_inicio}"
                                                      style="width:100%"/></f:facet>
@@ -212,14 +217,16 @@
         <p:column headerText="Mes" filterBy="#{recaudacion.mes}" sortBy="#{recaudacion.mes}">
             <p:cellEditor>
                 <f:facet name="output"><h:outputText value="#{recaudacion.mes}"/></f:facet>
-                <f:facet name="input"><p:inputNumber value="#{recaudacion.mes}" style="width:100%"/></f:facet>
+                <f:facet name="input"><p:inputNumber minValue="1" maxlength="12" decimalPlaces="0"
+                                                     value="#{recaudacion.mes}" style="width:100%"/></f:facet>
             </p:cellEditor>
         </p:column>
 
         <p:column headerText="Año" filterBy="#{recaudacion.ano}" sortBy="#{recaudacion.ano}">
             <p:cellEditor>
                 <f:facet name="output"><h:outputText value="#{recaudacion.ano}"/></f:facet>
-                <f:facet name="input"><p:inputNumber value="#{recaudacion.ano}" style="width:100%"/></f:facet>
+                <f:facet name="input"><p:inputNumber thousandSeparator="" decimalPlaces="0" value="#{recaudacion.ano}"
+                                                     style="width:100%"/></f:facet>
             </p:cellEditor>
         </p:column>
         <p:column style="width: 65px;">

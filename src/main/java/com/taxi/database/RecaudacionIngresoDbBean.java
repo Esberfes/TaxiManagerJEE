@@ -185,7 +185,7 @@ public class RecaudacionIngresoDbBean {
 
     public void update(RecaudacionIngreso recaudacionIngreso) {
         RecaudacionIngresosEntity recaudacionIngresosEntity = em.find(RecaudacionIngresosEntity.class, recaudacionIngreso.getId());
-        recaudacionIngresosEntity.setConductorEntity(conductoresDbBean.getSingleByName(recaudacionIngreso.getConductor().getNombre()));
+        recaudacionIngresosEntity.setConductorEntity(conductoresDbBean.getSingleByNameExact(recaudacionIngreso.getConductor().getNombre()));
         recaudacionIngresosEntity.setDia(recaudacionIngreso.getDia());
         recaudacionIngresosEntity.setTurno(recaudacionIngreso.getTurno());
         recaudacionIngresosEntity.setNumeracion(recaudacionIngreso.getNumeracion());

@@ -148,4 +148,10 @@ public class ConductoresDbBean {
 
         return (ConductorEntity) query.getSingleResult();
     }
+    public ConductorEntity getSingleByNameExact(String nombre) {
+        String rawQuery = "SELECT * FROM conductores WHERE nombre ='" + nombre + "' ORDER BY nombre ";
+        Query query = em.createNativeQuery(rawQuery, ConductorEntity.class);
+
+        return (ConductorEntity) query.getSingleResult();
+    }
 }

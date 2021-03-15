@@ -2,6 +2,7 @@ package com.taxi.pojos;
 
 import com.taxi.entities.GastosEntity;
 
+import javax.persistence.Column;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -13,6 +14,8 @@ public class Gasto {
     private TiposGasto tipoGasto;
     private BigDecimal importe;
     private String definicion;
+    private Integer mes;
+    private Integer ano;
     private Date fechaFactura;
     private Date creado;
     private Date actualizado;
@@ -28,6 +31,8 @@ public class Gasto {
         this.importe = gasto.getImporte();
         this.fechaFactura = gasto.getFechaFactura();
         this.definicion = gasto.getDefinicion();
+        this.mes = gasto.getMes();
+        this.ano = gasto.getAno();
         this.actualizado = gasto.getActualizado();
         this.creado = gasto.getCreado();
     }
@@ -103,5 +108,21 @@ public class Gasto {
 
     public void setFechaFactura(Date fechaFactura) {
         this.fechaFactura = fechaFactura;
+    }
+
+    public Integer getMes() {
+        return mes;
+    }
+
+    public void setMes(Integer mes) {
+        this.mes = mes;
+    }
+
+    public Integer getAno() {
+        return ano;
+    }
+
+    public void setAno(Integer ano) {
+        this.ano = ano;
     }
 }

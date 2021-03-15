@@ -1,6 +1,9 @@
 package com.taxi.faces;
 
-import com.taxi.business.*;
+import com.taxi.business.FormasPagosBean;
+import com.taxi.business.GastosBean;
+import com.taxi.business.LicenciasBean;
+import com.taxi.business.TiposGastosBean;
 import com.taxi.datamodels.LazyGastosDataModel;
 import com.taxi.pojos.Gasto;
 import org.primefaces.event.RowEditEvent;
@@ -14,7 +17,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 @ViewScoped
 @Named(GastosFace.BEAN_NAME)
@@ -41,12 +46,17 @@ public class GastosFace implements Serializable {
     private String concepto;
     private BigDecimal importe;
     private String definicion;
+    private Integer mes;
+    private Integer ano;
     private Date fechaFactura;
     private String tipoGasto;
 
     @PostConstruct
     public void init() {
         this.lazyModel = new LazyGastosDataModel(gastosBean);
+        Calendar calendar = new GregorianCalendar();
+        ano = calendar.get(Calendar.YEAR);
+        mes = calendar.get(Calendar.MONTH);
     }
 
     public void insert() {
@@ -54,7 +64,7 @@ public class GastosFace implements Serializable {
             Gasto gasto = new Gasto();
             gasto.setLicencia(licenciasBean.findSingleByCodigo(licencia));
             gasto.setFormaPago(formasPagosBean.findSingleByName(formaPago));
-            if(tipoGasto != null)
+            if (tipoGasto != null)
                 gasto.setTipoGasto(tiposGastosBean.findSingleByName(tipoGasto));
 
             gasto.setImporte(importe);
@@ -62,11 +72,14 @@ public class GastosFace implements Serializable {
             gasto.setFechaFactura(fechaFactura);
             gastosBean.insert(gasto);
 
+            Calendar calendar = new GregorianCalendar();
             licencia = null;
             formaPago = null;
             concepto = null;
             importe = null;
             definicion = null;
+            ano = calendar.get(Calendar.YEAR);
+            mes = calendar.get(Calendar.MONTH);
             fechaFactura = null;
             tipoGasto = null;
 
@@ -194,5 +207,21 @@ public class GastosFace implements Serializable {
 
     public void setTipoGasto(String tipoGasto) {
         this.tipoGasto = tipoGasto;
+    }
+
+    public Integer getMes() {
+        return mes;
+    }
+
+    public void setMes(Integer mes) {
+        this.mes = mes;
+    }
+
+    public Integer getAno() {
+        return ano;
+    }
+
+    public void setAno(Integer ano) {
+        this.ano = ano;
     }
 }

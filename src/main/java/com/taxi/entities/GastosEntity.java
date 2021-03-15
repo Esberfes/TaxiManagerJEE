@@ -35,6 +35,12 @@ public class GastosEntity {
     @Column(name = "definicion", nullable = false)
     private String definicion;
 
+    @Column(name = "mes")
+    private Integer mes;
+
+    @Column(name = "ano")
+    private Integer ano;
+
     @Column(name = "fecha_factura")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaFactura;
@@ -59,6 +65,8 @@ public class GastosEntity {
         this.importe = gasto.getImporte();
         this.fechaFactura = gasto.getFechaFactura();
         this.definicion = gasto.getDefinicion();
+        this.mes = gasto.getMes();
+        this.ano = gasto.getAno();
         this.actualizado = gasto.getActualizado();
         this.creado = gasto.getCreado();
     }
@@ -78,11 +86,20 @@ public class GastosEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         GastosEntity that = (GastosEntity) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(importe, that.importe) &&
-                Objects.equals(creado, that.creado) &&
-                Objects.equals(actualizado, that.actualizado);
+
+        if (!id.equals(that.id)) return false;
+        if (!licenciasEntity.equals(that.licenciasEntity)) return false;
+        if (!formasPagosGastosEntity.equals(that.formasPagosGastosEntity)) return false;
+        if (!tiposGastosEntity.equals(that.tiposGastosEntity)) return false;
+        if (!importe.equals(that.importe)) return false;
+        if (!definicion.equals(that.definicion)) return false;
+        if (!mes.equals(that.mes)) return false;
+        if (!ano.equals(that.ano)) return false;
+        if (!fechaFactura.equals(that.fechaFactura)) return false;
+        if (!creado.equals(that.creado)) return false;
+        return actualizado.equals(that.actualizado);
     }
 
     @Override
@@ -160,5 +177,21 @@ public class GastosEntity {
 
     public void setTiposGastosEntity(TiposGastosEntity tiposGastosEntity) {
         this.tiposGastosEntity = tiposGastosEntity;
+    }
+
+    public Integer getMes() {
+        return mes;
+    }
+
+    public Integer getAno() {
+        return ano;
+    }
+
+    public void setMes(Integer mes) {
+        this.mes = mes;
+    }
+
+    public void setAno(Integer ano) {
+        this.ano = ano;
     }
 }

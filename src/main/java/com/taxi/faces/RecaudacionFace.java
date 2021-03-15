@@ -19,6 +19,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 @ViewScoped
 @Named(RecaudacionFace.BEAN_NAME)
@@ -83,6 +85,9 @@ public class RecaudacionFace implements Serializable {
     @PostConstruct
     public void init() {
         this.lazyModel = new LazyRecaudacionDataModel(recaudacionBean);
+        Calendar calendar = new GregorianCalendar();
+        ano = calendar.get(Calendar.YEAR);
+        mes = calendar.get(Calendar.MONTH);
     }
 
     public void onRowIngresoEdit(RowEditEvent<RecaudacionIngreso> event) {
@@ -176,6 +181,8 @@ public class RecaudacionFace implements Serializable {
 
             recaudacionBean.insert(recaudacion);
 
+            Calendar calendar = new GregorianCalendar();
+
             licencia = null;
             servicios_inicio = null;
             servicios_fin = null;
@@ -185,8 +192,8 @@ public class RecaudacionFace implements Serializable {
             km_totales_fin = null;
             km_cargado_inicio = null;
             km_cargado_fin = null;
-            mes = null;
-            ano = null;
+            ano = calendar.get(Calendar.YEAR);
+            mes = calendar.get(Calendar.MONTH);
 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Nueva recaudacion insertada", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
