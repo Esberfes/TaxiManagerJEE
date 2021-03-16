@@ -105,7 +105,7 @@ public class EmpresasDbBean {
 
     public List<EmpresasEntity> findByName(String name) {
         String rawQuery = "SELECT * FROM empresas WHERE nombre LIKE :nombre ORDER BY nombre ASC";
-        name = "%" + name + "%";
+        name =  name + "%";
         Query query = em.createNativeQuery(rawQuery, EmpresasEntity.class);
         query.setParameter("nombre", name);
 

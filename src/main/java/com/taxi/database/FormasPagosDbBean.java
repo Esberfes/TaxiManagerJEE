@@ -96,7 +96,7 @@ public class FormasPagosDbBean {
     }
 
     public List<FormasPagosGastosEntity> findByName(String value) {
-        Query query = em.createNativeQuery("SELECT * FROM formas_pagos_gastos WHERE nombre LIKE '%" + value + "%'  ORDER BY nombre ",
+        Query query = em.createNativeQuery("SELECT * FROM formas_pagos_gastos WHERE nombre LIKE '" + value + "%'  ORDER BY nombre ",
                 FormasPagosGastosEntity.class);
 
         return query.setMaxResults(10).getResultList();

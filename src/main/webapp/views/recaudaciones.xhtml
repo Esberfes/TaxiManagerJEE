@@ -84,7 +84,7 @@
                     <p:outputPanel styleClass="p-col-2">
                         <p:outputLabel>Ano</p:outputLabel>
                         <p:inputNumber value="#{RecaudacionFace.ano}" style="width:100%" inputStyle="width:100%"
-                                       thousandSeparator=""
+                                       thousandSeparator="" minValue="0" maxValue="99"
                                        decimalPlaces="0"/>
                     </p:outputPanel>
 
@@ -225,7 +225,7 @@
         <p:column headerText="Año" filterBy="#{recaudacion.ano}" sortBy="#{recaudacion.ano}">
             <p:cellEditor>
                 <f:facet name="output"><h:outputText value="#{recaudacion.ano}"/></f:facet>
-                <f:facet name="input"><p:inputNumber thousandSeparator="" decimalPlaces="0" value="#{recaudacion.ano}"
+                <f:facet name="input"><p:inputNumber thousandSeparator="" minValue="0" maxValue="99" decimalPlaces="0" value="#{recaudacion.ano}"
                                                      style="width:100%"/></f:facet>
             </p:cellEditor>
         </p:column>

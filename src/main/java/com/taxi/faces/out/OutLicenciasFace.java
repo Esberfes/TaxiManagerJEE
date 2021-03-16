@@ -67,6 +67,15 @@ public class OutLicenciasFace implements Serializable {
     public void refresh() {
         try {
             licenciaObj = licenciasBean.findSingleByCodigo(licencia);
+            recaudacion = null;
+            recaudacionIngresos = new LinkedList<>();
+            gastos = new LinkedList<>();
+            totalLiquido = new BigDecimal("0.00");
+            totalRecaudacion = new BigDecimal("0.00");
+            totalGastos = new BigDecimal("0.00");
+            totalKilometros= 0;
+            totaServicios = 0;
+
             calculateIngresos();
             calculateGastos();
 

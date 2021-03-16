@@ -103,7 +103,7 @@ public class EstadosIngresoDbBean {
 
     public List<RecaudacionesIngresosEstadosEntity> findByName(String value) {
 
-        Query query = em.createNativeQuery( "SELECT * FROM recaudaciones_ingresos_estados WHERE nombre LIKE '%" + value + "%'  ORDER BY nombre ",
+        Query query = em.createNativeQuery( "SELECT * FROM recaudaciones_ingresos_estados WHERE nombre LIKE '" + value + "%'  ORDER BY nombre ",
                 RecaudacionesIngresosEstadosEntity.class);
 
         return query.setMaxResults(10).getResultList();

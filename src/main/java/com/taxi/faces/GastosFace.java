@@ -59,7 +59,7 @@ public class GastosFace implements Serializable {
     public void init() {
         this.lazyModel = new LazyGastosDataModel(gastosBean);
         Calendar calendar = new GregorianCalendar();
-        ano = calendar.get(Calendar.YEAR);
+        ano = calendar.get(Calendar.YEAR) % 100;;
         mes = calendar.get(Calendar.MONTH) ;
     }
 
@@ -84,7 +84,7 @@ public class GastosFace implements Serializable {
             concepto = null;
             importe = null;
             definicion = null;
-            ano = calendar.get(Calendar.YEAR);
+            ano = calendar.get(Calendar.YEAR) % 100;;
             mes = calendar.get(Calendar.MONTH)  + 1;
             fechaFactura = null;
             tipoGasto = null;

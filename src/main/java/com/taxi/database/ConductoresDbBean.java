@@ -47,7 +47,7 @@ public class ConductoresDbBean {
     }
 
     public List<ConductorEntity> findByFullName(String name) {
-        String rawQuery = "SELECT * FROM conductores WHERE nombre LIKE '%" + name + "%' ORDER BY nombre ";
+        String rawQuery = "SELECT * FROM conductores WHERE nombre LIKE '" + name + "%' ORDER BY nombre ";
         Query query = em.createNativeQuery(rawQuery, ConductorEntity.class);
 
         return query.setMaxResults(10).getResultList();
@@ -143,7 +143,7 @@ public class ConductoresDbBean {
     }
 
     public ConductorEntity getSingleByName(String nombre) {
-        String rawQuery = "SELECT * FROM conductores WHERE nombre LIKE '%" + nombre + "%' ORDER BY nombre ";
+        String rawQuery = "SELECT * FROM conductores WHERE nombre LIKE '" + nombre + "%' ORDER BY nombre ";
         Query query = em.createNativeQuery(rawQuery, ConductorEntity.class);
 
         return (ConductorEntity) query.getSingleResult();

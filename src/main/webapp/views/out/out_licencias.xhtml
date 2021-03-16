@@ -59,22 +59,22 @@
                 <f:facet name="header">
                     <p:outputPanel style="display: flex;">
                         <p:outputPanel>
-                            <h:outputText rendered="${OutLicenciasFace.licenciaObj != null}" value="Licencia: ${OutLicenciasFace.licenciaObj.codigo} "/>
+                            <h:outputText rendered="${OutLicenciasFace.licenciaObj != null}" value="Licencia: ${OutLicenciasFace.licenciaObj.codigo}&nbsp;&nbsp;&nbsp;"/>
                         </p:outputPanel>
                         <p:outputPanel>
-                            <h:outputText rendered="${OutLicenciasFace.licenciaObj != null}" value=" Empresa: ${OutLicenciasFace.licenciaObj.empresa.nombre} "/>
+                            <h:outputText rendered="${OutLicenciasFace.licenciaObj != null}" value="Empresa: ${OutLicenciasFace.licenciaObj.empresa.nombre}&nbsp;&nbsp;&nbsp;"/>
                         </p:outputPanel>
                         <p:outputPanel>
-                            <h:outputText rendered="${OutLicenciasFace.licenciaObj != null}" value=" Mes: ${OutLicenciasFace.mes} "/>
+                            <h:outputText rendered="${OutLicenciasFace.licenciaObj != null}" value="Mes: ${OutLicenciasFace.mes}&nbsp;&nbsp;&nbsp;"/>
                         </p:outputPanel>
                         <p:outputPanel>
-                            <h:outputText rendered="${OutLicenciasFace.licenciaObj != null}" value=" Recaudación: ${OutLicenciasFace.totalRecaudacion} "/>
+                            <h:outputText rendered="${OutLicenciasFace.licenciaObj != null}" value="Recaudación: ${OutLicenciasFace.totalRecaudacion}€&nbsp;&nbsp;&nbsp;"/>
                         </p:outputPanel>
                         <p:outputPanel>
-                            <h:outputText rendered="${OutLicenciasFace.licenciaObj != null}" value=" Servicios: ${OutLicenciasFace.totaServicios} "/>
+                            <h:outputText rendered="${OutLicenciasFace.licenciaObj != null}" value="Servicios: ${OutLicenciasFace.totaServicios}&nbsp;&nbsp;&nbsp;"/>
                         </p:outputPanel>
                         <p:outputPanel>
-                            <h:outputText rendered="${OutLicenciasFace.licenciaObj != null}" value=" Kilometros: ${OutLicenciasFace.totalKilometros} "/>
+                            <h:outputText rendered="${OutLicenciasFace.licenciaObj != null}" value="Kilometros: ${OutLicenciasFace.totalKilometros} "/>
                         </p:outputPanel>
                     </p:outputPanel>
                 </f:facet>
@@ -107,10 +107,10 @@
                 <f:facet name="footer">
                     <p:outputPanel style="display: flex; justify-content: flex-end;">
                         <p:outputPanel>
-                            <h:outputText value="Recaudación: ${OutLicenciasFace.totalRecaudacion} "/>
+                            <h:outputText value="Recaudación: ${OutLicenciasFace.totalRecaudacion}€"/>
                         </p:outputPanel>
                         <p:outputPanel>
-                            <h:outputText value=" Liquido: ${OutLicenciasFace.totalLiquido}€"/>
+                            <h:outputText value="&nbsp;&nbsp;&nbsp;Liquido: ${OutLicenciasFace.totalLiquido}€"/>
                         </p:outputPanel>
                     </p:outputPanel>
                 </f:facet>

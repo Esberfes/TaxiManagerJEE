@@ -85,7 +85,7 @@ public class TiposGastoDbBean {
 
     public List<TiposGastosEntity> findByName(String name) {
         String rawQuery = "SELECT * FROM tipos_gastos WHERE nombre LIKE :nombre ORDER BY nombre ASC";
-        name = "%" + name + "%";
+        name =  name + "%";
         Query query = em.createNativeQuery(rawQuery, TiposGastosEntity.class);
         query.setParameter("nombre", name);
 
@@ -94,7 +94,7 @@ public class TiposGastoDbBean {
 
     public TiposGastosEntity findSingleByName(String name) {
         String rawQuery = "SELECT * FROM tipos_gastos WHERE nombre LIKE :nombre ORDER BY nombre ASC";
-        name = "%" + name + "%";
+        name =  name + "%";
         Query query = em.createNativeQuery(rawQuery, TiposGastosEntity.class);
         query.setParameter("nombre", name);
 

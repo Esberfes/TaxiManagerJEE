@@ -118,7 +118,7 @@ public class LicenciasDbBean {
 
     public List<LicenciasEntity> findByCodigo(Integer codigo) {
         String rawQuery = "SELECT * FROM licencias WHERE codigo LIKE :codigo ORDER BY codigo ASC";
-        String codeString = "%" + codigo + "%";
+        String codeString =  codigo + "%";
         Query query = em.createNativeQuery(rawQuery, LicenciasEntity.class);
         query.setParameter("codigo", codeString);
 

@@ -115,7 +115,7 @@ public class ConceptosGastosDbBean {
     }
 
     public List<ConceptosGastosEntity> findByName(String value) {
-        Query query = em.createNativeQuery("SELECT * FROM conceptos_gastos WHERE nombre LIKE '%" + value + "%'  ORDER BY nombre ",
+        Query query = em.createNativeQuery("SELECT * FROM conceptos_gastos WHERE nombre LIKE '" + value + "%'  ORDER BY nombre ",
                 ConceptosGastosEntity.class);
 
         return query.setMaxResults(10).getResultList();

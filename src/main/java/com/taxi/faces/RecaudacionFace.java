@@ -86,7 +86,7 @@ public class RecaudacionFace implements Serializable {
     public void init() {
         this.lazyModel = new LazyRecaudacionDataModel(recaudacionBean);
         Calendar calendar = new GregorianCalendar();
-        ano = calendar.get(Calendar.YEAR);
+        ano = calendar.get(Calendar.YEAR) % 100;;
         mes = calendar.get(Calendar.MONTH)  + 1;
     }
 
@@ -199,7 +199,7 @@ public class RecaudacionFace implements Serializable {
             km_totales_fin = null;
             km_cargado_inicio = null;
             km_cargado_fin = null;
-            ano = calendar.get(Calendar.YEAR);
+            ano = calendar.get(Calendar.YEAR) % 100;;
             mes = calendar.get(Calendar.MONTH)  + 1;
 
             logger.info("Recaudación insertada", recaudacion);
