@@ -53,15 +53,19 @@
                                         action="#{NavigationFace.navigate(NavigationEnum.out_licencias)}"
                                         styleClass="#{NavigationFace.navigation eq NavigationEnum.out_licencias ? 'active' : ''}"/>
 
-                            <p:menuitem value="Resultados" update="messages content menu" ajax="true"
+                            <p:menuitem value="Conductores" update="messages content menu" ajax="true"
+                                        action="#{NavigationFace.navigate(NavigationEnum.out_conductores)}"
+                                        styleClass="#{NavigationFace.navigation eq NavigationEnum.out_conductores ? 'active' : ''}"/>
+
+                            <p:menuitem rendered="false" value="Resultados" update="messages content menu" ajax="true"
                                         action="#{NavigationFace.navigate(NavigationEnum.resultados)}"
                                         styleClass="#{NavigationFace.navigation eq NavigationEnum.resultados ? 'active' : ''}"/>
 
-                            <p:menuitem value="Resumen" update="messages content menu" ajax="true"
+                            <p:menuitem rendered="false" value="Resumen" update="messages content menu" ajax="true"
                                         action="#{NavigationFace.navigate(NavigationEnum.resumen)}"
                                         styleClass="#{NavigationFace.navigation eq NavigationEnum.resumen ? 'active' : ''}"/>
 
-                            <p:menuitem value="Graficas" update="messages content menu" ajax="true"
+                            <p:menuitem rendered="false" value="Graficas" update="messages content menu" ajax="true"
                                         action="#{NavigationFace.navigate(NavigationEnum.graficas)}"
                                         styleClass="#{NavigationFace.navigation eq NavigationEnum.graficas ? 'active' : ''}"/>
                         </p:submenu>
@@ -124,13 +128,17 @@
                         <ui:include src="./views/recaudaciones.xhtml"/>
                     </p:outputPanel>
 
-                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum .gastos}">
+                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.gastos}">
                         <ui:include src="./views/gastos.xhtml"/>
                     </p:outputPanel>
 
                     <!-- SALIDAS -->
                     <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.out_licencias}">
                         <ui:include src="./views/out/out_licencias.xhtml"/>
+                    </p:outputPanel>
+
+                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.out_conductores}">
+                        <ui:include src="./views/out/out_conductores.xhtml"/>
                     </p:outputPanel>
 
                     <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.resultados}">
@@ -235,7 +243,7 @@
         body .ui-datatable .ui-datatable-data > tr .ui-row-editor .ui-icon.ui-icon-pencil {
             color: #007ad9;
             vertical-align: bottom;
-            font-size: 2.5rem;
+            font-size: 2.0rem;
         }
 
         body .ui-datatable .ui-datatable-data > tr.ui-state-highlight {
@@ -467,7 +475,7 @@
 
                     const logContainer = $('#form\\:log');
 
-                    if (logContainer.children().length > 150) {
+                    if (logContainer.children().length > 800) {
                         logContainer.find('div:first').remove();
                     }
 

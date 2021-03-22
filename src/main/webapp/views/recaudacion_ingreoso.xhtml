@@ -215,7 +215,7 @@
             </p:cellEditor>
         </p:column>
 
-        <p:column headerText="Recaudación" sortable="false" filterable="true">
+        <p:column headerText="Recaudación">
             <p:cellEditor>
                 <f:facet name="output">
                     <h:outputText converter="javax.faces.BigDecimal" value="#{ingreso.recaudacion}"/>
@@ -227,7 +227,7 @@
             </p:cellEditor>
         </p:column>
 
-        <p:column headerText="Líquido" sortable="false" filterable="false">
+        <p:column headerText="Líquido">
             <p:cellEditor>
                 <f:facet name="output">
                     <h:outputText converter="javax.faces.BigDecimal" value="#{ingreso.liquido}"/>
@@ -239,7 +239,7 @@
             </p:cellEditor>
         </p:column>
 
-        <p:column headerText="Tarjeta" sortable="true" filterable="true">
+        <p:column headerText="Tarjeta">
             <p:cellEditor>
                 <f:facet name="output">
                     <h:outputText converter="javax.faces.BigDecimal" value="#{ingreso.tarjeta}"/>
@@ -251,7 +251,7 @@
             </p:cellEditor>
         </p:column>
 
-        <p:column headerText="App" sortable="true" filterable="true">
+        <p:column headerText="App">
             <p:cellEditor>
                 <f:facet name="output">
                     <h:outputText converter="javax.faces.BigDecimal" value="#{ingreso.app}"/>
@@ -263,7 +263,7 @@
             </p:cellEditor>
         </p:column>
 
-        <p:column id="efec" headerText="Efectivo" sortable="true" filterable="true" >
+        <p:column id="efec" headerText="Efectivo" >
             <p:cellEditor>
                 <f:facet name="output">
                     <h:outputText converter="javax.faces.BigDecimal" value="#{ingreso.efectivo}"/>

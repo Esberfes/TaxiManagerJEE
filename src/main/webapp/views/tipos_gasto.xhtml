@@ -19,7 +19,7 @@
             </p:outputPanel>
 
             <p:outputPanel styleClass="p-col">
-                <p:outputLabel>Operacional</p:outputLabel>
+                <p:outputLabel>Operativo</p:outputLabel>
                 <p:selectOneMenu value="#{TiposGastosFace.operacional}" inputStyle="width: 100%" style="width: 100%">
                     <f:selectItem itemLabel="Si" itemValue="true"/>
                     <f:selectItem itemLabel="No" itemValue="false"/>
@@ -61,7 +61,7 @@
             </p:cellEditor>
         </p:column>
 
-        <p:column headerText="Operacional" filterBy="#{tipoGasto.es_operacional}" sortBy="#{tipoGasto.es_operacional}">
+        <p:column headerText="Operativo" filterBy="#{tipoGasto.es_operacional}" sortBy="#{tipoGasto.es_operacional}">
             <p:cellEditor>
                 <f:facet name="output"><h:outputText value="#{tipoGasto.es_operacional ? 'Si' : 'No'}"/></f:facet>
                 <f:facet name="input">

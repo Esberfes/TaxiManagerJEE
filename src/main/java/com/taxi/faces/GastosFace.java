@@ -13,6 +13,7 @@ import org.primefaces.model.LazyDataModel;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -21,6 +22,8 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @ViewScoped
 @Named(GastosFace.BEAN_NAME)
@@ -45,6 +48,8 @@ public class GastosFace implements Serializable {
 
     private LazyDataModel<Gasto> lazyModel;
 
+    private List<SelectItem> tiposGastos;
+
     private Integer licencia;
     private String formaPago;
     private String concepto;
@@ -59,7 +64,7 @@ public class GastosFace implements Serializable {
     public void init() {
         this.lazyModel = new LazyGastosDataModel(gastosBean);
         Calendar calendar = new GregorianCalendar();
-        ano = calendar.get(Calendar.YEAR) % 100;;
+        ano = calendar.get(Calendar.YEAR) % 100;
         mes = calendar.get(Calendar.MONTH) + 1 ;
     }
 
@@ -233,5 +238,13 @@ public class GastosFace implements Serializable {
 
     public void setAno(Integer ano) {
         this.ano = ano;
+    }
+
+    public List<SelectItem> getTiposGastos() {
+        return tiposGastosBean.findByName("%").stream().map(t -> new SelectItem(t.getNombre(), t.getNombre())).collect(Collectors.toList());
+    }
+
+    public void setTiposGastos(List<SelectItem> tiposGastos) {
+        this.tiposGastos = tiposGastos;
     }
 }

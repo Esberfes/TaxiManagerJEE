@@ -62,16 +62,7 @@ public class Conductor implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Conductor that = (Conductor) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(nombre, that.nombre) &&
-                Objects.equals(empresa, that.empresa) &&
-                Objects.equals(complemento_iva, that.complemento_iva) &&
-                Objects.equals(t065, that.t065) &&
-                Objects.equals(t060, that.t060) &&
-                Objects.equals(t055, that.t055) &&
-                Objects.equals(t050, that.t050) &&
-                Objects.equals(creado, that.creado) &&
-                Objects.equals(actualizado, that.actualizado);
+        return Objects.equals(id, that.id);
     }
 
     public Long getId() {

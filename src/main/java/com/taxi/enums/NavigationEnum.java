@@ -14,6 +14,7 @@ public enum NavigationEnum {
     resumen,
     graficas,
     out_licencias,
+    out_conductores,
 
     /**
      * Configuracion

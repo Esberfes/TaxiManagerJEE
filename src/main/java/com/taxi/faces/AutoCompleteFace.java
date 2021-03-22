@@ -68,6 +68,18 @@ public class AutoCompleteFace implements Serializable {
         }
     }
 
+    public List<Conductor> completeConductorPojo(String value) {
+        try {
+            return new ArrayList<>(conductoresBean.findEmployeesByFullName(value));
+
+        } catch (Throwable e) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error auto completando conductores", e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            PrimeFaces.current().ajax().update("form:messages");
+
+            return new ArrayList<>();
+        }
+    }
 
     public List<String> completeTipoGasto(String value) {
         try {

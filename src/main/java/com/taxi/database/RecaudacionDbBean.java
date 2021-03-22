@@ -2,11 +2,11 @@ package com.taxi.database;
 
 import com.taxi.entities.RecaudacionIngresosEntity;
 import com.taxi.entities.RecaudacionesEntity;
+import com.taxi.pojos.Recaudacion;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortMeta;
 import org.primefaces.model.SortOrder;
-import com.taxi.pojos.Recaudacion;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -35,7 +35,7 @@ public class RecaudacionDbBean {
     private RecaudacionIngresoDbBean recaudacionIngresoDbBean;
 
     public List<RecaudacionesEntity> getData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
-        StringBuilder rawQuery = new StringBuilder("SELECT * FROM recaudaciones, licencias WHERE recaudaciones.id_licencia = licencias.id ");
+        StringBuilder rawQuery = new StringBuilder("SELECT recaudaciones.* FROM licencias, recaudaciones LEFT JOIN recaudacion_ingresos on (recaudacion_ingresos.id_recaudacion = recaudaciones.id) WHERE recaudaciones.id_licencia = licencias.id ");
 
         Query query = buildFilters(sortMeta, filterMeta, rawQuery, RecaudacionesEntity.class);
 
@@ -86,6 +86,9 @@ public class RecaudacionDbBean {
 
                     if (entry.getKey().equalsIgnoreCase("licencia.codigo")) {
                         rawQuery.append(" AND ").append(" licencias.codigo ").append("LIKE ").append(":").append(entry.getKey());
+
+                    } else if (entry.getKey().equalsIgnoreCase("id_conductor")) {
+                        rawQuery.append(" AND ").append("recaudacion_ingresos.").append(entry.getKey()).append(" LIKE ").append(":").append(entry.getKey());
                     } else {
                         rawQuery.append(" AND ").append("recaudaciones.").append(entry.getKey()).append(" LIKE ").append(":").append(entry.getKey());
                     }
