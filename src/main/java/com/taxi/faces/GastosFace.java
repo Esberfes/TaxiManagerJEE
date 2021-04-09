@@ -6,6 +6,7 @@ import com.taxi.business.LicenciasBean;
 import com.taxi.business.TiposGastosBean;
 import com.taxi.datamodels.LazyGastosDataModel;
 import com.taxi.pojos.Gasto;
+import com.taxi.pojos.TiposGasto;
 import com.taxi.singletons.TaxiLogger;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.LazyDataModel;
@@ -13,20 +14,20 @@ import org.primefaces.model.LazyDataModel;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @ViewScoped
 @Named(GastosFace.BEAN_NAME)
+@Interceptors(TaxiLogger.class)
 public class GastosFace implements Serializable {
 
     public static final String BEAN_NAME = "GastosFace";
@@ -48,7 +49,7 @@ public class GastosFace implements Serializable {
 
     private LazyDataModel<Gasto> lazyModel;
 
-    private List<SelectItem> tiposGastos;
+    private List<TiposGasto> tiposGastos;
 
     private Integer licencia;
     private String formaPago;
@@ -240,11 +241,11 @@ public class GastosFace implements Serializable {
         this.ano = ano;
     }
 
-    public List<SelectItem> getTiposGastos() {
-        return tiposGastosBean.findByName("%").stream().map(t -> new SelectItem(t.getNombre(), t.getNombre())).collect(Collectors.toList());
+    public List<TiposGasto> getTiposGastos() {
+        return tiposGastosBean.findByName("%");
     }
 
-    public void setTiposGastos(List<SelectItem> tiposGastos) {
+    public void setTiposGastos(List<TiposGasto> tiposGastos) {
         this.tiposGastos = tiposGastos;
     }
 }

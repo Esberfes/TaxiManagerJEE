@@ -188,7 +188,7 @@ public class OutLicenciasFace implements Serializable {
         if(recaudacion == null || recaudacion.getKm_totales_inicio() == null || recaudacion.getKm_totales_fin() == null)
             totalKilometros = 0;
         else
-            totalKilometros = recaudacion.getServicios_inicio() - recaudacion.getKm_totales_fin();
+            totalKilometros =  recaudacion.getKm_totales_fin() - recaudacion.getKm_totales_inicio();
     }
 
     public int getMes() {

@@ -275,6 +275,17 @@
             </p:cellEditor>
         </p:column>
 
+        <p:column id="pagos" headerText="Pagos" >
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText converter="javax.faces.BigDecimal" value="#{ingreso.pagos}"/>
+                </f:facet>
+                <f:facet name="input">
+                    <p:inputNumber converter="javax.faces.BigDecimal" value="#{ingreso.pagos}" style="width:100%"
+                                   decimalPlaces="2" readonly="false"/>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
 
         <p:column headerText="Observaciones" filterBy="#{ingreso.observaciones}" sortBy="#{ingreso.observaciones}">
             <p:cellEditor>

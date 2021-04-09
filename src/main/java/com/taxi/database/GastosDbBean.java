@@ -3,12 +3,15 @@ package com.taxi.database;
 import com.taxi.entities.GastosEntity;
 import com.taxi.entities.TiposGastosEntity;
 import com.taxi.pojos.Gasto;
+import com.taxi.singletons.TaxiLogger;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortMeta;
 import org.primefaces.model.SortOrder;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -19,6 +22,8 @@ import java.util.Map;
 
 import static com.taxi.utils.FilterUtils.getFilterFieldValue;
 
+@Stateless(name = GastosDbBean.BEAN_NAME)
+@Interceptors(TaxiLogger.class)
 public class GastosDbBean {
 
     public final static String BEAN_NAME = "GastosDbBean";

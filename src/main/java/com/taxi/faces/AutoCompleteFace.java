@@ -1,6 +1,7 @@
 package com.taxi.faces;
 
 import com.taxi.business.*;
+import com.taxi.singletons.TaxiLogger;
 import org.primefaces.PrimeFaces;
 import com.taxi.pojos.*;
 
@@ -9,6 +10,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,7 @@ import static com.taxi.utils.NumberUtils.isInteger;
 
 @RequestScoped
 @Named(AutoCompleteFace.BEAN_NAME)
+@Interceptors(TaxiLogger.class)
 public class AutoCompleteFace implements Serializable {
 
     public static final String BEAN_NAME = "AutoCompleteFace";

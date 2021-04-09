@@ -1,6 +1,7 @@
 package com.taxi.database;
 
 import com.taxi.entities.LicenciasEntity;
+import com.taxi.singletons.TaxiLogger;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortMeta;
@@ -9,6 +10,7 @@ import com.taxi.pojos.Licencia;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -21,6 +23,7 @@ import java.util.Map;
 import static com.taxi.utils.FilterUtils.getFilterFieldValue;
 
 @Stateless(name = LicenciasDbBean.BEAN_NAME)
+@Interceptors(TaxiLogger.class)
 public class LicenciasDbBean {
 
     public final static String BEAN_NAME = "LicenciasDbBean";

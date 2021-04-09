@@ -3,6 +3,7 @@ package com.taxi.database;
 import com.taxi.entities.RecaudacionIngresosEntity;
 import com.taxi.entities.RecaudacionesEntity;
 import com.taxi.pojos.Recaudacion;
+import com.taxi.singletons.TaxiLogger;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortMeta;
@@ -10,6 +11,7 @@ import org.primefaces.model.SortOrder;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -21,6 +23,7 @@ import java.util.Map;
 import static com.taxi.utils.FilterUtils.getFilterFieldValue;
 
 @Stateless(name = RecaudacionDbBean.BEAN_NAME)
+@Interceptors(TaxiLogger.class)
 public class RecaudacionDbBean {
 
     public final static String BEAN_NAME = "RecaudacionDbBean";
@@ -98,6 +101,7 @@ public class RecaudacionDbBean {
                 }
             }
         }
+        rawQuery.append(" GROUP BY ").append("recaudaciones.id ");
 
         if (sortMeta != null && !sortMeta.isEmpty()) {
             SortMeta sort = sortMeta.entrySet().iterator().next().getValue();

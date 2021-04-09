@@ -3,6 +3,7 @@ package com.taxi.business;
 import com.taxi.database.ConductoresDbBean;
 import com.taxi.datamodels.LazyLoad;
 import com.taxi.entities.ConductorEntity;
+import com.taxi.singletons.TaxiLogger;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortMeta;
 import com.taxi.pojos.Conductor;
@@ -11,6 +12,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.interceptor.Interceptors;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 
 @LocalBean
 @Stateless(name = ConductoresBean.BEAN_NAME)
+@Interceptors(TaxiLogger.class)
 public class ConductoresBean implements LazyLoad<Conductor> {
 
     public static final String BEAN_NAME = "ConductoresBean";

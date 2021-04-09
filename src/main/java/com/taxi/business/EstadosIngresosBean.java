@@ -3,6 +3,7 @@ package com.taxi.business;
 import com.taxi.database.EstadosIngresoDbBean;
 import com.taxi.datamodels.LazyLoad;
 import com.taxi.entities.RecaudacionesIngresosEstadosEntity;
+import com.taxi.singletons.TaxiLogger;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortMeta;
 import com.taxi.pojos.EstadosIngreso;
@@ -10,12 +11,14 @@ import com.taxi.pojos.EstadosIngreso;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.interceptor.Interceptors;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 @LocalBean
 @Stateless(name = EstadosIngresosBean.BEAN_NAME)
+@Interceptors(TaxiLogger.class)
 public class EstadosIngresosBean implements LazyLoad<EstadosIngreso> {
 
     public static final String BEAN_NAME = "EstadosIngresosBean";

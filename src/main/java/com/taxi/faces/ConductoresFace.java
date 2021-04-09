@@ -14,11 +14,13 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
 @ViewScoped
 @Named(ConductoresFace.BEAN_NAME)
+@Interceptors(TaxiLogger.class)
 public class ConductoresFace implements Serializable {
 
     public static final String BEAN_NAME = "ConductoresFace";

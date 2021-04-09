@@ -49,32 +49,39 @@
 
     <p:outputPanel styleClass="p-grid">
         <p:panel styleClass="p-col-8" header="Ingresos por licencia">
-            <p:dataTable  widgetVar="outLicenciasTable" id="outLicenciasTable" var="ingreso"
+            <p:dataTable widgetVar="outLicenciasTable" id="outLicenciasTable" var="ingreso"
                          value="#{OutLicenciasFace.recaudacionIngresos}"
                          sortBy="#{ingreso.dia}"
                          rows="500"
                          paginator="false"
+                         stickyHeader="true"
                          resizableColumns="true" liveResize="true" showGridlines="true">
 
                 <f:facet name="header">
                     <p:outputPanel style="display: flex;">
                         <p:outputPanel>
-                            <h:outputText rendered="${OutLicenciasFace.licenciaObj != null}" value="Licencia: ${OutLicenciasFace.licenciaObj.codigo}&nbsp;&nbsp;&nbsp;"/>
+                            <h:outputText rendered="${OutLicenciasFace.licenciaObj != null}"
+                                          value="Licencia: ${OutLicenciasFace.licenciaObj.codigo}&nbsp;&nbsp;&nbsp;"/>
                         </p:outputPanel>
                         <p:outputPanel>
-                            <h:outputText rendered="${OutLicenciasFace.licenciaObj != null}" value="Empresa: ${OutLicenciasFace.licenciaObj.empresa.nombre}&nbsp;&nbsp;&nbsp;"/>
+                            <h:outputText rendered="${OutLicenciasFace.licenciaObj != null}"
+                                          value="Empresa: ${OutLicenciasFace.licenciaObj.empresa.nombre}&nbsp;&nbsp;&nbsp;"/>
                         </p:outputPanel>
                         <p:outputPanel>
-                            <h:outputText rendered="${OutLicenciasFace.licenciaObj != null}" value="Mes: ${OutLicenciasFace.mes}&nbsp;&nbsp;&nbsp;"/>
+                            <h:outputText rendered="${OutLicenciasFace.licenciaObj != null}"
+                                          value="Mes: ${OutLicenciasFace.mes}&nbsp;&nbsp;&nbsp;"/>
                         </p:outputPanel>
                         <p:outputPanel>
-                            <h:outputText rendered="${OutLicenciasFace.licenciaObj != null}" value="Recaudación: ${OutLicenciasFace.totalRecaudacion}€&nbsp;&nbsp;&nbsp;"/>
+                            <h:outputText rendered="${OutLicenciasFace.licenciaObj != null}"
+                                          value="Recaudación: ${OutLicenciasFace.totalRecaudacion}€&nbsp;&nbsp;&nbsp;"/>
                         </p:outputPanel>
                         <p:outputPanel>
-                            <h:outputText rendered="${OutLicenciasFace.licenciaObj != null}" value="Servicios: ${OutLicenciasFace.totaServicios}&nbsp;&nbsp;&nbsp;"/>
+                            <h:outputText rendered="${OutLicenciasFace.licenciaObj != null}"
+                                          value="Servicios: ${OutLicenciasFace.totaServicios}&nbsp;&nbsp;&nbsp;"/>
                         </p:outputPanel>
                         <p:outputPanel>
-                            <h:outputText rendered="${OutLicenciasFace.licenciaObj != null}" value="Kilometros: ${OutLicenciasFace.totalKilometros} "/>
+                            <h:outputText rendered="${OutLicenciasFace.licenciaObj != null}"
+                                          value="Kilometros: ${OutLicenciasFace.totalKilometros} "/>
                         </p:outputPanel>
                     </p:outputPanel>
                 </f:facet>
@@ -119,7 +126,7 @@
 
         </p:panel>
         <p:panel styleClass="p-col-4" header="Gastos">
-            <p:dataTable  widgetVar="outLicenciasTableGastos" id="outLicenciasTableGastos" var="gasto"
+            <p:dataTable widgetVar="outLicenciasTableGastos" id="outLicenciasTableGastos" var="gasto"
                          value="#{OutLicenciasFace.gastos}"
                          rows="500"
                          paginator="false"

@@ -3,7 +3,6 @@ package com.taxi.faces;
 import com.taxi.business.TiposGastosBean;
 import com.taxi.datamodels.LazyTiposGastoDataModel;
 import com.taxi.singletons.TaxiLogger;
-import org.apache.log4j.Logger;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.LazyDataModel;
 import com.taxi.pojos.TiposGasto;
@@ -14,10 +13,12 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import java.io.Serializable;
 
 @ViewScoped
 @Named(TiposGastosFace.BEAN_NAME)
+@Interceptors(TaxiLogger.class)
 public class TiposGastosFace implements Serializable {
 
     public static final String BEAN_NAME = "TiposGastosFace";

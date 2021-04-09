@@ -1,6 +1,7 @@
 package com.taxi.database;
 
 import com.taxi.entities.TiposGastosEntity;
+import com.taxi.singletons.TaxiLogger;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortMeta;
@@ -8,6 +9,7 @@ import org.primefaces.model.SortOrder;
 import com.taxi.pojos.TiposGasto;
 
 import javax.ejb.Stateless;
+import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -19,6 +21,7 @@ import java.util.Map;
 import static com.taxi.utils.FilterUtils.getFilterFieldValue;
 
 @Stateless(name = TiposGastoDbBean.BEAN_NAME)
+@Interceptors(TaxiLogger.class)
 public class TiposGastoDbBean {
 
     public final static String BEAN_NAME = "TiposGastoDbBean";
@@ -89,7 +92,7 @@ public class TiposGastoDbBean {
         Query query = em.createNativeQuery(rawQuery, TiposGastosEntity.class);
         query.setParameter("nombre", name);
 
-        return query.setMaxResults(10).getResultList();
+        return query.getResultList();
     }
 
     public TiposGastosEntity findSingleByName(String name) {

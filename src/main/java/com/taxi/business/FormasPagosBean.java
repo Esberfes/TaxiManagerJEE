@@ -2,6 +2,7 @@ package com.taxi.business;
 
 import com.taxi.database.FormasPagosDbBean;
 import com.taxi.datamodels.LazyLoad;
+import com.taxi.singletons.TaxiLogger;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortMeta;
 import com.taxi.pojos.FormasPago;
@@ -9,12 +10,14 @@ import com.taxi.pojos.FormasPago;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.interceptor.Interceptors;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 @LocalBean
 @Stateless(name = FormasPagosBean.BEAN_NAME)
+@Interceptors(TaxiLogger.class)
 public class FormasPagosBean implements LazyLoad<FormasPago> {
 
     public static final String BEAN_NAME = "FormasPagosBean";

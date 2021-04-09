@@ -17,6 +17,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -30,6 +31,7 @@ import static com.taxi.utils.BigDecimalUtils.percentage;
 
 @ViewScoped
 @Named(ResultadosFace.BEAN_NAME)
+@Interceptors(TaxiLogger.class)
 public class ResultadosFace implements Serializable {
 
     public static final String BEAN_NAME = "ResultadosFace";

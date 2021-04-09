@@ -13,20 +13,23 @@ import javax.ejb.Lock;
 import javax.ejb.LockType;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
+import javax.interceptor.AroundInvoke;
+import javax.interceptor.InvocationContext;
 import javax.websocket.EncodeException;
 import javax.websocket.Session;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
 import java.util.concurrent.CompletableFuture;
 
 @LocalBean
 @Singleton(name = "TaxiLogger")
-public class TaxiLogger extends TailerListenerAdapter {
+public class TaxiLogger extends TailerListenerAdapter implements Serializable {
 
-    private  List<Session> sessions;
+    private List<Session> sessions;
     private final Object lock = new Object();
 
     @Inject
@@ -42,6 +45,20 @@ public class TaxiLogger extends TailerListenerAdapter {
             CompletableFuture.runAsync(tailer);
         } catch (Throwable e) {
             Logger.getLogger(getClass()).error(e.getMessage());
+        }
+    }
+
+    @AroundInvoke
+    public Object profile(InvocationContext invocation) throws Exception {
+        long startTime = System.currentTimeMillis();
+        try {
+            return invocation.proceed();
+        } catch(Throwable e) {
+            error("Error profiling " + invocation.getMethod().getName(), e);
+            throw e;
+        } finally {
+            long endTime = System.currentTimeMillis() - startTime;
+            info("Profile " + invocation.getMethod().getName() + ": " + endTime);
         }
     }
 
@@ -73,9 +90,11 @@ public class TaxiLogger extends TailerListenerAdapter {
     public void info(String message) {
         log(Level.INFO, message);
     }
+
     public void info(String message, Object obj) {
         log(Level.INFO, message + " - " + new Gson().toJson(obj));
     }
+
     @Override
     public void handle(String line) {
         StringBuilder sb = new StringBuilder();

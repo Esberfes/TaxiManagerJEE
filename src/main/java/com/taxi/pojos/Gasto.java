@@ -2,7 +2,6 @@ package com.taxi.pojos;
 
 import com.taxi.entities.GastosEntity;
 
-import javax.persistence.Column;
 import java.math.BigDecimal;
 import java.util.Date;
 

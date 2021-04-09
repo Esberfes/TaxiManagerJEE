@@ -10,6 +10,7 @@ import org.primefaces.model.SortOrder;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -25,6 +26,7 @@ import static com.taxi.utils.BigDecimalUtils.percentage;
 import static com.taxi.utils.FilterUtils.getFilterFieldValue;
 
 @Stateless(name = RecaudacionIngresoDbBean.BEAN_NAME)
+@Interceptors(TaxiLogger.class)
 public class RecaudacionIngresoDbBean {
 
     public final static String BEAN_NAME = "RecaudacionIngresoDbBean";
@@ -192,7 +194,9 @@ public class RecaudacionIngresoDbBean {
         recaudacionIngresosEntity.setAnulados(recaudacionIngreso.getAnulados());
         recaudacionIngresosEntity.setApp(recaudacionIngreso.getApp());
         recaudacionIngresosEntity.setTarjeta(recaudacionIngreso.getTarjeta());
+        recaudacionIngresosEntity.setPagos(recaudacionIngreso.getPagos());
         recaudacionIngresosEntity.setRecaudacion(recaudacionIngreso.getRecaudacion());
+        recaudacionIngresosEntity.setPagos(recaudacionIngreso.getPagos());
 
         setRecaudacion(recaudacionIngresosEntity.getRecaudacionesEntity().getRecaudacionIngresosEntities());
 
@@ -204,7 +208,7 @@ public class RecaudacionIngresoDbBean {
             if (recaudacionIngresosEntity.getApp() != null)
                 liquido = liquido.subtract(recaudacionIngreso.getApp());
 
-            recaudacionIngresosEntity.setEfectivo(liquido);
+            recaudacionIngresosEntity.setEfectivo(recaudacionIngresosEntity.getPagos() != null ?  liquido.subtract(recaudacionIngresosEntity.getPagos()) : liquido);
         } else {
             BigDecimal liquido = recaudacionIngresosEntity.getLiquido();
             if (recaudacionIngresosEntity.getTarjeta() != null)

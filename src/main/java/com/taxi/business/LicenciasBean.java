@@ -4,18 +4,21 @@ import com.taxi.database.LicenciasDbBean;
 import com.taxi.datamodels.LazyLoad;
 import com.taxi.entities.LicenciasEntity;
 import com.taxi.pojos.Licencia;
+import com.taxi.singletons.TaxiLogger;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortMeta;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.interceptor.Interceptors;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 @LocalBean
 @Stateless(name = LicenciasBean.BEAN_NAME)
+@Interceptors(TaxiLogger.class)
 public class LicenciasBean implements LazyLoad<Licencia> {
 
     public static final String BEAN_NAME = "LicenciasBean";

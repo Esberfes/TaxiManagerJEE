@@ -5,7 +5,6 @@ import com.taxi.business.GastosBean;
 import com.taxi.business.LicenciasBean;
 import com.taxi.business.RecaudacionBean;
 import com.taxi.pojos.Conductor;
-import com.taxi.pojos.Licencia;
 import com.taxi.pojos.Recaudacion;
 import com.taxi.pojos.RecaudacionIngreso;
 import com.taxi.pojos.out.ConductorResultado;

@@ -34,13 +34,21 @@
                 <p:outputLabel>Tipo de gasto</p:outputLabel>
 
                 <p:selectOneMenu style="width: 100%" value="#{GastosFace.tipoGasto}">
-                    <f:selectItems value="#{GastosFace.tiposGastos}"/>
+                    <f:selectItems value="#{GastosFace.tiposGastos}"  var="item" itemValue="${item.nombre}" itemLabel="${item.nombre}">
+
+
+                    </f:selectItems>
+
+                    <p:column>
+                        <h:outputText style="${item.es_operacional ? color: blue; ''}" value="#{item.nombre}"/>
+                    </p:column>
                 </p:selectOneMenu>
             </p:outputPanel>
 
             <p:outputPanel styleClass="p-col">
                 <p:outputLabel>Importe</p:outputLabel>
-                <p:inputNumber inputStyle="width: 100%" converter="javax.faces.BigDecimal" value="#{GastosFace.importe}" style="width:100%"/>
+                <p:inputNumber inputStyle="width: 100%" converter="javax.faces.BigDecimal" value="#{GastosFace.importe}"
+                               style="width:100%"/>
             </p:outputPanel>
 
             <p:outputPanel styleClass="p-col">
@@ -65,7 +73,7 @@
 
             <p:outputPanel styleClass="p-col">
                 <p:outputLabel>F. Facturación</p:outputLabel>
-                <p:datePicker  inputStyle="width: 100%" value="#{GastosFace.fechaFactura}" style="width:100%"/>
+                <p:datePicker inputStyle="width: 100%" value="#{GastosFace.fechaFactura}" style="width:100%"/>
             </p:outputPanel>
 
 
@@ -102,7 +110,8 @@
 
         <p:column headerText="Licencia" filterBy="#{gasto.licencia.codigo}" sortBy="#{gasto.licencia.codigo}">
             <p:cellEditor>
-                <f:facet name="output"><h:outputText value="#{gasto.licencia.codigo == -1 ? 'Común' : gasto.licencia.codigo}"/></f:facet>
+                <f:facet name="output"><h:outputText
+                        value="#{gasto.licencia.codigo == -1 ? 'Común' : gasto.licencia.codigo}"/></f:facet>
                 <f:facet name="input">
                     <p:autoComplete inputStyle="width: 100%" style="width: 100%" minQueryLength="0"
                                     value="#{gasto.licencia.codigo}"
@@ -137,9 +146,9 @@
         </p:column>
 
         <p:column headerText="Operativo">
-          <p:outputPanel>
-              <h:outputText value="#{gasto.tipoGasto.es_operacional ? 'Si' : 'No'}"/>
-          </p:outputPanel>
+            <p:outputPanel>
+                <h:outputText value="#{gasto.tipoGasto.es_operacional ? 'Si' : 'No'}"/>
+            </p:outputPanel>
         </p:column>
 
         <p:column headerText="Importe" filterBy="#{gasto.importe}" sortBy="#{gasto.importe}">
@@ -153,22 +162,24 @@
         <p:column headerText="Definición" filterBy="#{gasto.definicion}" sortBy="#{gasto.definicion}">
             <p:cellEditor>
                 <f:facet name="output"><h:outputText value="#{gasto.definicion}"/></f:facet>
-                <f:facet name="input"><p:inputText  value="#{gasto.definicion}"
-                                                     style="width:100%"/></f:facet>
+                <f:facet name="input"><p:inputText value="#{gasto.definicion}"
+                                                   style="width:100%"/></f:facet>
             </p:cellEditor>
         </p:column>
 
         <p:column headerText="Mes" filterBy="#{gasto.mes}" sortBy="#{gasto.mes}">
             <p:cellEditor>
                 <f:facet name="output"><h:outputText value="#{gasto.mes}"/></f:facet>
-                <f:facet name="input"><p:inputNumber minValue="1" maxlength="12" decimalPlaces="0" value="#{gasto.mes}" style="width:100%"/></f:facet>
+                <f:facet name="input"><p:inputNumber minValue="1" maxlength="12" decimalPlaces="0" value="#{gasto.mes}"
+                                                     style="width:100%"/></f:facet>
             </p:cellEditor>
         </p:column>
 
         <p:column headerText="Año" filterBy="#{gasto.ano}" sortBy="#{gasto.ano}">
             <p:cellEditor>
                 <f:facet name="output"><h:outputText value="#{gasto.ano}"/></f:facet>
-                <f:facet name="input"><p:inputNumber minValue="0" maxValue="99" thousandSeparator="" decimalPlaces="0" value="#{gasto.ano}" style="width:100%"/></f:facet>
+                <f:facet name="input"><p:inputNumber minValue="0" maxValue="99" thousandSeparator="" decimalPlaces="0"
+                                                     value="#{gasto.ano}" style="width:100%"/></f:facet>
             </p:cellEditor>
         </p:column>
 

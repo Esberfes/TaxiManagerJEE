@@ -43,6 +43,9 @@ public class RecaudacionIngresosEntity {
     @Column(name = "tarjeta")
     private BigDecimal tarjeta;
 
+    @Column(name = "pagos")
+    private BigDecimal pagos;
+
     @Column(name = "efectivo")
     private BigDecimal efectivo;
 
@@ -81,6 +84,7 @@ public class RecaudacionIngresosEntity {
         this.recaudacion = recaudacionIngreso.getRecaudacion();
         this.liquido = recaudacionIngreso.getLiquido();
         this.tarjeta = recaudacionIngreso.getTarjeta();
+        this.pagos = recaudacionIngreso.getPagos();
         this.efectivo = recaudacionIngreso.getEfectivo();
         this.app = recaudacionIngreso.getApp();
         this.observaciones = recaudacionIngreso.getObservaciones();
@@ -238,6 +242,14 @@ public class RecaudacionIngresosEntity {
 
     public void setEfectivo(BigDecimal efectivo) {
         this.efectivo = efectivo;
+    }
+
+    public BigDecimal getPagos() {
+        return pagos;
+    }
+
+    public void setPagos(BigDecimal pagos) {
+        this.pagos = pagos;
     }
 
     public BigDecimal getApp() {

@@ -14,10 +14,12 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import java.io.Serializable;
 
 @ViewScoped
 @Named(ConceptosGastosFace.BEAN_NAME)
+@Interceptors(TaxiLogger.class)
 public class ConceptosGastosFace implements Serializable {
 
     public static final String BEAN_NAME = "ConceptosGastosFace";
