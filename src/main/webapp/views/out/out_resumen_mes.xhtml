@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+>
+
+<ui:composition>
+
+    <p:panel id="outResumenMensualHeader" header="Resumen mensual" styleClass="shadow"
+             style="margin-bottom: 25px">
+        <p:outputPanel styleClass="p-grid">
+
+        </p:outputPanel>
+        <p:outputPanel>
+
+        </p:outputPanel>
+    </p:panel>
+
+    <p:outputPanel styleClass="p-grid">
+        <p:panel styleClass="p-col-12" header="Resumen mensual">
+            <p:dataTable widgetVar="outResumenMes" id="outResumenMes" var="res"
+                         value="#{OutResumenMensual.resumen}"
+                         rows="500"
+                         paginator="false"
+                         resizableColumns="true" liveResize="true" showGridlines="true">
+
+
+                <p:column headerText="Recaudacion">
+                    <h:outputText value="#{res.recaudacion}"/>
+                </p:column>
+
+                <p:column headerText="Salarios">
+                    <h:outputText value="#{res.salarios}"/>
+                </p:column>
+                <p:column headerText="Gastros Op.">
+                    <h:outputText value="#{res.gastosOp}"/>
+                </p:column>
+                <p:column headerText="Beneficio">
+                    <h:outputText value="#{res.beneficioOp}"/>
+                </p:column>
+
+            </p:dataTable>
+        </p:panel>
+    </p:outputPanel>
+
+
+</ui:composition>
+
+</html>

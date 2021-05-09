@@ -5,6 +5,7 @@ import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
 import com.taxi.pojos.Conductor;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,8 +36,8 @@ public class LazyConductorDataModel extends LazyDataModel<Conductor> {
 
     @Override
     public List<Conductor> load(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
-        this.datasource = this.lazyLoad.getData(first, pageSize, sortMeta, filterMeta);
-        this.setRowCount(this.lazyLoad.getTotal(filterMeta));
+        this.datasource = this.lazyLoad.getData(first, pageSize, sortMeta, new HashMap<>(filterMeta));
+        this.setRowCount(this.lazyLoad.getTotal(new HashMap<>(filterMeta)));
 
         return this.datasource;
     }

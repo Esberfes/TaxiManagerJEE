@@ -144,9 +144,7 @@ public class RecaudacionFace implements Serializable {
             ingreso.setEfectivo(efectivo);
             ingreso.setObservaciones(observaciones);
 
-            selectedRecaudacion.addRecaudacionIngresos(ingreso);
-
-            recaudacionIngresosBean.insert(ingreso, selectedRecaudacion);
+            recaudacionIngresosBean.insert(ingreso, selectedRecaudacion.getId());
 
             this.estado = null;
             this.dia = null;

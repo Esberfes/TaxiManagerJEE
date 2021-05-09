@@ -40,65 +40,81 @@
 
                         <p:submenu label="Entradas">
                             <p:menuitem value="Recaudación" update="messages content menu" ajax="true"
-                                        action="#{NavigationFace.navigate(NavigationEnum.recaudacion)}"
-                                        styleClass="#{NavigationFace.navigation eq NavigationEnum.recaudacion ? 'active' : ''}"/>
+                                        action="#{SessionData.navigate(NavigationEnum.recaudacion)}"
+                                        styleClass="#{SessionData.navigation eq NavigationEnum.recaudacion ? 'active' : ''}"/>
 
                             <p:menuitem value="Gastos" update="messages content menu" ajax="true"
-                                        action="#{NavigationFace.navigate(NavigationEnum.gastos)}"
-                                        styleClass="#{NavigationFace.navigation eq NavigationEnum.gastos ? 'active' : ''}"/>
+                                        action="#{SessionData.navigate(NavigationEnum.gastos)}"
+                                        styleClass="#{SessionData.navigation eq NavigationEnum.gastos ? 'active' : ''}"/>
                         </p:submenu>
 
                         <p:submenu label="Salidas">
                             <p:menuitem value="Licencias" update="messages content menu" ajax="true"
-                                        action="#{NavigationFace.navigate(NavigationEnum.out_licencias)}"
-                                        styleClass="#{NavigationFace.navigation eq NavigationEnum.out_licencias ? 'active' : ''}"/>
+                                        action="#{SessionData.navigate(NavigationEnum.out_licencias)}"
+                                        styleClass="#{SessionData.navigation eq NavigationEnum.out_licencias ? 'active' : ''}"/>
 
                             <p:menuitem value="Conductores" update="messages content menu" ajax="true"
-                                        action="#{NavigationFace.navigate(NavigationEnum.out_conductores)}"
-                                        styleClass="#{NavigationFace.navigation eq NavigationEnum.out_conductores ? 'active' : ''}"/>
+                                        action="#{SessionData.navigate(NavigationEnum.out_conductores)}"
+                                        styleClass="#{SessionData.navigation eq NavigationEnum.out_conductores ? 'active' : ''}"/>
 
-                            <p:menuitem rendered="false" value="Resultados" update="messages content menu" ajax="true"
-                                        action="#{NavigationFace.navigate(NavigationEnum.resultados)}"
-                                        styleClass="#{NavigationFace.navigation eq NavigationEnum.resultados ? 'active' : ''}"/>
+                            <p:menuitem value="Resumen Mensual" update="messages content menu" ajax="true"
+                                        action="#{SessionData.navigate(NavigationEnum.resultados)}"
+                                        styleClass="#{SessionData.navigation eq NavigationEnum.resultados ? 'active' : ''}"/>
 
-                            <p:menuitem rendered="false" value="Resumen" update="messages content menu" ajax="true"
-                                        action="#{NavigationFace.navigate(NavigationEnum.resumen)}"
-                                        styleClass="#{NavigationFace.navigation eq NavigationEnum.resumen ? 'active' : ''}"/>
+                            <p:menuitem  value="Resumen Gastos" update="messages content menu" ajax="true"
+                                        action="#{SessionData.navigate(NavigationEnum.resumen)}"
+                                        styleClass="#{SessionData.navigation eq NavigationEnum.resumen ? 'active' : ''}"/>
 
                             <p:menuitem rendered="false" value="Graficas" update="messages content menu" ajax="true"
-                                        action="#{NavigationFace.navigate(NavigationEnum.graficas)}"
-                                        styleClass="#{NavigationFace.navigation eq NavigationEnum.graficas ? 'active' : ''}"/>
+                                        action="#{SessionData.navigate(NavigationEnum.graficas)}"
+                                        styleClass="#{SessionData.navigation eq NavigationEnum.graficas ? 'active' : ''}"/>
                         </p:submenu>
 
                         <p:submenu label="Configuracion">
                             <p:menuitem value="Licencias" update="messages content menu" ajax="true"
-                                        action="#{NavigationFace.navigate(NavigationEnum.licencias)}"
-                                        styleClass="#{NavigationFace.navigation eq NavigationEnum.licencias ? 'active' : ''}"/>
+                                        action="#{SessionData.navigate(NavigationEnum.licencias)}"
+                                        styleClass="#{SessionData.navigation eq NavigationEnum.licencias ? 'active' : ''}"/>
 
                             <p:menuitem value="Conductores" update="messages content menu" ajax="true"
-                                        action="#{NavigationFace.navigate(NavigationEnum.conductores)}"
-                                        styleClass="#{NavigationFace.navigation eq NavigationEnum.conductores ? 'active' : ''}"/>
+                                        action="#{SessionData.navigate(NavigationEnum.conductores)}"
+                                        styleClass="#{SessionData.navigation eq NavigationEnum.conductores ? 'active' : ''}"/>
 
                             <p:menuitem value="Empresas" update="messages content menu" ajax="true"
-                                        action="#{NavigationFace.navigate(NavigationEnum.empresas)}"
-                                        styleClass="#{NavigationFace.navigation eq NavigationEnum.empresas ? 'active' : ''}"/>
+                                        action="#{SessionData.navigate(NavigationEnum.empresas)}"
+                                        styleClass="#{SessionData.navigation eq NavigationEnum.empresas ? 'active' : ''}"/>
 
                             <p:menuitem value="Formas de pago" update="messages content menu" ajax="true"
-                                        action="#{NavigationFace.navigate(NavigationEnum.formasPagos)}"
-                                        styleClass="#{NavigationFace.navigation eq NavigationEnum.formasPagos ? 'active' : ''}"/>
+                                        action="#{SessionData.navigate(NavigationEnum.formasPagos)}"
+                                        styleClass="#{SessionData.navigation eq NavigationEnum.formasPagos ? 'active' : ''}"/>
 
                             <p:menuitem rendered="false" value="Proveedores" update="messages content menu" ajax="true"
-                                        action="#{NavigationFace.navigate(NavigationEnum.conceptosGastos)}"
-                                        styleClass="#{NavigationFace.navigation eq NavigationEnum.conceptosGastos ? 'active' : ''}"/>
+                                        action="#{SessionData.navigate(NavigationEnum.conceptosGastos)}"
+                                        styleClass="#{SessionData.navigation eq NavigationEnum.conceptosGastos ? 'active' : ''}"/>
 
                             <p:menuitem value="Tipos de gasto" update="messages content menu" ajax="true"
-                                        action="#{NavigationFace.navigate(NavigationEnum.tiposGastos)}"
-                                        styleClass="#{NavigationFace.navigation eq NavigationEnum.tiposGastos ? 'active' : ''}"/>
+                                        action="#{SessionData.navigate(NavigationEnum.tiposGastos)}"
+                                        styleClass="#{SessionData.navigation eq NavigationEnum.tiposGastos ? 'active' : ''}"/>
 
                             <p:menuitem value="Estados de ingreso" update="messages content menu" ajax="true"
-                                        action="#{NavigationFace.navigate(NavigationEnum.estadosIngresos)}"
-                                        styleClass="#{NavigationFace.navigation eq NavigationEnum.estadosIngresos ? 'active' : ''}"/>
+                                        action="#{SessionData.navigate(NavigationEnum.estadosIngresos)}"
+                                        styleClass="#{SessionData.navigation eq NavigationEnum.estadosIngresos ? 'active' : ''}"/>
                         </p:submenu>
+                        <p:submenu label="Filtro">
+                            <p:menuitem value="Mes">
+                                <p:inputNumber title="Mes" decimalPlaces="0" minValue="1" maxlength="12" value="#{SessionData.mes}"
+                                               inputStyle="margin-right: 10px;" onclick="this.value = null;">
+                                </p:inputNumber>
+                            </p:menuitem>
+                            <p:menuitem value="Año">
+                                <p:inputNumber title="Año" decimalPlaces="0" thousandSeparator="" value="#{SessionData.ano}"
+                                               inputStyle="margin-right: 10px;" onclick="this.value = null;">
+                                </p:inputNumber>
+                            </p:menuitem>
+                            <p:menuitem value="Año" update="messages content menu">
+                                <p:commandButton actionListener="#{SessionData.refresh()}" value="Filtrar"></p:commandButton>
+                            </p:menuitem>
+                        </p:submenu>
+                        
                     </p:menu>
 
                     <p:ajaxStatus id="startAjax" widgetVar="startAjax" onstart="startHandler();"
@@ -119,73 +135,73 @@
                     <!-- Recaudacion -->
 
                     <p:outputPanel
-                            rendered="#{NavigationFace.navigation eq NavigationEnum.recaudacion and RecaudacionFace.selectedRecaudacion ne null}">
+                            rendered="#{SessionData.navigation eq NavigationEnum.recaudacion and RecaudacionFace.selectedRecaudacion ne null}">
                         <ui:include src="./views/recaudacion_ingreoso.xhtml"/>
                     </p:outputPanel>
 
                     <p:outputPanel
-                            rendered="#{NavigationFace.navigation eq NavigationEnum.recaudacion and RecaudacionFace.selectedRecaudacion eq null}">
+                            rendered="#{SessionData.navigation eq NavigationEnum.recaudacion and RecaudacionFace.selectedRecaudacion eq null}">
                         <ui:include src="./views/recaudaciones.xhtml"/>
                     </p:outputPanel>
 
-                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.gastos}">
+                    <p:outputPanel rendered="#{SessionData.navigation eq NavigationEnum.gastos}">
                         <ui:include src="./views/gastos.xhtml"/>
                     </p:outputPanel>
 
                     <!-- SALIDAS -->
-                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.out_licencias}">
+                    <p:outputPanel rendered="#{SessionData.navigation eq NavigationEnum.out_licencias}">
                         <ui:include src="./views/out/out_licencias.xhtml"/>
                     </p:outputPanel>
 
-                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.out_conductores}">
+                    <p:outputPanel rendered="#{SessionData.navigation eq NavigationEnum.out_conductores}">
                         <ui:include src="./views/out/out_conductores.xhtml"/>
                     </p:outputPanel>
 
-                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.resultados}">
-                        <ui:include src="./views/resultados.xhtml"/>
+                    <p:outputPanel rendered="#{SessionData.navigation eq NavigationEnum.resultados}">
+                        <ui:include src="./views/out/out_resumen_mes.xhtml"/>
                     </p:outputPanel>
 
-                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.resumen}">
-                        <ui:include src="./views/resultados_resumen.xhtml"/>
+                    <p:outputPanel rendered="#{SessionData.navigation eq NavigationEnum.resumen}">
+                        <ui:include src="./views/out/out_resumen_gastos.xhtml"/>
                     </p:outputPanel>
 
-                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.graficas}">
+                    <p:outputPanel rendered="#{SessionData.navigation eq NavigationEnum.graficas}">
                         <ui:include src="./views/graficas.xhtml"/>
                     </p:outputPanel>
 
                     <!-- CONFIGURACION  -->
                     <!-- Licencias -->
-                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.licencias}">
+                    <p:outputPanel rendered="#{SessionData.navigation eq NavigationEnum.licencias}">
                         <ui:include src="./views/licencias.xhtml"/>
                     </p:outputPanel>
 
                     <!-- Conductores -->
-                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.conductores}">
+                    <p:outputPanel rendered="#{SessionData.navigation eq NavigationEnum.conductores}">
                         <ui:include src="./views/conductores.xhtml"/>
                     </p:outputPanel>
 
                     <!-- Empresas -->
-                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.empresas}">
+                    <p:outputPanel rendered="#{SessionData.navigation eq NavigationEnum.empresas}">
                         <ui:include src="./views/empresas.xhtml"/>
                     </p:outputPanel>
 
                     <!-- Formas de pago -->
-                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.formasPagos}">
+                    <p:outputPanel rendered="#{SessionData.navigation eq NavigationEnum.formasPagos}">
                         <ui:include src="./views/formas_pago.xhtml"/>
                     </p:outputPanel>
 
                     <!-- Conceptos de gasto -->
-                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.conceptosGastos}">
+                    <p:outputPanel rendered="#{SessionData.navigation eq NavigationEnum.conceptosGastos}">
                         <ui:include src="./views/conceptos_gasto.xhtml"/>
                     </p:outputPanel>
 
                     <!-- Tipos de gastod -->
-                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.tiposGastos}">
+                    <p:outputPanel rendered="#{SessionData.navigation eq NavigationEnum.tiposGastos}">
                         <ui:include src="./views/tipos_gasto.xhtml"/>
                     </p:outputPanel>
 
                     <!-- Estados de ingreso -->
-                    <p:outputPanel rendered="#{NavigationFace.navigation eq NavigationEnum.estadosIngresos}">
+                    <p:outputPanel rendered="#{SessionData.navigation eq NavigationEnum.estadosIngresos}">
                         <ui:include src="./views/estados_ingreso.xhtml"/>
                     </p:outputPanel>
 
@@ -444,7 +460,7 @@
 
     <script type="text/javascript">
         var ajaxInProgress;
-        var elmAjax = $(document.getElementById("form:startAjax_start"));
+        var elmAjax = $(document.getElementById("form:startAjax"));
 
         function startHandler() {
             clearTimeout(ajaxInProgress);

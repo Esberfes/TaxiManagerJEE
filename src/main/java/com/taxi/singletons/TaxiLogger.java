@@ -92,7 +92,7 @@ public class TaxiLogger extends TailerListenerAdapter implements Serializable {
     }
 
     public void info(String message, Object obj) {
-        log(Level.INFO, message + " - " + new Gson().toJson(obj));
+        log(Level.INFO, message );
     }
 
     @Override

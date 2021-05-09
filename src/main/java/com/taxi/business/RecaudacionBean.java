@@ -2,6 +2,7 @@ package com.taxi.business;
 
 import com.taxi.database.RecaudacionDbBean;
 import com.taxi.datamodels.LazyLoad;
+import com.taxi.faces.SessionData;
 import com.taxi.singletons.TaxiLogger;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortMeta;
@@ -25,13 +26,20 @@ public class RecaudacionBean implements LazyLoad<Recaudacion> {
     @Inject
     private RecaudacionDbBean recaudacionDbBean;
 
+    @Inject
+    private SessionData sessionData;
+
     @Override
     public List<Recaudacion> getData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
+        filterMeta.put("mes", new FilterMeta("recaudaciones.mes", sessionData.getMes()));
+        filterMeta.put("ano", new FilterMeta("recaudaciones.ano", sessionData.getAno()));
         return recaudacionDbBean.getData(first, pageSize, sortMeta, filterMeta).stream().map(Recaudacion::new).collect(Collectors.toList());
     }
 
     @Override
     public int getTotal(Map<String, FilterMeta> filterMeta) {
+        filterMeta.put("mes", new FilterMeta("recaudaciones.mes", sessionData.getMes()));
+        filterMeta.put("ano", new FilterMeta("recaudaciones.ano", sessionData.getAno()));
         return recaudacionDbBean.getTotal(filterMeta);
     }
 

@@ -4,6 +4,7 @@ import com.taxi.business.ConductoresBean;
 import com.taxi.business.GastosBean;
 import com.taxi.business.LicenciasBean;
 import com.taxi.business.RecaudacionBean;
+import com.taxi.faces.SessionData;
 import com.taxi.pojos.Conductor;
 import com.taxi.pojos.Recaudacion;
 import com.taxi.pojos.RecaudacionIngreso;
@@ -44,8 +45,8 @@ public class OutConductoresFace implements Serializable {
     @Inject
     private GastosBean gastosBean;
 
-    private int mes;
-    private int ano;
+    @Inject
+    private SessionData sessionData;
 
     private List<ConductorResultado> conductorResultados;
     private Recaudacion recaudacion;
@@ -53,9 +54,6 @@ public class OutConductoresFace implements Serializable {
 
     @PostConstruct
     public void init() {
-        Calendar calendar = new GregorianCalendar();
-        ano = calendar.get(Calendar.YEAR) % 100;
-        mes = calendar.get(Calendar.MONTH) + 1;
         conductorResultados = new LinkedList<>();
     }
 
@@ -67,8 +65,8 @@ public class OutConductoresFace implements Serializable {
 
             if (conductor != null) {
                 Map<String, FilterMeta> filterMeta = new HashMap<>();
-                filterMeta.put("ano", new FilterMeta("ano", ano));
-                filterMeta.put("mes", new FilterMeta("mes", mes));
+                filterMeta.put("ano", new FilterMeta("ano", sessionData.getAno()));
+                filterMeta.put("mes", new FilterMeta("mes", sessionData.getMes()));
                 filterMeta.put("id_conductor", new FilterMeta("id_conductor", conductor.getId()));
 
                 Map<String, SortMeta> sortMeta = new HashMap<>();
@@ -104,23 +102,6 @@ public class OutConductoresFace implements Serializable {
         } catch (Throwable e) {
             logger.error("Error refrescando resultados conductores", e);
         }
-    }
-
-
-    public int getMes() {
-        return mes;
-    }
-
-    public void setMes(int mes) {
-        this.mes = mes;
-    }
-
-    public int getAno() {
-        return ano;
-    }
-
-    public void setAno(int ano) {
-        this.ano = ano;
     }
 
     public List<ConductorResultado> getConductorResultados() {

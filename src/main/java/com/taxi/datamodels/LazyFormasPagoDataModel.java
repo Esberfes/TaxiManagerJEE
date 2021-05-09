@@ -5,6 +5,7 @@ import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
 import com.taxi.pojos.FormasPago;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,8 +36,8 @@ public class LazyFormasPagoDataModel extends LazyDataModel<FormasPago> {
 
     @Override
     public List<FormasPago> load(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
-        this.datasource = this.lazyLoad.getData(first, pageSize, sortMeta, filterMeta);
-        this.setRowCount(this.lazyLoad.getTotal(filterMeta));
+        this.datasource = this.lazyLoad.getData(first, pageSize, sortMeta, new HashMap<>(filterMeta));
+        this.setRowCount(this.lazyLoad.getTotal(new HashMap<>(filterMeta)));
 
         return this.datasource;
     }

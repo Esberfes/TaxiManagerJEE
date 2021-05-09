@@ -3,6 +3,7 @@ package com.taxi.faces.out;
 import com.taxi.business.GastosBean;
 import com.taxi.business.LicenciasBean;
 import com.taxi.business.RecaudacionBean;
+import com.taxi.faces.SessionData;
 import com.taxi.pojos.Gasto;
 import com.taxi.pojos.Licencia;
 import com.taxi.pojos.Recaudacion;
@@ -38,6 +39,9 @@ public class OutLicenciasFace implements Serializable {
     @Inject
     private GastosBean gastosBean;
 
+    @Inject
+    private SessionData sessionData;
+
     private  Recaudacion recaudacion;
     private int totaServicios;
     private int totalKilometros;
@@ -47,15 +51,10 @@ public class OutLicenciasFace implements Serializable {
     private BigDecimal totalLiquido;
     private BigDecimal totalRecaudacion;
     private BigDecimal totalGastos;
-    private int mes;
-    private int ano;
     private Integer licencia;
 
     @PostConstruct
     public void init() {
-        Calendar calendar = new GregorianCalendar();
-        ano = calendar.get(Calendar.YEAR) % 100;
-        mes = calendar.get(Calendar.MONTH) + 1;
         recaudacionIngresos = new LinkedList<>();
         gastos = new LinkedList<>();
         totalLiquido = new BigDecimal("0.00");
@@ -93,8 +92,8 @@ public class OutLicenciasFace implements Serializable {
     private void emptyIngresos() {
         this.recaudacionIngresos = new LinkedList<>();
         Calendar calendar = new GregorianCalendar();
-        calendar.set(Calendar.MONTH, mes - 1);
-        calendar.set(Calendar.YEAR, ano);
+        calendar.set(Calendar.MONTH, sessionData.getMes() - 1);
+        calendar.set(Calendar.YEAR, sessionData.getAno());
         int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         for (int i = 1; i <= daysInMonth; i++) {
             this.recaudacionIngresos.add(RecaudacionIngreso.createEmpty(i, "mañana"));
@@ -105,8 +104,8 @@ public class OutLicenciasFace implements Serializable {
     private void calculateGastos() {
         if (licenciaObj != null) {
             Map<String, FilterMeta> filterMeta = new HashMap<>();
-            filterMeta.put("ano", new FilterMeta("ano", ano));
-            filterMeta.put("mes", new FilterMeta("mes", mes));
+            filterMeta.put("ano", new FilterMeta("ano", sessionData.getAno()));
+            filterMeta.put("mes", new FilterMeta("mes", sessionData.getMes()));
             filterMeta.put("id_licencia", new FilterMeta("id_licencia", licenciaObj.getId()));
 
             Map<String, SortMeta> sortMeta = new HashMap<>();
@@ -123,8 +122,8 @@ public class OutLicenciasFace implements Serializable {
 
         if (licenciaObj != null) {
             Map<String, FilterMeta> filterMeta = new HashMap<>();
-            filterMeta.put("ano", new FilterMeta("ano", ano));
-            filterMeta.put("mes", new FilterMeta("mes", mes));
+            filterMeta.put("ano", new FilterMeta("ano", sessionData.getAno()));
+            filterMeta.put("mes", new FilterMeta("mes", sessionData.getMes()));
             filterMeta.put("id_licencia", new FilterMeta("id_licencia", licenciaObj.getId()));
 
             Map<String, SortMeta> sortMeta = new HashMap<>();
@@ -189,22 +188,6 @@ public class OutLicenciasFace implements Serializable {
             totalKilometros = 0;
         else
             totalKilometros =  recaudacion.getKm_totales_fin() - recaudacion.getKm_totales_inicio();
-    }
-
-    public int getMes() {
-        return mes;
-    }
-
-    public void setMes(int mes) {
-        this.mes = mes;
-    }
-
-    public int getAno() {
-        return ano;
-    }
-
-    public void setAno(int ano) {
-        this.ano = ano;
     }
 
     public Integer getLicencia() {
