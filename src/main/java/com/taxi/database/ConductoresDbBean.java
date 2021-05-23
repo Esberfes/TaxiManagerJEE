@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.taxi.utils.FilterUtils.getFilterFieldValue;
+import static com.taxi.utils.FilterUtils.matchModeTranslation;
 
 @Stateless(name = ConductoresDbBean.BEAN_NAME)
 @Interceptors(TaxiLogger.class)
@@ -114,7 +115,7 @@ public class ConductoresDbBean {
                         && StringUtils.isNotBlank(String.valueOf(entry.getValue().getFilterValue()))) {
 
                     if (entry.getKey().equalsIgnoreCase("empresa.nombre")) {
-                        rawQuery.append(" AND ").append(" empresas.nombre ").append("LIKE ").append(":").append(entry.getKey());
+                        rawQuery.append(" AND ").append(" empresas.nombre ").append(matchModeTranslation(entry.getValue().getFilterMatchMode())).append(":").append(entry.getKey());
                     } else {
                         rawQuery.append(" AND ").append("conductores.").append(entry.getKey()).append(" LIKE ").append(":").append(entry.getKey());
                     }
@@ -156,5 +157,9 @@ public class ConductoresDbBean {
         Query query = em.createNativeQuery(rawQuery, ConductorEntity.class);
 
         return (ConductorEntity) query.getSingleResult();
+    }
+
+    public ConductorEntity findById(Long id) {
+        return em.find(ConductorEntity.class, id);
     }
 }

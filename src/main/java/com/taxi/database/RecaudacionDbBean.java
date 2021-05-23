@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.taxi.utils.FilterUtils.getFilterFieldValue;
+import static com.taxi.utils.FilterUtils.matchModeTranslation;
 
 @Stateless(name = RecaudacionDbBean.BEAN_NAME)
 @Interceptors(TaxiLogger.class)
@@ -40,7 +41,7 @@ public class RecaudacionDbBean {
     public List<RecaudacionesEntity> getData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
         StringBuilder rawQuery = new StringBuilder("SELECT recaudaciones.* FROM licencias, recaudaciones LEFT JOIN recaudacion_ingresos on (recaudacion_ingresos.id_recaudacion = recaudaciones.id) WHERE recaudaciones.id_licencia = licencias.id ");
 
-        Query query = buildFilters(sortMeta, filterMeta, rawQuery, RecaudacionesEntity.class);
+        Query query = buildFilters(sortMeta, filterMeta, rawQuery, RecaudacionesEntity.class, true);
 
         if (pageSize > 0)
             query = query.setMaxResults(pageSize).setFirstResult(first);
@@ -50,19 +51,29 @@ public class RecaudacionDbBean {
         for (RecaudacionesEntity entity : data) {
             RecaudacionIngresosEntity ingresosEntity = null;
 
-            for (RecaudacionIngresosEntity ingreso : entity.getRecaudacionIngresosEntities()) {
-                if (ingresosEntity == null)
-                    ingresosEntity = ingreso;
-                else if (ingreso.getDia() > ingresosEntity.getDia())
-                    ingresosEntity = ingreso;
-                else if (ingreso.getDia().equals(ingresosEntity.getDia()) && "mañana".equalsIgnoreCase(ingresosEntity.getTurno()))
-                    ingresosEntity = ingreso;
+            if (entity.getRecaudacionIngresosEntities() != null) {
+                ingresosEntity =  entity.getRecaudacionIngresosEntities().stream().max((o1, o2) -> {
+                    if(o1.getDia() == null)
+                        return -1;
+                    if(o2.getDia() == null)
+                        return 1;
+
+                    if (o1.getDia() > o2.getDia())
+                        return 1;
+                    if (o1.getDia() < o2.getDia())
+                        return -1;
+                    if (o1.getDia().equals(o2.getDia()) && o1.getTurno().equalsIgnoreCase("tarde"))
+                        return 1;
+                    if (o1.getDia().equals(o2.getDia()) && o1.getTurno().equalsIgnoreCase(o2.getTurno()))
+                        return 0;
+
+                    return -1;
+                }).orElse(null);
             }
-
-            if (ingresosEntity != null)
+            if (ingresosEntity != null) {
                 entity.setNumeracionFin(ingresosEntity.getNumeracion());
-
-            recaudacionIngresoDbBean.setRecaudacion(entity.getRecaudacionIngresosEntities());
+                recaudacionIngresoDbBean.setRecaudacion(entity.getRecaudacionIngresosEntities());
+            }
         }
 
 
@@ -70,14 +81,14 @@ public class RecaudacionDbBean {
     }
 
     public int getTotal(Map<String, FilterMeta> filterMeta) {
-        StringBuilder rawQuery = new StringBuilder("SELECT COUNT(*) FROM recaudaciones, licencias WHERE recaudaciones.id_licencia = licencias.id ");
+        StringBuilder rawQuery = new StringBuilder("SELECT COUNT(DISTINCT(recaudaciones.id)) FROM licencias, recaudaciones LEFT JOIN recaudacion_ingresos on (recaudacion_ingresos.id_recaudacion = recaudaciones.id) WHERE recaudaciones.id_licencia = licencias.id ");
 
-        Query query = buildFilters(null, filterMeta, rawQuery, null);
+        Query query = buildFilters(null, filterMeta, rawQuery, null, false);
 
         return ((BigInteger) query.getSingleResult()).intValue();
     }
 
-    private Query buildFilters(Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta, StringBuilder rawQuery, Class clazz) {
+    private Query buildFilters(Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta, StringBuilder rawQuery, Class clazz, boolean group) {
         Map<String, FilterMeta> parameters = new HashMap<>();
 
         if (filterMeta != null) {
@@ -88,12 +99,12 @@ public class RecaudacionDbBean {
                         && StringUtils.isNotBlank(String.valueOf(entry.getValue().getFilterValue()))) {
 
                     if (entry.getKey().equalsIgnoreCase("licencia.codigo")) {
-                        rawQuery.append(" AND ").append(" licencias.codigo ").append("LIKE ").append(":").append(entry.getKey());
+                        rawQuery.append(" AND ").append(" licencias.codigo ").append(matchModeTranslation(entry.getValue().getFilterMatchMode())).append(":").append(entry.getKey());
 
                     } else if (entry.getKey().equalsIgnoreCase("id_conductor")) {
-                        rawQuery.append(" AND ").append("recaudacion_ingresos.").append(entry.getKey()).append(" LIKE ").append(":").append(entry.getKey());
+                        rawQuery.append(" AND ").append("recaudacion_ingresos.").append(entry.getKey()).append(matchModeTranslation(entry.getValue().getFilterMatchMode())).append(":").append(entry.getKey());
                     } else {
-                        rawQuery.append(" AND ").append("recaudaciones.").append(entry.getKey()).append(" LIKE ").append(":").append(entry.getKey());
+                        rawQuery.append(" AND ").append("recaudaciones.").append(entry.getKey()).append(matchModeTranslation(entry.getValue().getFilterMatchMode())).append(":").append(entry.getKey());
                     }
 
 
@@ -101,7 +112,8 @@ public class RecaudacionDbBean {
                 }
             }
         }
-        rawQuery.append(" GROUP BY ").append("recaudaciones.id ");
+        if (group)
+            rawQuery.append(" GROUP BY ").append("recaudaciones.id ");
 
         if (sortMeta != null && !sortMeta.isEmpty()) {
             SortMeta sort = sortMeta.entrySet().iterator().next().getValue();
@@ -149,7 +161,7 @@ public class RecaudacionDbBean {
         em.remove(em.find(RecaudacionesEntity.class, id));
     }
 
-    public RecaudacionesEntity findSingle(Long id) {
+    public RecaudacionesEntity findById(Long id) {
         return em.find(RecaudacionesEntity.class, id);
     }
 }

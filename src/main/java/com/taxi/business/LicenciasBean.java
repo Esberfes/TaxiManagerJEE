@@ -46,6 +46,11 @@ public class LicenciasBean implements LazyLoad<Licencia> {
         return 0;
     }
 
+    @Override
+    public Licencia findById(Long id) {
+        return new Licencia(licenciasDbBean.findById(id));
+    }
+
     public List<Licencia> findByCodigo(Integer codigo) {
         return licenciasDbBean.findByCodigo(codigo).stream().map(Licencia::new).collect(Collectors.toList());
     }

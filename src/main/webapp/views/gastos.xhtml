@@ -138,9 +138,10 @@
             <p:cellEditor>
                 <f:facet name="output"><h:outputText value="#{gasto.tipoGasto.nombre}"/></f:facet>
                 <f:facet name="input">
-                    <p:selectOneMenu style="width: 100%" value="#{gasto.tipoGasto.nombre}">
-                        <f:selectItems value="#{GastosFace.tiposGastos}"/>
-                    </p:selectOneMenu>
+                    <h:selectOneMenu value="#{gasto.tipoGasto.id}" style="width:100%">
+                        <f:selectItems  value="#{GastosFace.tiposGastos}" var="item"
+                                        itemLabel="#{item.nombre}" itemValue="#{item.id}"/>
+                    </h:selectOneMenu>
                 </f:facet>
             </p:cellEditor>
         </p:column>

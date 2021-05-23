@@ -45,6 +45,11 @@ public class FormasPagosBean implements LazyLoad<FormasPago> {
         return 0;
     }
 
+    @Override
+    public FormasPago findById(Long id) {
+        return new FormasPago(formasPagosDbBean.findById(id));
+    }
+
     public void update(FormasPago formasPago) {
         formasPagosDbBean.update(formasPago);
     }

@@ -3,8 +3,10 @@ package com.taxi.business;
 import com.taxi.database.RecaudacionDbBean;
 import com.taxi.datamodels.LazyLoad;
 import com.taxi.faces.SessionData;
+import com.taxi.pojos.TaxiFilterMeta;
 import com.taxi.singletons.TaxiLogger;
 import org.primefaces.model.FilterMeta;
+import org.primefaces.model.MatchMode;
 import org.primefaces.model.SortMeta;
 import com.taxi.pojos.Recaudacion;
 
@@ -31,15 +33,15 @@ public class RecaudacionBean implements LazyLoad<Recaudacion> {
 
     @Override
     public List<Recaudacion> getData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
-        filterMeta.put("mes", new FilterMeta("recaudaciones.mes", sessionData.getMes()));
-        filterMeta.put("ano", new FilterMeta("recaudaciones.ano", sessionData.getAno()));
+        filterMeta.put("mes", new TaxiFilterMeta("recaudaciones.mes", sessionData.getMes(), MatchMode.EXACT));
+        filterMeta.put("ano", new TaxiFilterMeta("recaudaciones.ano", sessionData.getAno(), MatchMode.EXACT));
         return recaudacionDbBean.getData(first, pageSize, sortMeta, filterMeta).stream().map(Recaudacion::new).collect(Collectors.toList());
     }
 
     @Override
     public int getTotal(Map<String, FilterMeta> filterMeta) {
-        filterMeta.put("mes", new FilterMeta("recaudaciones.mes", sessionData.getMes()));
-        filterMeta.put("ano", new FilterMeta("recaudaciones.ano", sessionData.getAno()));
+        filterMeta.put("mes", new TaxiFilterMeta("recaudaciones.mes", sessionData.getMes(), MatchMode.EXACT));
+        filterMeta.put("ano", new TaxiFilterMeta("recaudaciones.ano", sessionData.getAno(), MatchMode.EXACT));
         return recaudacionDbBean.getTotal(filterMeta);
     }
 
@@ -51,6 +53,11 @@ public class RecaudacionBean implements LazyLoad<Recaudacion> {
     @Override
     public int getTotal(Map<String, FilterMeta> filterMeta, Long parentId) {
         return 0;
+    }
+
+    @Override
+    public Recaudacion findById(Long id) {
+        return new Recaudacion(recaudacionDbBean.findById(id));
     }
 
     public void update(Recaudacion recaudacion) {
@@ -66,6 +73,6 @@ public class RecaudacionBean implements LazyLoad<Recaudacion> {
     }
 
     public Recaudacion findSingle(Long id) {
-        return new Recaudacion(recaudacionDbBean.findSingle(id));
+        return new Recaudacion(recaudacionDbBean.findById(id));
     }
 }

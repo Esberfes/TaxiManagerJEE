@@ -111,4 +111,8 @@ public class EstadosIngresoDbBean {
 
         return query.setMaxResults(10).getResultList();
     }
+
+    public RecaudacionesIngresosEstadosEntity findById(Long id) {
+        return em.find(RecaudacionesIngresosEstadosEntity.class, id);
+    }
 }

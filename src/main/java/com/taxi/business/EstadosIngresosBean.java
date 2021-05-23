@@ -46,6 +46,11 @@ public class EstadosIngresosBean implements LazyLoad<EstadosIngreso> {
         return 0;
     }
 
+    @Override
+    public EstadosIngreso findById(Long id) {
+        return new EstadosIngreso(estadosIngresoDbBean.findById(id));
+    }
+
     public void update(EstadosIngreso estadosIngreso) {
         estadosIngresoDbBean.update(estadosIngreso);
     }

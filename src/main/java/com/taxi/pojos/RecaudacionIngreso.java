@@ -23,6 +23,7 @@ public class RecaudacionIngreso {
     private BigDecimal pagos;
     private BigDecimal efectivo;
     private BigDecimal app;
+    private BigDecimal t;
     private String observaciones;
     private Date creado;
     private Date actualizado;
@@ -49,6 +50,7 @@ public class RecaudacionIngreso {
         this.observaciones = recaudacionIngresosEntity.getObservaciones();
         this.creado = recaudacionIngresosEntity.getCreado();
         this.actualizado = recaudacionIngresosEntity.getActualizado();
+        this.t = recaudacionIngresosEntity.getT();
     }
 
     public void replace(RecaudacionIngreso recaudacionIngreso) {
@@ -69,6 +71,7 @@ public class RecaudacionIngreso {
         this.observaciones = recaudacionIngreso.getObservaciones();
         this.creado = recaudacionIngreso.getCreado();
         this.actualizado = recaudacionIngreso.getActualizado();
+        this.t = recaudacionIngreso.getT();
     }
 
     public static RecaudacionIngreso createEmpty(Integer dia, String turno) {
@@ -215,6 +218,14 @@ public class RecaudacionIngreso {
 
     public void setApp(BigDecimal app) {
         this.app = app;
+    }
+
+    public BigDecimal getT() {
+        return t;
+    }
+
+    public void setT(BigDecimal t) {
+        this.t = t;
     }
 }
 

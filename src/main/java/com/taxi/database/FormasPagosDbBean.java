@@ -108,5 +108,9 @@ public class FormasPagosDbBean {
     public FormasPagosGastosEntity findSingleByName(String value) {
         return findByName(value).get(0);
     }
+
+    public FormasPagosGastosEntity findById(Long id) {
+        return em.find(FormasPagosGastosEntity.class, id);
+    }
 }
 

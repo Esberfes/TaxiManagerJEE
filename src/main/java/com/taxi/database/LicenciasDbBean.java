@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.taxi.utils.FilterUtils.getFilterFieldValue;
+import static com.taxi.utils.FilterUtils.matchModeTranslation;
 
 @Stateless(name = LicenciasDbBean.BEAN_NAME)
 @Interceptors(TaxiLogger.class)
@@ -64,7 +65,7 @@ public class LicenciasDbBean {
                         && StringUtils.isNotBlank(String.valueOf(entry.getValue().getFilterValue()))) {
 
                     if (entry.getKey().equalsIgnoreCase("empresa.nombre")) {
-                        rawQuery.append(" AND ").append(" empresas.nombre ").append("LIKE ").append(":").append(entry.getKey());
+                        rawQuery.append(" AND ").append(" empresas.nombre ").append(matchModeTranslation(entry.getValue().getFilterMatchMode())).append(":").append(entry.getKey());
                     } else {
                         rawQuery.append(" AND ").append("licencias.").append(entry.getKey()).append(" LIKE ").append(":").append(entry.getKey());
                     }
@@ -140,7 +141,7 @@ public class LicenciasDbBean {
         }
     }
 
-    public LicenciasEntity findSingle(Long id) {
+    public LicenciasEntity findById(Long id) {
         return em.find(LicenciasEntity.class, id);
     }
 }

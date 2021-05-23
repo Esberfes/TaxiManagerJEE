@@ -45,6 +45,11 @@ public class ConceptosGastosBean implements LazyLoad<ConceptosGastos> {
         return 0;
     }
 
+    @Override
+    public ConceptosGastos findById(Long id) {
+        return new ConceptosGastos(conceptosGastosDbBean.findById(id));
+    }
+
     public void update(ConceptosGastos conceptosGastos) {
         conceptosGastosDbBean.update(conceptosGastos);
     }

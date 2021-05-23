@@ -33,6 +33,9 @@ public class RecaudacionIngresosEntity {
     @Column(name = "dia")
     private Integer dia;
 
+    @Column(name = "t")
+    private BigDecimal t;
+
     @Column(name = "turno")
     private String turno;
 
@@ -260,5 +263,13 @@ public class RecaudacionIngresosEntity {
 
     public void setApp(BigDecimal app) {
         this.app = app;
+    }
+
+    public BigDecimal getT() {
+        return t;
+    }
+
+    public void setT(BigDecimal t) {
+        this.t = t;
     }
 }

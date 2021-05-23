@@ -63,6 +63,11 @@ public class ConductoresBean implements LazyLoad<Conductor> {
         return 0;
     }
 
+    @Override
+    public Conductor findById(Long id) {
+        return new Conductor(conductoresDbBean.findById(id));
+    }
+
     public void update(Conductor conductor) {
         conductoresDbBean.update(conductor);
     }
@@ -74,6 +79,11 @@ public class ConductoresBean implements LazyLoad<Conductor> {
     public List<Conductor> findEmployeesByFullName(String name) {
         return conductoresDbBean.findByFullName(name).stream().map(Conductor::new).collect(Collectors.toList());
     }
+
+    public Conductor findEmployeesByExactName(String name) {
+        return new Conductor(conductoresDbBean.getSingleByNameExact(name));
+    }
+
 
     public ConductorEntity insert(Conductor conductor) {
         return conductoresDbBean.insert(conductor);

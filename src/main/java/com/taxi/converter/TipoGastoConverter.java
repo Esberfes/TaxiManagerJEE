@@ -1,7 +1,9 @@
 package com.taxi.converter;
 
 import com.taxi.business.ConductoresBean;
+import com.taxi.business.TiposGastosBean;
 import com.taxi.pojos.Conductor;
+import com.taxi.pojos.TiposGasto;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -11,19 +13,19 @@ import javax.faces.convert.ConverterException;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-@Named("ConductorConverter")
-public class ConductorConverter implements Converter<Conductor> {
+@Named("TipoGastoConverter")
+public class TipoGastoConverter implements Converter<TiposGasto> {
 
     @Inject
-    private ConductoresBean conductoresBean;
+    private TiposGastosBean tiposGastosBean;
 
     @Override
-    public Conductor getAsObject(FacesContext context, UIComponent component, String value) {
+    public TiposGasto getAsObject(FacesContext context, UIComponent component, String value) {
         if (value != null && value.trim().length() > 0) {
             try {
-                return conductoresBean.findEmployeesByFullName(value).stream().findFirst().orElse(null);
+                return tiposGastosBean.findSingleByName(value);
             } catch (NumberFormatException e) {
-                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Conductor invalido."));
+                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Tipo de gasto invalido."));
             }
         } else {
             return null;
@@ -31,7 +33,7 @@ public class ConductorConverter implements Converter<Conductor> {
     }
 
     @Override
-    public String getAsString(FacesContext context, UIComponent component, Conductor value) {
+    public String getAsString(FacesContext context, UIComponent component, TiposGasto value) {
         return value.getNombre();
     }
 }

@@ -4,12 +4,10 @@ import com.taxi.business.GastosBean;
 import com.taxi.business.LicenciasBean;
 import com.taxi.business.RecaudacionBean;
 import com.taxi.faces.SessionData;
-import com.taxi.pojos.Gasto;
-import com.taxi.pojos.Licencia;
-import com.taxi.pojos.Recaudacion;
-import com.taxi.pojos.RecaudacionIngreso;
+import com.taxi.pojos.*;
 import com.taxi.singletons.TaxiLogger;
 import org.primefaces.model.FilterMeta;
+import org.primefaces.model.MatchMode;
 import org.primefaces.model.SortMeta;
 import org.primefaces.model.SortOrder;
 
@@ -124,7 +122,7 @@ public class OutLicenciasFace implements Serializable {
             Map<String, FilterMeta> filterMeta = new HashMap<>();
             filterMeta.put("ano", new FilterMeta("ano", sessionData.getAno()));
             filterMeta.put("mes", new FilterMeta("mes", sessionData.getMes()));
-            filterMeta.put("id_licencia", new FilterMeta("id_licencia", licenciaObj.getId()));
+            filterMeta.put("id_licencia", new TaxiFilterMeta("id_licencia", licenciaObj.getId(), MatchMode.EXACT));
 
             Map<String, SortMeta> sortMeta = new HashMap<>();
             sortMeta.put("mes", new SortMeta("mes", "mes", SortOrder.ASCENDING, null));

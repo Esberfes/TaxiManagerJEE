@@ -54,6 +54,11 @@ public class EmpresasBean implements LazyLoad<Empresa> {
         return 0;
     }
 
+    @Override
+    public Empresa findById(Long id) {
+        return new Empresa(empresasDbBean.findById(id));
+    }
+
     public Empresa getSingle(Long id) {
         return new Empresa(empresasDbBean.getSingleEmpresa(id));
     }

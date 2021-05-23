@@ -114,7 +114,7 @@
                                 <p:commandButton actionListener="#{SessionData.refresh()}" value="Filtrar"></p:commandButton>
                             </p:menuitem>
                         </p:submenu>
-                        
+
                     </p:menu>
 
                     <p:ajaxStatus id="startAjax" widgetVar="startAjax" onstart="startHandler();"
@@ -496,11 +496,10 @@
                 };
 
                 ws.onmessage = function (event) {
-                    console.log(event.data);
 
                     const logContainer = $('#form\\:log');
 
-                    if (logContainer.children().length > 800) {
+                    if (logContainer.children().length > 200) {
                         logContainer.find('div:first').remove();
                     }
 

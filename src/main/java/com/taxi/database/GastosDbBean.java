@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.taxi.utils.FilterUtils.getFilterFieldValue;
+import static com.taxi.utils.FilterUtils.matchModeTranslation;
 
 @Stateless(name = GastosDbBean.BEAN_NAME)
 @Interceptors(TaxiLogger.class)
@@ -78,16 +79,16 @@ public class GastosDbBean {
 
                     switch (entry.getKey()) {
                         case "licencia.codigo":
-                            rawQuery.append(" AND ").append(" licencias.codigo ").append("LIKE ").append(":").append(entry.getKey());
+                            rawQuery.append(" AND ").append(" licencias.codigo ").append(matchModeTranslation(entry.getValue().getFilterMatchMode())).append(":").append(entry.getKey());
                             break;
                         case "formaPago.nombre":
-                            rawQuery.append(" AND ").append(" formas_pagos_gastos ").append("LIKE ").append(":").append(entry.getKey());
+                            rawQuery.append(" AND ").append(" formas_pagos_gastos ").append(matchModeTranslation(entry.getValue().getFilterMatchMode())).append(":").append(entry.getKey());
                             break;
                         case "tipos_gastos.es_operacional":
-                            rawQuery.append(" AND ").append(" tipos_gastos.es_operacional ").append("LIKE ").append(":").append(entry.getKey());
+                            rawQuery.append(" AND ").append(" tipos_gastos.es_operacional ").append(matchModeTranslation(entry.getValue().getFilterMatchMode())).append(":").append(entry.getKey());
                             break;
                         case "tipos_gastos.enombre":
-                            rawQuery.append(" AND ").append(" tipos_gastos.nombre ").append("LIKE ").append(":").append(entry.getKey());
+                            rawQuery.append(" AND ").append(" tipos_gastos.nombre ").append(matchModeTranslation(entry.getValue().getFilterMatchMode())).append(":").append(entry.getKey());
                             break;
                         default:
                             rawQuery.append(" AND ").append("gastos.").append(entry.getKey()).append(" LIKE ").append(":").append(entry.getKey());
@@ -166,5 +167,9 @@ public class GastosDbBean {
 
     public void delete(Long id) {
         em.remove(em.find(GastosEntity.class, id));
+    }
+
+    public GastosEntity findById(Long id) {
+        return em.find(GastosEntity.class, id);
     }
 }

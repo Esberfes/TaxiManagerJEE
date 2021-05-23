@@ -10,7 +10,7 @@ public abstract class BigDecimalUtils {
     public static final BigDecimal ONE_HUNDRED = new BigDecimal(100);
 
     public static BigDecimal percentage(BigDecimal base, BigDecimal pct) {
-        return base.multiply(pct).divide(ONE_HUNDRED, RoundingMode.CEILING);
+        return base.multiply(pct).divide(ONE_HUNDRED, RoundingMode.CEILING).setScale(2, RoundingMode.CEILING);
     }
 
     public static BigDecimal ensureNotNull(BigDecimal in) {

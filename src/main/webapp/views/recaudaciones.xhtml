@@ -168,7 +168,7 @@
         <p:column headerText="Num. fin">
             <p:cellEditor>
                 <f:facet name="output">
-                    <h:outputText converter="javax.faces.BigDecimal" value="#{recaudacion.numeracion_fin}"/>
+                    <p:inputNumber readonly="true" converter="javax.faces.BigDecimal" value="#{recaudacion.numeracion_fin}"/>
                 </f:facet>
                 <f:facet name="input">
                     <p:inputNumber readonly="true" converter="javax.faces.BigDecimal"

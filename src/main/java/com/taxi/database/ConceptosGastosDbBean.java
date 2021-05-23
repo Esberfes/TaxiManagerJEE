@@ -2,13 +2,13 @@ package com.taxi.database;
 
 import com.taxi.entities.ConceptosGastosEntity;
 import com.taxi.entities.TiposGastosEntity;
+import com.taxi.pojos.ConceptosGastos;
 import com.taxi.singletons.TaxiLogger;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortMeta;
 import org.primefaces.model.SortOrder;
-import com.taxi.pojos.ConceptosGastos;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.taxi.utils.FilterUtils.getFilterFieldValue;
+import static com.taxi.utils.FilterUtils.matchModeTranslation;
 
 
 @Stateless(name = ConceptosGastosDbBean.BEAN_NAME)
@@ -69,7 +70,7 @@ public class ConceptosGastosDbBean {
                         && StringUtils.isNotBlank(String.valueOf(entry.getValue().getFilterValue()))) {
 
                     if (entry.getKey().equalsIgnoreCase("tipoGasto.nombre")) {
-                        rawQuery.append(" AND ").append(" tipos_gastos.nombre ").append("LIKE ").append(":").append(entry.getKey());
+                        rawQuery.append(" AND ").append(" tipos_gastos.nombre ").append(matchModeTranslation(entry.getValue().getFilterMatchMode())).append(":").append(entry.getKey());
                     } else {
                         rawQuery.append(" AND ").append("conceptos_gastos.").append(entry.getKey()).append(" LIKE ").append(":").append(entry.getKey());
                     }
@@ -127,5 +128,9 @@ public class ConceptosGastosDbBean {
 
     public ConceptosGastosEntity findSingleByName(String value) {
         return findByName(value).get(0);
+    }
+
+    public ConceptosGastosEntity findById(Long id) {
+        return em.find(ConceptosGastosEntity.class, id);
     }
 }

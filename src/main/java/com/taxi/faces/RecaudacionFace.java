@@ -1,14 +1,18 @@
 package com.taxi.faces;
 
+import com.google.gson.Gson;
 import com.taxi.business.*;
 import com.taxi.datamodels.LazyRecaudacionDataModel;
 import com.taxi.datamodels.LazyRecaudacionIngresoDataModel;
+import com.taxi.pojos.Conductor;
+import com.taxi.pojos.EstadosIngreso;
+import com.taxi.pojos.Recaudacion;
+import com.taxi.pojos.RecaudacionIngreso;
 import com.taxi.singletons.TaxiLogger;
+import com.taxi.utils.RecaudacionUtils;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.LazyDataModel;
-import com.taxi.pojos.Recaudacion;
-import com.taxi.pojos.RecaudacionIngreso;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -68,8 +72,8 @@ public class RecaudacionFace implements Serializable {
     private Integer ano;
 
     // Insert recaudacion ingreo
-    private String conductor;
-    private String estado;
+    private Conductor conductor;
+    private EstadosIngreso estado;
     private Integer dia;
     private String turno;
     private BigDecimal numeracion;
@@ -77,7 +81,10 @@ public class RecaudacionFace implements Serializable {
     private BigDecimal tarjeta;
     private BigDecimal app;
     private BigDecimal efectivo;
+    private BigDecimal recaudacion;
     private String observaciones;
+
+    private RecaudacionIngreso resultRecaudacionIngreso;
 
     @PreDestroy
     public void destroy() {
@@ -88,8 +95,13 @@ public class RecaudacionFace implements Serializable {
     public void init() {
         this.lazyModel = new LazyRecaudacionDataModel(recaudacionBean);
         Calendar calendar = new GregorianCalendar();
-        ano = calendar.get(Calendar.YEAR) % 100;;
-        mes = calendar.get(Calendar.MONTH)  + 1;
+        ano = calendar.get(Calendar.YEAR) % 100;
+        mes = calendar.get(Calendar.MONTH) + 1;
+
+        anulados = new BigDecimal("0.00");
+        tarjeta = new BigDecimal("0.00");
+        app = new BigDecimal("0.00");
+        efectivo = new BigDecimal("0.00");
     }
 
     public void onRowIngresoEdit(RowEditEvent<RecaudacionIngreso> event) {
@@ -131,18 +143,9 @@ public class RecaudacionFace implements Serializable {
 
     public void insertIngreso() {
         try {
-            RecaudacionIngreso ingreso = new RecaudacionIngreso();
+            RecaudacionIngreso ingreso = createTemporalIngreso();
 
-            ingreso.setConductor(conductoresBean.findEmployeesByFullName(conductor).get(0));
-            ingreso.setEstado(estadosIngresosBean.findSingleByName(estado));
-            ingreso.setDia(dia);
-            ingreso.setTurno(turno);
-            ingreso.setNumeracion(numeracion);
-            ingreso.setAnulados(anulados);
-            ingreso.setTarjeta(tarjeta);
-            ingreso.setApp(app);
-            ingreso.setEfectivo(efectivo);
-            ingreso.setObservaciones(observaciones);
+            calculateEfectivo();
 
             recaudacionIngresosBean.insert(ingreso, selectedRecaudacion.getId());
 
@@ -150,10 +153,11 @@ public class RecaudacionFace implements Serializable {
             this.dia = null;
             this.turno = null;
             this.numeracion = null;
-            this.anulados = null;
-            this.tarjeta = null;
-            this.app = null;
-            this.efectivo = null;
+            anulados = new BigDecimal("0.00");
+            tarjeta = new BigDecimal("0.00");
+            app = new BigDecimal("0.00");
+            efectivo = new BigDecimal("0.00");
+            recaudacion = new BigDecimal("0.00");
             this.observaciones = null;
 
             logger.info("Recaudación ingreso insertado", ingreso);
@@ -163,6 +167,23 @@ public class RecaudacionFace implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, msg);
             logger.error("Error insertando reacaudación ingreso", e);
         }
+    }
+
+    private RecaudacionIngreso createTemporalIngreso() {
+        RecaudacionIngreso ingreso = new RecaudacionIngreso();
+
+        ingreso.setConductor(conductor);
+        ingreso.setEstado(estado);
+        ingreso.setDia(dia);
+        ingreso.setTurno(turno);
+        ingreso.setNumeracion(numeracion);
+        ingreso.setAnulados(anulados);
+        ingreso.setTarjeta(tarjeta);
+        ingreso.setApp(app);
+        ingreso.setEfectivo(efectivo);
+        ingreso.setObservaciones(observaciones);
+
+        return ingreso;
     }
 
     public void insert() {
@@ -199,8 +220,9 @@ public class RecaudacionFace implements Serializable {
             km_totales_fin = null;
             km_cargado_inicio = null;
             km_cargado_fin = null;
-            ano = calendar.get(Calendar.YEAR) % 100;;
-            mes = calendar.get(Calendar.MONTH)  + 1;
+
+            ano = calendar.get(Calendar.YEAR) % 100;
+            mes = calendar.get(Calendar.MONTH) + 1;
 
             logger.info("Recaudación insertada", recaudacion);
 
@@ -355,19 +377,19 @@ public class RecaudacionFace implements Serializable {
         this.selectedRecaudacion = selectedRecaudacion;
     }
 
-    public String getConductor() {
+    public Conductor getConductor() {
         return conductor;
     }
 
-    public void setConductor(String conductor) {
+    public void setConductor(Conductor conductor) {
         this.conductor = conductor;
     }
 
-    public String getEstado() {
+    public EstadosIngreso getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(EstadosIngreso estado) {
         this.estado = estado;
     }
 
@@ -461,4 +483,30 @@ public class RecaudacionFace implements Serializable {
     public void setSelectedRecaudacionIngreso(RecaudacionIngreso selectedRecaudacionIngreso) {
         this.selectedRecaudacionIngreso = selectedRecaudacionIngreso;
     }
+
+    public BigDecimal getRecaudacion() {
+        return recaudacion;
+    }
+
+    public void setRecaudacion(BigDecimal recaudacion) {
+        this.recaudacion = recaudacion;
+    }
+
+    public void calculateEfectivo() {
+        try {
+            RecaudacionIngreso temporalIngreso = createTemporalIngreso();
+            Recaudacion current = recaudacionBean.findById(selectedRecaudacion.getId());
+            efectivo = RecaudacionUtils.calculateEfectivo(temporalIngreso,  current);
+            current = recaudacionBean.findById(selectedRecaudacion.getId());
+            recaudacion = RecaudacionUtils.getRecaudacion(temporalIngreso,current);
+
+        } catch (Throwable e) {
+            logger.error(e.getMessage(), e);
+        }
+    }
+
+    public RecaudacionIngreso getResultRecaudacionIngreso() {
+        return resultRecaudacionIngreso;
+    }
+
 }

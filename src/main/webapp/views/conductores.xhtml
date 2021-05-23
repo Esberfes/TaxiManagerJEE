@@ -110,7 +110,7 @@
 
         <p:column headerText="C. IVA" filterBy="#{conductor.complemento_iva}" sortBy="#{conductor.complemento_iva}">
             <p:cellEditor>
-                <f:facet name="output"><h:outputText converter="javax.faces.BigDecimal"
+                <f:facet name="output"><p:inputNumber readonly="true" converter="javax.faces.BigDecimal"
                                                      value="#{conductor.complemento_iva}"/></f:facet>
                 <f:facet name="input"><p:inputNumber converter="javax.faces.BigDecimal"
                                                      value="#{conductor.complemento_iva}" style="width:100%"
@@ -120,7 +120,7 @@
 
         <p:column headerText="T065" filterBy="#{conductor.t065}" sortBy="#{conductor.t065}">
             <p:cellEditor>
-                <f:facet name="output"><h:outputText converter="javax.faces.BigDecimal"
+                <f:facet name="output"><p:inputNumber readonly="true" converter="javax.faces.BigDecimal"
                                                      value="#{conductor.t065}"/></f:facet>
                 <f:facet name="input"><p:inputNumber converter="javax.faces.BigDecimal" value="#{conductor.t065}"
                                                      style="width:100%" decimalPlaces="2"/></f:facet>
@@ -129,7 +129,7 @@
 
         <p:column headerText="T060" filterBy="#{conductor.t060}" sortBy="#{conductor.t060}">
             <p:cellEditor>
-                <f:facet name="output"><h:outputText converter="javax.faces.BigDecimal"
+                <f:facet name="output"><p:inputNumber readonly="true" converter="javax.faces.BigDecimal"
                                                      value="#{conductor.t060}"/></f:facet>
                 <f:facet name="input"><p:inputNumber converter="javax.faces.BigDecimal" value="#{conductor.t060}"
                                                      style="width:100%" decimalPlaces="2"/></f:facet>
@@ -138,7 +138,7 @@
 
         <p:column headerText="T055" filterBy="#{conductor.t055}" sortBy="#{conductor.t055}">
             <p:cellEditor>
-                <f:facet name="output"><h:outputText converter="javax.faces.BigDecimal"
+                <f:facet name="output"><p:inputNumber readonly="true" converter="javax.faces.BigDecimal"
                                                      value="#{conductor.t055}"/></f:facet>
                 <f:facet name="input"><p:inputNumber converter="javax.faces.BigDecimal" value="#{conductor.t055}"
                                                      style="width:100%" decimalPlaces="2"/></f:facet>
@@ -147,7 +147,7 @@
 
         <p:column headerText="T050" filterBy="#{conductor.t050}" sortBy="#{conductor.t050}">
             <p:cellEditor>
-                <f:facet name="output"><h:outputText converter="javax.faces.BigDecimal"
+                <f:facet name="output"><p:inputNumber readonly="true" converter="javax.faces.BigDecimal"
                                                      value="#{conductor.t050}"/></f:facet>
                 <f:facet name="input"><p:inputNumber converter="javax.faces.BigDecimal" value="#{conductor.t050}"
                                                      style="width:100%" decimalPlaces="2"/></f:facet>

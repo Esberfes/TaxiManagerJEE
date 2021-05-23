@@ -129,4 +129,8 @@ public class EmpresasDbBean {
 
         em.merge(empresasEntity);
     }
+
+    public EmpresasEntity findById(Long id) {
+        return em.find(EmpresasEntity.class, id);
+    }
 }

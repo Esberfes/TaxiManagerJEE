@@ -41,7 +41,7 @@ public class TaxiLogger extends TailerListenerAdapter implements Serializable {
             sessions = new ArrayList<>();
             logger.info("Initializing");
             PropertyConfigurator.configure(new Properties());
-            Tailer tailer = Tailer.create(new File("/var/log/taximanager/taximanager.log"), this, 300, false, true);
+            Tailer tailer = Tailer.create(new File("/var/log/taximanager/taximanager.log"), this, 300, true, true);
             CompletableFuture.runAsync(tailer);
         } catch (Throwable e) {
             Logger.getLogger(getClass()).error(e.getMessage());

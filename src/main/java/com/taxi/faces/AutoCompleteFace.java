@@ -107,7 +107,17 @@ public class AutoCompleteFace implements Serializable {
             return new ArrayList<>();
         }
     }
+    public List<EstadosIngreso> completeEstadoIngresoPojo(String value) {
+        try {
+            return estadosIngresosBean.findByName(value);
 
+        } catch (Throwable e) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error auto completando estados de ingreso de gastos", e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            PrimeFaces.current().ajax().update("form:messages");
+            return new ArrayList<>();
+        }
+    }
 
     public List<Integer> completeLicencia(String value) {
         try {
@@ -119,7 +129,23 @@ public class AutoCompleteFace implements Serializable {
             return licenciasBean.findByCodigo(code).stream().map(Licencia::getCodigo).collect(Collectors.toList());
 
         } catch (Throwable e) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error auto completando tipos de gastos", e.getMessage());
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error auto completando licencias", e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            PrimeFaces.current().ajax().update("form:messages");
+            return new ArrayList<>();
+        }
+    }
+    public List<Licencia> completeLicenciaPojo(String value) {
+        try {
+            if (!isInteger(value))
+                throw new Exception("Deber ser un numero entero");
+
+            Integer code = Integer.parseInt(value);
+
+            return licenciasBean.findByCodigo(code);
+
+        } catch (Throwable e) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error auto completando licencias", e.getMessage());
             FacesContext.getCurrentInstance().addMessage(null, msg);
             PrimeFaces.current().ajax().update("form:messages");
             return new ArrayList<>();

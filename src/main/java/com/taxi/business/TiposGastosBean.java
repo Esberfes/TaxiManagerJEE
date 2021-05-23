@@ -45,6 +45,11 @@ public class TiposGastosBean implements LazyLoad<TiposGasto> {
         return 0;
     }
 
+    @Override
+    public TiposGasto findById(Long id) {
+        return new TiposGasto(tiposGastoDbBean.findById(id));
+    }
+
     public void delete(Long id) {
         tiposGastoDbBean.delete(id);
     }

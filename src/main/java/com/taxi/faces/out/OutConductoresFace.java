@@ -6,11 +6,13 @@ import com.taxi.business.LicenciasBean;
 import com.taxi.business.RecaudacionBean;
 import com.taxi.faces.SessionData;
 import com.taxi.pojos.Conductor;
+import com.taxi.pojos.TaxiFilterMeta;
 import com.taxi.pojos.Recaudacion;
 import com.taxi.pojos.RecaudacionIngreso;
 import com.taxi.pojos.out.ConductorResultado;
 import com.taxi.singletons.TaxiLogger;
 import org.primefaces.model.FilterMeta;
+import org.primefaces.model.MatchMode;
 import org.primefaces.model.SortMeta;
 import org.primefaces.model.SortOrder;
 
@@ -21,6 +23,7 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.taxi.utils.RecaudacionUtils.calculateSalario;
 
@@ -65,9 +68,9 @@ public class OutConductoresFace implements Serializable {
 
             if (conductor != null) {
                 Map<String, FilterMeta> filterMeta = new HashMap<>();
-                filterMeta.put("ano", new FilterMeta("ano", sessionData.getAno()));
-                filterMeta.put("mes", new FilterMeta("mes", sessionData.getMes()));
-                filterMeta.put("id_conductor", new FilterMeta("id_conductor", conductor.getId()));
+                filterMeta.put("ano", new TaxiFilterMeta("ano", sessionData.getAno(), MatchMode.EXACT));
+                filterMeta.put("mes", new TaxiFilterMeta("mes", sessionData.getMes(), MatchMode.EXACT));
+                filterMeta.put("id_conductor", new TaxiFilterMeta("id_conductor", conductor.getId(), MatchMode.EXACT));
 
                 Map<String, SortMeta> sortMeta = new HashMap<>();
                 sortMeta.put("mes", new SortMeta("mes", "mes", SortOrder.ASCENDING, null));
@@ -75,6 +78,7 @@ public class OutConductoresFace implements Serializable {
                 List<Recaudacion> recaudaciones = recaudacionBean.getData(0, 10000, sortMeta, filterMeta);
                 recaudacion = recaudaciones.get(0);
                 List<RecaudacionIngreso> recaudacionIngresos = recaudacion.getRecaudacionIngresos();
+                recaudacionIngresos = recaudacionIngresos.stream().filter(r -> r.getConductor().getId().equals(conductor.getId())).collect(Collectors.toList());
 
                 for (RecaudacionIngreso recaudacionIngreso : recaudacionIngresos) {
                     ConductorResultado conductorResultado = conductorResultados.stream()

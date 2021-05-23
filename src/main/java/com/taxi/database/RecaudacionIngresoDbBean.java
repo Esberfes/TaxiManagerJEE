@@ -15,14 +15,13 @@ import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.taxi.utils.BigDecimalUtils.percentage;
 import static com.taxi.utils.FilterUtils.getFilterFieldValue;
+import static com.taxi.utils.RecaudacionUtils.calculateLiquido;
 
 @Stateless(name = RecaudacionIngresoDbBean.BEAN_NAME)
 @Interceptors(TaxiLogger.class)
@@ -73,30 +72,27 @@ public class RecaudacionIngresoDbBean {
         return result;
     }
 
-    @Transactional(Transactional.TxType.REQUIRES_NEW)
     public void setRecaudacion(List<RecaudacionIngresosEntity> entities) {
-        entities.sort(new Comparator<RecaudacionIngresosEntity>() {
-            @Override
-            public int compare(RecaudacionIngresosEntity o1, RecaudacionIngresosEntity o2) {
-                if (o1.getDia() > o2.getDia())
-                    return 1;
-                if (o1.getDia() < o2.getDia())
-                    return -1;
-                if (o1.getDia().equals(o2.getDia()) && o1.getTurno().equalsIgnoreCase("tarde"))
-                    return 1;
-                if (o1.getDia().equals(o2.getDia()) && o1.getTurno().equalsIgnoreCase(o2.getTurno()))
-                    return 0;
-
+        entities.sort((o1, o2) -> {
+            if(o1 == null || o2 == null)
                 return -1;
-            }
-        });
+            if (o1.getDia() > o2.getDia())
+                return 1;
+            if (o1.getDia() < o2.getDia())
+                return -1;
+            if (o1.getDia().equals(o2.getDia()) && o1.getTurno().equalsIgnoreCase("tarde"))
+                return 1;
+            if (o1.getDia().equals(o2.getDia()) && o1.getTurno().equalsIgnoreCase(o2.getTurno()))
+                return 0;
 
+            return -1;
+        });
 
         for (int i = 0; i < entities.size(); i++) {
             try {
                 RecaudacionIngresosEntity ingresosEntity = entities.get(i);
 
-                if (i == 0 && ingresosEntity.getRecaudacionesEntity().getRecaudacionIngresosEntities().size() > 1) {
+                if (i == 0) {
                     ingresosEntity.setRecaudacion(ingresosEntity.getNumeracion().subtract(ingresosEntity.getRecaudacionesEntity().getNumeracionInicio()));
                 } else {
                     RecaudacionIngresosEntity ingresosEntityLast = entities.get(i - 1);
@@ -106,33 +102,11 @@ public class RecaudacionIngresoDbBean {
                 if (ingresosEntity.getAnulados() != null)
                     ingresosEntity.setRecaudacion(ingresosEntity.getRecaudacion().subtract(ingresosEntity.getAnulados()));
 
-                ingresosEntity.setLiquido(calculateLiquido(ingresosEntity));
+                ingresosEntity.setLiquido(calculateLiquido(new RecaudacionIngreso(ingresosEntity)));
 
             } catch (Throwable e) {
                 logger.error(e.getMessage(), e);
             }
-        }
-    }
-
-    public BigDecimal calculateLiquido(RecaudacionIngresosEntity entity) {
-        try {
-            BigDecimal total = entity.getRecaudacion();
-            BigDecimal liquido = total.add(entity.getConductorEntity().getComplementoIva());
-
-            if (entity.getRecaudacion().doubleValue() <= entity.getConductorEntity().getT065().doubleValue()) {
-                liquido = liquido.subtract(percentage(entity.getRecaudacion(), new BigDecimal(35)));
-            } else if (entity.getRecaudacion().doubleValue() <= entity.getConductorEntity().getT060().doubleValue()) {
-                liquido = liquido.subtract(percentage(entity.getRecaudacion(), new BigDecimal(40)));
-            } else if (entity.getRecaudacion().doubleValue() <= entity.getConductorEntity().getT055().doubleValue()) {
-                liquido = liquido.subtract(percentage(entity.getRecaudacion(), new BigDecimal(45)));
-            } else {
-                liquido = liquido.subtract(percentage(entity.getRecaudacion(), new BigDecimal(50)));
-            }
-
-            return liquido;
-        } catch (Throwable e) {
-            logger.error(e.getMessage(), e);
-            throw e;
         }
     }
 
@@ -208,6 +182,7 @@ public class RecaudacionIngresoDbBean {
         recaudacionIngresosEntity.setPagos(recaudacionIngreso.getPagos());
         recaudacionIngresosEntity.setRecaudacion(recaudacionIngreso.getRecaudacion());
         recaudacionIngresosEntity.setPagos(recaudacionIngreso.getPagos());
+        recaudacionIngresosEntity.setT(recaudacionIngreso.getT());
 
         setRecaudacion(recaudacionIngresosEntity.getRecaudacionesEntity().getRecaudacionIngresosEntities());
 
@@ -244,9 +219,8 @@ public class RecaudacionIngresoDbBean {
         em.merge(recaudacionIngresosEntity);
     }
 
-    @Transactional(Transactional.TxType.REQUIRES_NEW)
     public RecaudacionIngresosEntity insert(RecaudacionIngresosEntity recaudacionIngreso, long recaudacionId) {
-        RecaudacionesEntity single = recaudacionDbBean.findSingle(recaudacionId);
+        RecaudacionesEntity single = recaudacionDbBean.findById(recaudacionId);
 
         recaudacionIngreso.setRecaudacionesEntity(single);
         List<RecaudacionIngresosEntity> recaudacionIngresosEntities = single.getRecaudacionIngresosEntities();
@@ -275,5 +249,9 @@ public class RecaudacionIngresoDbBean {
 
     public void delete(Long id) {
         em.remove(em.find(RecaudacionIngresosEntity.class, id));
+    }
+
+    public RecaudacionIngresosEntity findById(Long id) {
+        return em.find(RecaudacionIngresosEntity.class, id);
     }
 }
