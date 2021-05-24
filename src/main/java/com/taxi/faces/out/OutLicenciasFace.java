@@ -120,8 +120,8 @@ public class OutLicenciasFace implements Serializable {
 
         if (licenciaObj != null) {
             Map<String, FilterMeta> filterMeta = new HashMap<>();
-            filterMeta.put("ano", new FilterMeta("ano", sessionData.getAno()));
-            filterMeta.put("mes", new FilterMeta("mes", sessionData.getMes()));
+            filterMeta.put("ano", new TaxiFilterMeta("ano", sessionData.getAno(), MatchMode.EXACT));
+            filterMeta.put("mes", new TaxiFilterMeta("mes", sessionData.getMes(), MatchMode.EXACT));
             filterMeta.put("id_licencia", new TaxiFilterMeta("id_licencia", licenciaObj.getId(), MatchMode.EXACT));
 
             Map<String, SortMeta> sortMeta = new HashMap<>();

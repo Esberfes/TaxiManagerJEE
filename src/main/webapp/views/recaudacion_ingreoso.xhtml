@@ -88,7 +88,7 @@
 
                     <p:outputPanel styleClass="p-col">
                         <p:outputLabel>Recaudación</p:outputLabel>
-                        <p:inputNumber id="recaudacion" readonly="true" value="#{RecaudacionFace.recaudacion}"
+                        <p:inputNumber inputStyleClass="" id="recaudacion" readonly="true" value="#{RecaudacionFace.recaudacion}"
                                        style="width:100%"
                                        converter="javax.faces.BigDecimal" inputStyle="width:100%" decimalPlaces="2">
                         </p:inputNumber>
@@ -416,7 +416,7 @@
             function handleKeyPress(e) {
                 var key = e.keyCode || e.which;
                 if (key === 13) {
-                    if (document.querySelectorAll("#insertRecaudacionIngreso :focus").length === 0) {
+                    if (document.querySelectorAll("#form\\:insertRecaudacionIngreso :focus").length > 0) {
                         $("#form\\:j_idt99").click();
                         e.preventDefault();
                         e.stopPropagation();

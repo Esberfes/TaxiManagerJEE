@@ -1,9 +1,12 @@
 package com.taxi.database;
 
+import com.taxi.entities.ConductorEntity;
 import com.taxi.entities.RecaudacionIngresosEntity;
 import com.taxi.entities.RecaudacionesEntity;
+import com.taxi.entities.RecaudacionesIngresosEstadosEntity;
 import com.taxi.pojos.RecaudacionIngreso;
 import com.taxi.singletons.TaxiLogger;
+import com.taxi.utils.RecaudacionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.SortMeta;
@@ -172,7 +175,7 @@ public class RecaudacionIngresoDbBean {
 
     public void update(RecaudacionIngreso recaudacionIngreso) {
         RecaudacionIngresosEntity recaudacionIngresosEntity = em.find(RecaudacionIngresosEntity.class, recaudacionIngreso.getId());
-        recaudacionIngresosEntity.setConductorEntity(conductoresDbBean.getSingleByNameExact(recaudacionIngreso.getConductor().getNombre()));
+        recaudacionIngresosEntity.setConductorEntity(new ConductorEntity(recaudacionIngreso.getConductor()));
         recaudacionIngresosEntity.setDia(recaudacionIngreso.getDia());
         recaudacionIngresosEntity.setTurno(recaudacionIngreso.getTurno());
         recaudacionIngresosEntity.setNumeracion(recaudacionIngreso.getNumeracion());
@@ -183,38 +186,8 @@ public class RecaudacionIngresoDbBean {
         recaudacionIngresosEntity.setRecaudacion(recaudacionIngreso.getRecaudacion());
         recaudacionIngresosEntity.setPagos(recaudacionIngreso.getPagos());
         recaudacionIngresosEntity.setT(recaudacionIngreso.getT());
-
-        setRecaudacion(recaudacionIngresosEntity.getRecaudacionesEntity().getRecaudacionIngresosEntities());
-
-        if (recaudacionIngreso.getEfectivo() == null) {
-            BigDecimal liquido = recaudacionIngresosEntity.getLiquido();
-            if (recaudacionIngresosEntity.getTarjeta() != null)
-                liquido = liquido.subtract(recaudacionIngreso.getTarjeta());
-
-            if (recaudacionIngresosEntity.getApp() != null)
-                liquido = liquido.subtract(recaudacionIngreso.getApp());
-
-            recaudacionIngresosEntity.setEfectivo(recaudacionIngresosEntity.getPagos() != null ? liquido.subtract(recaudacionIngresosEntity.getPagos()) : liquido);
-        } else {
-            BigDecimal liquido = recaudacionIngresosEntity.getLiquido();
-            if (recaudacionIngresosEntity.getTarjeta() != null)
-                liquido = liquido.subtract(recaudacionIngreso.getTarjeta());
-
-            if (recaudacionIngresosEntity.getApp() != null)
-                liquido = liquido.subtract(recaudacionIngreso.getApp());
-
-            if (recaudacionIngreso.getEfectivo().doubleValue() == recaudacionIngresosEntity.getEfectivo().doubleValue())
-                recaudacionIngresosEntity.setEfectivo(liquido);
-            else
-                recaudacionIngresosEntity.setEfectivo(recaudacionIngreso.getEfectivo());
-        }
-
-
         recaudacionIngresosEntity.setObservaciones(recaudacionIngreso.getObservaciones());
-        if (recaudacionIngreso.getEstado() != null && recaudacionIngreso.getEstado().getNombre() != null)
-            recaudacionIngresosEntity.setRecaudacionesIngresosEstadosEntity(estadosIngresoDbBean.findSingleByName(recaudacionIngreso.getEstado().getNombre()));
-        else
-            recaudacionIngresosEntity.setRecaudacionesIngresosEstadosEntity(null);
+        recaudacionIngresosEntity.setRecaudacionesIngresosEstadosEntity(new RecaudacionesIngresosEstadosEntity(recaudacionIngreso.getEstado()));
 
         em.merge(recaudacionIngresosEntity);
     }
