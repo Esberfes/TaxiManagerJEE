@@ -114,6 +114,10 @@
 
         <f:facet name="header">Recaudaciones</f:facet>
 
+        <p:ajax event="page" listener="#{RecaudacionFace.invalidate()}"/>
+        <p:ajax event="sort" listener="#{RecaudacionFace.invalidate()}"/>
+        <p:ajax event="filter" listener="#{RecaudacionFace.invalidate()}"/>
+
         <p:ajax event="rowEditInit"
                 oncomplete="$('.ui-row-editor.ui-helper-clearfix .ui-icon-pencil').each(function(){$(this).hide()});"/>
 

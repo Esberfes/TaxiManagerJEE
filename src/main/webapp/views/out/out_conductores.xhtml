@@ -23,8 +23,13 @@
                                 itemValue="${conductor}"
                                 converter="${ConductorConverter}"
                                 var="conductor"
+                                size="1000"
                                 completeMethod="#{AutoCompleteFace.completeConductorPojo}"
-                                forceSelection="true" effect="fade"/>
+                                forceSelection="true" effect="fade"
+                                scrollHeight="200"
+                                queryDelay="0"
+                                widgetVar="autocompleteConductorOut"
+                                onclick="PF('autocompleteConductorOut').search(PF('autocompleteConductorOut').input.val());"/>
             </p:outputPanel>
 
             <p:outputPanel styleClass="p-col" style="justify-content: flex-end;align-items: flex-end;display: flex;">

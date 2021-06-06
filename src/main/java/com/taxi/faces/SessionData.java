@@ -17,7 +17,6 @@ import java.util.GregorianCalendar;
 
 @SessionScoped
 @Named(SessionData.BEAN_NAME)
-@Interceptors(TaxiLogger.class)
 public class SessionData implements Serializable {
 
     public static final String BEAN_NAME = "SessionData";

@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 
 @LocalBean
 @Stateless(name = LicenciasBean.BEAN_NAME)
-@Interceptors(TaxiLogger.class)
 public class LicenciasBean implements LazyLoad<Licencia> {
 
     public static final String BEAN_NAME = "LicenciasBean";

@@ -18,7 +18,6 @@ import java.io.Serializable;
 
 @ViewScoped
 @Named(TiposGastosFace.BEAN_NAME)
-@Interceptors(TaxiLogger.class)
 public class TiposGastosFace implements Serializable {
 
     public static final String BEAN_NAME = "TiposGastosFace";

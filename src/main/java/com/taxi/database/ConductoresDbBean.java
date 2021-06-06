@@ -54,7 +54,7 @@ public class ConductoresDbBean {
         String rawQuery = "SELECT * FROM conductores WHERE nombre LIKE '" + name + "%' ORDER BY nombre ";
         Query query = em.createNativeQuery(rawQuery, ConductorEntity.class);
 
-        return query.setMaxResults(10).getResultList();
+        return query.getResultList();
     }
 
     public List<ConductorEntity> getData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {

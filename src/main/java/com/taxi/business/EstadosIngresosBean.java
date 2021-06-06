@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 
 @LocalBean
 @Stateless(name = EstadosIngresosBean.BEAN_NAME)
-@Interceptors(TaxiLogger.class)
 public class EstadosIngresosBean implements LazyLoad<EstadosIngreso> {
 
     public static final String BEAN_NAME = "EstadosIngresosBean";
@@ -70,7 +69,9 @@ public class EstadosIngresosBean implements LazyLoad<EstadosIngreso> {
             return null;
         }
     }
-
+    public List<EstadosIngreso> getAll() {
+        return estadosIngresoDbBean.getAll().stream().map(EstadosIngreso::new).collect(Collectors.toList());
+    }
     public List<EstadosIngreso> findByName(String value) {
         return estadosIngresoDbBean.findByName(value).stream().map(EstadosIngreso::new).collect(Collectors.toList());
     }

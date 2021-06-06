@@ -1,0 +1,32 @@
+"dateSelect" org.primefaces.event.SelectEvent When a date is selected.
+"eventSelect" org.primefaces.event.SelectEvent When an event is selected.
+"eventMove" org.primefaces.event.ScheduleEntryMoveEvent When an event is moved.
+"eventResize" org.primefaces.event.ScheduleEntryResizeEvent When an event is resized.
+"viewChange" org.primefaces.event.SelectEvent When a view is changed.
+"toggleSelect" org.primefaces.event.ToggleSelectEvent When toggle all checkbox changes
+"expand" org.primefaces.event.NodeExpandEvent When a node is expanded.
+"collapse" org.primefaces.event.NodeCollapseEvent When a node is collapsed.
+"select" org.primefaces.event.NodeSelectEvent When a node is selected.-
+"collapse" org.primefaces.event.NodeUnselectEvent When a node is unselected
+"expand org.primefaces.event.NodeExpandEvent When a node is expanded.
+"unselect" org.primefaces.event.NodeUnselectEvent When a node is unselected.
+"colResize" org.primefaces.event.ColumnResizeEvent When a column is resized
+"page" org.primefaces.event.data.PageEvent On pagination.
+"sort" org.primefaces.event.data.SortEvent When a column is sorted.
+"filter" org.primefaces.event.data.FilterEvent On filtering.
+"rowSelect" org.primefaces.event.SelectEvent When a row is being selected.
+"rowUnselect" org.primefaces.event.UnselectEvent When a row is being unselected.
+"rowEdit" org.primefaces.event.RowEditEvent When a row is edited.
+"rowEditInit" org.primefaces.event.RowEditEvent When a row switches to edit mode
+"rowEditCancel" org.primefaces.event.RowEditEvent When row edit is cancelled.
+"colResize" org.primefaces.event.ColumnResizeEvent When a column is being selected.
+"toggleSelect" org.primefaces.event.ToggleSelectEvent When header checkbox is toggled.
+"colReorder" - When columns are reordered.
+"rowSelectRadio" org.primefaces.event.SelectEvent Row selection with radio.
+"rowSelectCheckbox" org.primefaces.event.SelectEvent Row selection with checkbox.
+"rowUnselectCheckbox" org.primefaces.event.UnselectEvent Row unselection with checkbox.
+"rowDblselect" org.primefaces.event.SelectEvent Row selection with double click.
+"rowToggle" org.primefaces.event.ToggleEvent Row expand or collapse.
+"contextMenu" org.primefaces.event.SelectEvent ContextMenu display.
+"cellEdit" org.primefaces.event.CellEditEvent When a cell is edited.
+"rowReorder" org.primefaces.event.ReorderEvent On row reorder.

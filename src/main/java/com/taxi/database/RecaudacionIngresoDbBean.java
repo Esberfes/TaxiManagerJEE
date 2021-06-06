@@ -24,6 +24,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.taxi.utils.FilterUtils.getFilterFieldValue;
+import static com.taxi.utils.RecaudacionUtils.calculateEfectivo;
 import static com.taxi.utils.RecaudacionUtils.calculateLiquido;
 
 @Stateless(name = RecaudacionIngresoDbBean.BEAN_NAME)
@@ -188,6 +189,10 @@ public class RecaudacionIngresoDbBean {
         recaudacionIngresosEntity.setT(recaudacionIngreso.getT());
         recaudacionIngresosEntity.setObservaciones(recaudacionIngreso.getObservaciones());
         recaudacionIngresosEntity.setRecaudacionesIngresosEstadosEntity(new RecaudacionesIngresosEstadosEntity(recaudacionIngreso.getEstado()));
+        if(recaudacionIngreso.getEfectivo() == null)
+            recaudacionIngresosEntity.setEfectivo(calculateEfectivo(recaudacionIngreso, recaudacionIngreso.getRecaudacionObj()));
+        else
+            recaudacionIngresosEntity.setEfectivo(recaudacionIngreso.getEfectivo());
 
         em.merge(recaudacionIngresosEntity);
     }

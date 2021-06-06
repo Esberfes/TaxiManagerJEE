@@ -31,7 +31,6 @@ import static com.taxi.utils.BigDecimalUtils.percentage;
 
 @ViewScoped
 @Named(ResultadosFace.BEAN_NAME)
-@Interceptors(TaxiLogger.class)
 public class ResultadosFace implements Serializable {
 
     public static final String BEAN_NAME = "ResultadosFace";

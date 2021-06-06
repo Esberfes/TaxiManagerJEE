@@ -40,7 +40,7 @@
                     </f:selectItems>
 
                     <p:column>
-                        <h:outputText style="${item.es_operacional ? color: blue; ''}" value="#{item.nombre}"/>
+                        <h:outputText style="${item.es_operacional ? 'color: blue;' : ''}" value="#{item.nombre}"/>
                     </p:column>
                 </p:selectOneMenu>
             </p:outputPanel>

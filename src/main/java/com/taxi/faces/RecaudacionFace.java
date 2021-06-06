@@ -1,7 +1,7 @@
 package com.taxi.faces;
 
-import com.google.gson.Gson;
 import com.taxi.business.*;
+import com.taxi.datamodels.LazyDataModelBase;
 import com.taxi.datamodels.LazyRecaudacionDataModel;
 import com.taxi.datamodels.LazyRecaudacionIngresoDataModel;
 import com.taxi.pojos.Conductor;
@@ -10,7 +10,6 @@ import com.taxi.pojos.Recaudacion;
 import com.taxi.pojos.RecaudacionIngreso;
 import com.taxi.singletons.TaxiLogger;
 import com.taxi.utils.RecaudacionUtils;
-import org.primefaces.PrimeFaces;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.LazyDataModel;
 
@@ -21,15 +20,14 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.interceptor.Interceptors;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 @ViewScoped
 @Named(RecaudacionFace.BEAN_NAME)
-@Interceptors(TaxiLogger.class)
 public class RecaudacionFace implements Serializable {
 
     public static final String BEAN_NAME = "RecaudacionFace";
@@ -52,7 +50,7 @@ public class RecaudacionFace implements Serializable {
     @Inject
     private transient TaxiLogger logger;
 
-    private LazyDataModel<Recaudacion> lazyModel;
+    private LazyDataModelBase<Recaudacion> lazyModel;
     private LazyDataModel<RecaudacionIngreso> lazyModelIngresos;
 
     private Recaudacion selectedRecaudacion;
@@ -104,13 +102,19 @@ public class RecaudacionFace implements Serializable {
         efectivo = new BigDecimal("0.00");
     }
 
+    public void invalidate() {
+        lazyModel.invalidate();
+    }
+
     public void onRowIngresoEdit(RowEditEvent<RecaudacionIngreso> event) {
         try {
+            event.getObject().setRecaudacionObj(selectedRecaudacion);
             recaudacionIngresosBean.update(event.getObject());
 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Entrada modificada", String.valueOf(event.getObject().getId()));
             FacesContext.getCurrentInstance().addMessage(null, msg);
-            PrimeFaces.current().executeScript("PrimeFaces.info('Info message');");
+            selectedRecaudacion = recaudacionBean.findById(selectedRecaudacion.getId());
+
             logger.info("Recaudación ingreso editado", event.getObject());
         } catch (Throwable e) {
             logger.error("Error modificando racaudación", e);
@@ -126,6 +130,7 @@ public class RecaudacionFace implements Serializable {
 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Entrada modificada", String.valueOf(event.getObject().getId()));
             FacesContext.getCurrentInstance().addMessage(null, msg);
+lazyModel.invalidate();
 
             logger.info("Recaudación editada", event.getObject());
         } catch (Throwable e) {
@@ -161,6 +166,8 @@ public class RecaudacionFace implements Serializable {
             this.observaciones = null;
 
             logger.info("Recaudación ingreso insertado", ingreso);
+
+            selectedRecaudacion = recaudacionBean.findById(selectedRecaudacion.getId());
 
         } catch (Throwable e) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error insertando ingreso", e.getMessage());
@@ -226,6 +233,8 @@ public class RecaudacionFace implements Serializable {
 
             logger.info("Recaudación insertada", recaudacion);
 
+            lazyModel.invalidate();
+
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Nueva recaudacion insertada", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Throwable e) {
@@ -242,6 +251,7 @@ public class RecaudacionFace implements Serializable {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "recaudacion eliminado con éxito", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
 
+            lazyModel.invalidate();
             logger.info("Recaudación eliminada con id: " + id);
         } catch (Throwable e) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error eliminado recaudacion", e.getMessage());
@@ -257,6 +267,7 @@ public class RecaudacionFace implements Serializable {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Recaudacion ingreso eliminado con éxito", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
 
+            selectedRecaudacion = recaudacionBean.findById(selectedRecaudacion.getId());
             logger.info("Recaudación ingreso eliminado con id: " + id);
         } catch (Throwable e) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error eliminado recaudacion", e.getMessage());
@@ -269,7 +280,7 @@ public class RecaudacionFace implements Serializable {
         return lazyModel;
     }
 
-    public void setLazyModel(LazyDataModel<Recaudacion> lazyModel) {
+    public void setLazyModel(LazyDataModelBase<Recaudacion> lazyModel) {
         this.lazyModel = lazyModel;
     }
 
@@ -496,9 +507,9 @@ public class RecaudacionFace implements Serializable {
         try {
             RecaudacionIngreso temporalIngreso = createTemporalIngreso();
             Recaudacion current = recaudacionBean.findById(selectedRecaudacion.getId());
-            efectivo = RecaudacionUtils.calculateEfectivo(temporalIngreso,  current);
+            efectivo = RecaudacionUtils.calculateEfectivo(temporalIngreso, current);
             current = recaudacionBean.findById(selectedRecaudacion.getId());
-            recaudacion = RecaudacionUtils.getRecaudacion(temporalIngreso,current);
+            recaudacion = RecaudacionUtils.getRecaudacion(temporalIngreso, current);
 
         } catch (Throwable e) {
             logger.error(e.getMessage(), e);
@@ -509,4 +520,7 @@ public class RecaudacionFace implements Serializable {
         return resultRecaudacionIngreso;
     }
 
+    public List<EstadosIngreso> allEstadosIngresos() {
+        return estadosIngresosBean.getAll();
+    }
 }

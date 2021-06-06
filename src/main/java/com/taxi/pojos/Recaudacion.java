@@ -10,7 +10,7 @@ import java.util.List;
 
 import static com.taxi.utils.BigDecimalUtils.ensureNotNull;
 
-public class Recaudacion {
+public class Recaudacion implements Identified{
 
     private Long id;
     private Licencia licencia;

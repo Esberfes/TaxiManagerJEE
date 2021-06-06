@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -114,5 +115,9 @@ public class EstadosIngresoDbBean {
 
     public RecaudacionesIngresosEstadosEntity findById(Long id) {
         return em.find(RecaudacionesIngresosEstadosEntity.class, id);
+    }
+
+    public List<RecaudacionesIngresosEstadosEntity>  getAll() {
+        return em.createNativeQuery("SELECT * FROM recaudaciones_ingresos_estados",  RecaudacionesIngresosEstadosEntity.class).getResultList();
     }
 }

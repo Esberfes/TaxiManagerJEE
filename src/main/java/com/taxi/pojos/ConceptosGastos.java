@@ -4,7 +4,7 @@ import com.taxi.entities.ConceptosGastosEntity;
 
 import java.util.Date;
 
-public class ConceptosGastos {
+public class ConceptosGastos  {
 
     private Long id;
     private String nombre;

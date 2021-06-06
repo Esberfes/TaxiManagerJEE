@@ -7,7 +7,7 @@ import java.util.Date;
 
 import static com.taxi.utils.BigDecimalUtils.ensureNotNull;
 
-public class RecaudacionIngreso {
+public class RecaudacionIngreso implements Identified {
 
     private Long id;
     private Recaudacion recaudacionObj;

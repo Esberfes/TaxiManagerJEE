@@ -20,7 +20,6 @@ import static com.taxi.utils.NumberUtils.isInteger;
 
 @RequestScoped
 @Named(AutoCompleteFace.BEAN_NAME)
-@Interceptors(TaxiLogger.class)
 public class AutoCompleteFace implements Serializable {
 
     public static final String BEAN_NAME = "AutoCompleteFace";

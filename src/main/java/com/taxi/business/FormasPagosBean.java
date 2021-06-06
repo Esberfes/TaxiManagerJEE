@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 
 @LocalBean
 @Stateless(name = FormasPagosBean.BEAN_NAME)
-@Interceptors(TaxiLogger.class)
 public class FormasPagosBean implements LazyLoad<FormasPago> {
 
     public static final String BEAN_NAME = "FormasPagosBean";

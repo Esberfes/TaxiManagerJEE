@@ -38,7 +38,7 @@ public class LazyRecaudacionIngresoDataModel extends LazyDataModel<RecaudacionIn
 
     @Override
     public List<RecaudacionIngreso> load(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
-        this.datasource = this.lazyLoad.getData(first, pageSize, sortMeta, new HashMap<>(filterMeta), recaudacionId);
+        this.datasource = this.lazyLoad.getData(first, pageSize, new HashMap<>(sortMeta), new HashMap<>(filterMeta), recaudacionId);
         this.setRowCount(this.lazyLoad.getTotal(new HashMap<>(filterMeta), recaudacionId));
 
         return this.datasource;

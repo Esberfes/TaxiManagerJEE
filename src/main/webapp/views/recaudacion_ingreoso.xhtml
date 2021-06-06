@@ -35,7 +35,11 @@
                                         itemValue="${conductor}"
                                         converter="${ConductorConverter}"
                                         var="conductor"
-                                        forceSelection="true" effect="fade">
+                                        size="1000"
+                                        forceSelection="true" effect="fade" scrollHeight="200"
+                                        queryDelay="0"
+                                        widgetVar="autocompleteConductorInsert"
+                                        onclick="PF('autocompleteConductorInsert').search(PF('autocompleteConductorInsert').input.val());">
                             <p:ajax event="change" update="efectivo recaudacion"
                                     listener="${RecaudacionFace.calculateEfectivo()}"/>
                         </p:autoComplete>
@@ -44,17 +48,11 @@
 
                     <p:outputPanel styleClass="p-col">
                         <p:outputLabel>Estado</p:outputLabel>
-                        <p:autoComplete inputStyle="width: 100%" style="width: 100%" minQueryLength="0"
-                                        value="#{RecaudacionFace.estado}"
-                                        completeMethod="#{AutoCompleteFace.completeEstadoIngresoPojo}"
-                                        itemLabel="${estado.nombre}"
-                                        itemValue="${estado}"
-                                        converter="${EstadoConverter}"
-                                        var="estado"
-                                        forceSelection="true" effect="fade">
-                            <p:ajax event="change" update="efectivo recaudacion"
-                                    listener="${RecaudacionFace.calculateEfectivo()}"/>
-                        </p:autoComplete>
+                        <p:selectOneMenu converter="${EstadoConverter}" style="width: 100%"
+                                         value="#{RecaudacionFace.estado}">
+                            <f:selectItems value="#{RecaudacionFace.allEstadosIngresos()}" var="estado"
+                                           itemValue="${estado}" itemLabel="${estado.nombre}"/>
+                        </p:selectOneMenu>
                     </p:outputPanel>
 
                     <p:outputPanel styleClass="p-col">
@@ -88,7 +86,8 @@
 
                     <p:outputPanel styleClass="p-col">
                         <p:outputLabel>Recaudación</p:outputLabel>
-                        <p:inputNumber inputStyleClass="" id="recaudacion" readonly="true" value="#{RecaudacionFace.recaudacion}"
+                        <p:inputNumber inputStyleClass="" id="recaudacion" readonly="true"
+                                       value="#{RecaudacionFace.recaudacion}"
                                        style="width:100%"
                                        converter="javax.faces.BigDecimal" inputStyle="width:100%" decimalPlaces="2">
                         </p:inputNumber>
@@ -159,6 +158,7 @@
                  lazy="true"
                  editable="true"
                  rows="10"
+                 rowEditMode="lazy"
                  paginator="true"
                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                  currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
@@ -362,10 +362,11 @@
             <p:cellEditor>
                 <f:facet name="output"><h:outputText value="#{ingreso.estado.nombre}"/></f:facet>
                 <f:facet name="input">
-                    <p:autoComplete inputStyle="width: 100%" style="width: 100%" minQueryLength="0"
-                                    value="#{ingreso.estado.nombre}"
-                                    completeMethod="#{AutoCompleteFace.completeEstadoIngreso}"
-                                    forceSelection="true" effect="fade"/>
+                    <p:selectOneMenu converter="${EstadoConverter}" style="width: 100%"
+                                     value="#{RecaudacionFace.estado}">
+                        <f:selectItems value="#{ingreso.estado}" var="estado"
+                                       itemValue="${estado}" itemLabel="${estado.nombre}"/>
+                    </p:selectOneMenu>
                 </f:facet>
             </p:cellEditor>
         </p:column>

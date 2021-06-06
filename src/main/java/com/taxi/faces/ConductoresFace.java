@@ -20,7 +20,6 @@ import java.math.BigDecimal;
 
 @ViewScoped
 @Named(ConductoresFace.BEAN_NAME)
-@Interceptors(TaxiLogger.class)
 public class ConductoresFace implements Serializable {
 
     public static final String BEAN_NAME = "ConductoresFace";

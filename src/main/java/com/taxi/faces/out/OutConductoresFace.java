@@ -23,7 +23,9 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.taxi.utils.RecaudacionUtils.calculateSalario;
 
@@ -52,7 +54,7 @@ public class OutConductoresFace implements Serializable {
     private SessionData sessionData;
 
     private List<ConductorResultado> conductorResultados;
-    private Recaudacion recaudacion;
+    private List<Recaudacion> recaudacion;
     private Conductor conductor;
 
     @PostConstruct
@@ -75,9 +77,9 @@ public class OutConductoresFace implements Serializable {
                 Map<String, SortMeta> sortMeta = new HashMap<>();
                 sortMeta.put("mes", new SortMeta("mes", "mes", SortOrder.ASCENDING, null));
 
-                List<Recaudacion> recaudaciones = recaudacionBean.getData(0, 10000, sortMeta, filterMeta);
-                recaudacion = recaudaciones.get(0);
-                List<RecaudacionIngreso> recaudacionIngresos = recaudacion.getRecaudacionIngresos();
+                recaudacion = recaudacionBean.getData(0, 10000, sortMeta, filterMeta);
+                List<RecaudacionIngreso> recaudacionIngresos = recaudacion.stream().flatMap(r -> r.getRecaudacionIngresos().stream()).collect(Collectors.toList());
+
                 recaudacionIngresos = recaudacionIngresos.stream().filter(r -> r.getConductor().getId().equals(conductor.getId())).collect(Collectors.toList());
 
                 for (RecaudacionIngreso recaudacionIngreso : recaudacionIngresos) {
@@ -116,11 +118,11 @@ public class OutConductoresFace implements Serializable {
         this.conductorResultados = conductorResultados;
     }
 
-    public Recaudacion getRecaudacion() {
+    public List<Recaudacion> getRecaudacion() {
         return recaudacion;
     }
 
-    public void setRecaudacion(Recaudacion recaudacion) {
+    public void setRecaudacion(List<Recaudacion> recaudacion) {
         this.recaudacion = recaudacion;
     }
 
