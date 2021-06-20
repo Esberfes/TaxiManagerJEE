@@ -88,6 +88,7 @@ public class ConductoresDbBean {
         conductorEntity.setNombre(conductor.getNombre());
         conductorEntity.setEmpresasEntity(empresasDbBean.findSingleByName(conductor.getEmpresa().getNombre()));
         conductorEntity.setComplementoIva(conductor.getComplemento_iva());
+        conductorEntity.setT000(conductor.getT000());
         conductorEntity.setT065(conductor.getT065());
         conductorEntity.setT060(conductor.getT060());
         conductorEntity.setT055(conductor.getT055());

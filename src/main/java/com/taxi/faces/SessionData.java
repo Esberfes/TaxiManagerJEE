@@ -4,13 +4,12 @@ import com.taxi.enums.NavigationEnum;
 import com.taxi.faces.out.OutConductoresFace;
 import com.taxi.faces.out.OutLicenciasFace;
 import com.taxi.faces.out.OutResumenMensual;
-import com.taxi.singletons.TaxiLogger;
+import org.primefaces.PrimeFaces;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.interceptor.Interceptors;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -41,6 +40,7 @@ public class SessionData implements Serializable {
 
     public void navigate(NavigationEnum navigation) {
         this.navigation = navigation;
+      //  PrimeFaces.current().ajax().addCallbackParam("navigation", navigation);
     }
 
     public NavigationEnum getNavigation() {

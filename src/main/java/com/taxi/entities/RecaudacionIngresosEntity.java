@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "recaudacion_ingresos")
+@Table(name = "recaudacion_ingresos", uniqueConstraints = {@UniqueConstraint(columnNames={"dia", "turno", "id_recaudacion"})})
 public class RecaudacionIngresosEntity {
 
     @Id

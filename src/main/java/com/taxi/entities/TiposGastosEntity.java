@@ -37,6 +37,9 @@ public class TiposGastosEntity {
 
     public TiposGastosEntity() {}
 
+    public TiposGastosEntity(String nombre) {
+        this.nombre = nombre;
+    }
     public TiposGastosEntity(TiposGasto tiposGasto) {
         this.id = tiposGasto.getId();
         this.nombre = tiposGasto.getNombre();

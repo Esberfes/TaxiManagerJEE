@@ -4,8 +4,10 @@ import com.taxi.database.GastosDbBean;
 import com.taxi.datamodels.LazyLoad;
 import com.taxi.entities.GastosEntity;
 import com.taxi.faces.SessionData;
+import com.taxi.pojos.TaxiFilterMeta;
 import com.taxi.singletons.TaxiLogger;
 import org.primefaces.model.FilterMeta;
+import org.primefaces.model.MatchMode;
 import org.primefaces.model.SortMeta;
 import com.taxi.pojos.Gasto;
 
@@ -29,18 +31,21 @@ public class GastosBean implements LazyLoad<Gasto> {
     @Inject
     private SessionData sessionData;
 
+    public List<Gasto> getGastosComunes(int mes, int ano, Long id)    {
+        return gastosDbBean.getGastosComunes(mes, ano, id);
+    }
+
     @Override
     public List<Gasto> getData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
-        filterMeta.put("mes", new FilterMeta("gastos.mes", sessionData.getMes()));
-        filterMeta.put("ano", new FilterMeta("gastos.ano", sessionData.getAno()));
+        filterMeta.put("gastos.ano", new TaxiFilterMeta("gastos.ano", sessionData.getAno(), MatchMode.EXACT));
+        filterMeta.put("gastos.mes", new TaxiFilterMeta("gastos.mes", sessionData.getMes(), MatchMode.EXACT));
         return gastosDbBean.getData(first, pageSize, sortMeta, filterMeta).stream().map(Gasto::new).collect(Collectors.toList());
     }
 
     @Override
     public int getTotal(Map<String, FilterMeta> filterMeta) {
-        filterMeta.put("mes", new FilterMeta("gastos.mes", sessionData.getMes()));
-        filterMeta.put("ano", new FilterMeta("gastos.ano", sessionData.getAno()));
-
+        filterMeta.put("gastos.ano", new TaxiFilterMeta("gastos.ano", sessionData.getAno(), MatchMode.EXACT));
+        filterMeta.put("gastos.mes", new TaxiFilterMeta("gastos.mes", sessionData.getMes(), MatchMode.EXACT));
         return gastosDbBean.getTotal(filterMeta);
     }
 

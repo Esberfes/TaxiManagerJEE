@@ -5,8 +5,10 @@ import com.taxi.entities.RecaudacionesEntity;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.taxi.utils.BigDecimalUtils.ensureNotNull;
 
@@ -58,6 +60,26 @@ public class Recaudacion implements Identified{
         this.ano = recaudacionesEntity.getAno();
         this.creado = recaudacionesEntity.getCreado();
         this.actualizado = recaudacionesEntity.getActualizado();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<div class='node-root'><div><b>")
+                .append(getClass().getSimpleName()).append("</b></div>")
+                .append("<ul>");
+
+        sb.append(Arrays.stream(getClass().getDeclaredFields()).map(e -> {
+            try {
+                Object o = e.get(this);
+                return o != null? "<li>" + "<b>" + e.getName() + ": &nbsp;<b>" + o.toString() + "</li>": "";
+            } catch (IllegalAccessException illegalAccessException) {
+                return "<li>" + illegalAccessException.toString() + "</li>";
+            }
+        }).collect(Collectors.joining("\n")));
+
+
+        return sb.append("</ul>").append("</div>").toString();
     }
 
     public Long getId() {

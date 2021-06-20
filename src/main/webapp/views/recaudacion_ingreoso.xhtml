@@ -207,9 +207,17 @@
                     <f:facet name="output"><h:outputText value="#{ingreso.conductor.nombre}"/></f:facet>
                     <f:facet name="input">
                         <p:autoComplete inputStyle="width: 100%" style="width: 100%" minQueryLength="0"
-                                        value="#{ingreso.conductor.nombre}"
-                                        completeMethod="#{AutoCompleteFace.completeConductor}"
-                                        forceSelection="true" effect="fade"/>
+                                        value="#{ingreso.conductor}"
+                                        completeMethod="#{AutoCompleteFace.completeConductorPojo}"
+                                        itemLabel="${conductor.nombre}"
+                                        itemValue="${conductor}"
+                                        converter="${ConductorConverter}"
+                                        var="conductor"
+                                        size="1000"
+                                        forceSelection="true" effect="fade" scrollHeight="200"
+                                        queryDelay="0"
+                                        widgetVar="autocompleteConductorEdit"
+                                        onclick="PF('autocompleteConductorEdit').search(PF('autocompleteConductorEdit').input.val());"/>
                     </f:facet>
                 </p:cellEditor>
                 <p:commandLink update=":form:conductorDetail" oncomplete="PF('conductorDialog').show()"
@@ -363,8 +371,8 @@
                 <f:facet name="output"><h:outputText value="#{ingreso.estado.nombre}"/></f:facet>
                 <f:facet name="input">
                     <p:selectOneMenu converter="${EstadoConverter}" style="width: 100%"
-                                     value="#{RecaudacionFace.estado}">
-                        <f:selectItems value="#{ingreso.estado}" var="estado"
+                                     value="#{ingreso.estado}">
+                        <f:selectItems value="#{RecaudacionFace.allEstadosIngresos()}" var="estado"
                                        itemValue="${estado}" itemLabel="${estado.nombre}"/>
                     </p:selectOneMenu>
                 </f:facet>

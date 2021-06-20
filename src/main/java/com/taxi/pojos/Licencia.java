@@ -2,7 +2,9 @@ package com.taxi.pojos;
 
 import com.taxi.entities.LicenciasEntity;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 public class Licencia {
 
@@ -23,6 +25,26 @@ public class Licencia {
         this.es_eurotaxi = licenciasEntity.getEsEurotaxi();
         this.creado = licenciasEntity.getCreado();
         this.actualizado = licenciasEntity.getCreado();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<div class='node-root'><div><b>")
+                .append(getClass().getSimpleName()).append("</b></div>")
+                .append("<ul>");
+
+        sb.append(Arrays.stream(getClass().getDeclaredFields()).map(e -> {
+            try {
+                Object o = e.get(this);
+                return o != null? "<li>" + "<b>" + e.getName() + ": &nbsp;<b>" + o.toString() + "</li>": "";
+            } catch (IllegalAccessException illegalAccessException) {
+                return "<li>" + illegalAccessException.toString() + "</li>";
+            }
+        }).collect(Collectors.joining("\n")));
+
+
+        return sb.append("</ul>").append("</div>").toString();
     }
 
     public Long getId() {

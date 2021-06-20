@@ -4,7 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui">
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui"
+>
 
 <h:head>
     <h:outputStylesheet name="css/primeflex.css"/>
@@ -39,79 +40,83 @@
                     <p:menu id="menu" styleClass="shadow" style=" width: 100%;position: sticky;top: 15px;">
 
                         <p:submenu label="Entradas">
-                            <p:menuitem value="Recaudación" update="messages content menu" ajax="true"
+                            <p:menuitem value="Recaudación" update="messages content" ajax="true"
                                         action="#{SessionData.navigate(NavigationEnum.recaudacion)}"
+                                        onclick=""
                                         styleClass="#{SessionData.navigation eq NavigationEnum.recaudacion ? 'active' : ''}"/>
 
-                            <p:menuitem value="Gastos" update="messages content menu" ajax="true"
+                            <p:menuitem value="Gastos" update="messages content" ajax="true"
                                         action="#{SessionData.navigate(NavigationEnum.gastos)}"
                                         styleClass="#{SessionData.navigation eq NavigationEnum.gastos ? 'active' : ''}"/>
                         </p:submenu>
 
                         <p:submenu label="Salidas">
-                            <p:menuitem value="Licencias" update="messages content menu" ajax="true"
+                            <p:menuitem value="Licencias" update="messages content" ajax="true"
                                         action="#{SessionData.navigate(NavigationEnum.out_licencias)}"
                                         styleClass="#{SessionData.navigation eq NavigationEnum.out_licencias ? 'active' : ''}"/>
 
-                            <p:menuitem value="Conductores" update="messages content menu" ajax="true"
+                            <p:menuitem value="Conductores" update="messages content" ajax="true"
                                         action="#{SessionData.navigate(NavigationEnum.out_conductores)}"
                                         styleClass="#{SessionData.navigation eq NavigationEnum.out_conductores ? 'active' : ''}"/>
 
-                            <p:menuitem value="Resumen Mensual" update="messages content menu" ajax="true"
+                            <p:menuitem value="Resumen Mensual" update="messages content" ajax="true"
                                         action="#{SessionData.navigate(NavigationEnum.resultados)}"
                                         styleClass="#{SessionData.navigation eq NavigationEnum.resultados ? 'active' : ''}"/>
 
-                            <p:menuitem  value="Resumen Gastos" update="messages content menu" ajax="true"
+                            <p:menuitem value="Resumen Gastos" update="messages content" ajax="true"
                                         action="#{SessionData.navigate(NavigationEnum.resumen)}"
                                         styleClass="#{SessionData.navigation eq NavigationEnum.resumen ? 'active' : ''}"/>
 
-                            <p:menuitem rendered="false" value="Graficas" update="messages content menu" ajax="true"
+                            <p:menuitem rendered="false" value="Graficas" update="messages content" ajax="true"
                                         action="#{SessionData.navigate(NavigationEnum.graficas)}"
                                         styleClass="#{SessionData.navigation eq NavigationEnum.graficas ? 'active' : ''}"/>
                         </p:submenu>
 
                         <p:submenu label="Configuracion">
-                            <p:menuitem value="Licencias" update="messages content menu" ajax="true"
+                            <p:menuitem value="Licencias" update="messages content" ajax="true"
                                         action="#{SessionData.navigate(NavigationEnum.licencias)}"
                                         styleClass="#{SessionData.navigation eq NavigationEnum.licencias ? 'active' : ''}"/>
 
-                            <p:menuitem value="Conductores" update="messages content menu" ajax="true"
+                            <p:menuitem value="Conductores" update="messages content" ajax="true"
                                         action="#{SessionData.navigate(NavigationEnum.conductores)}"
                                         styleClass="#{SessionData.navigation eq NavigationEnum.conductores ? 'active' : ''}"/>
 
-                            <p:menuitem value="Empresas" update="messages content menu" ajax="true"
+                            <p:menuitem value="Empresas" update="messages content" ajax="true"
                                         action="#{SessionData.navigate(NavigationEnum.empresas)}"
                                         styleClass="#{SessionData.navigation eq NavigationEnum.empresas ? 'active' : ''}"/>
 
-                            <p:menuitem value="Formas de pago" update="messages content menu" ajax="true"
+                            <p:menuitem value="Formas de pago" update="messages content" ajax="true"
                                         action="#{SessionData.navigate(NavigationEnum.formasPagos)}"
                                         styleClass="#{SessionData.navigation eq NavigationEnum.formasPagos ? 'active' : ''}"/>
 
-                            <p:menuitem rendered="false" value="Proveedores" update="messages content menu" ajax="true"
+                            <p:menuitem rendered="false" value="Proveedores" update="messages content" ajax="true"
                                         action="#{SessionData.navigate(NavigationEnum.conceptosGastos)}"
                                         styleClass="#{SessionData.navigation eq NavigationEnum.conceptosGastos ? 'active' : ''}"/>
 
-                            <p:menuitem value="Tipos de gasto" update="messages content menu" ajax="true"
+                            <p:menuitem value="Tipos de gasto" update="messages content" ajax="true"
                                         action="#{SessionData.navigate(NavigationEnum.tiposGastos)}"
                                         styleClass="#{SessionData.navigation eq NavigationEnum.tiposGastos ? 'active' : ''}"/>
 
-                            <p:menuitem value="Estados de ingreso" update="messages content menu" ajax="true"
+                            <p:menuitem value="Estados de ingreso" update="messages content" ajax="true"
                                         action="#{SessionData.navigate(NavigationEnum.estadosIngresos)}"
                                         styleClass="#{SessionData.navigation eq NavigationEnum.estadosIngresos ? 'active' : ''}"/>
                         </p:submenu>
-                        <p:submenu label="Filtro">
+                        <p:submenu id="menuFiltro" label="Filtro">
                             <p:menuitem value="Mes">
-                                <p:inputNumber title="Mes" decimalPlaces="0" minValue="1" maxlength="12" value="#{SessionData.mes}"
+                                <p:inputNumber title="Mes" decimalPlaces="0" minValue="1" maxlength="12"
+                                               value="#{SessionData.mes}"
                                                inputStyle="margin-right: 10px;" onclick="this.value = null;">
                                 </p:inputNumber>
                             </p:menuitem>
                             <p:menuitem value="Año">
-                                <p:inputNumber title="Año" decimalPlaces="0" thousandSeparator="" value="#{SessionData.ano}"
+                                <p:inputNumber title="Año" decimalPlaces="0" thousandSeparator=""
+                                               value="#{SessionData.ano}"
                                                inputStyle="margin-right: 10px;" onclick="this.value = null;">
                                 </p:inputNumber>
                             </p:menuitem>
-                            <p:menuitem value="Año" update="messages content menu">
-                                <p:commandButton actionListener="#{SessionData.refresh()}" value="Filtrar"></p:commandButton>
+                            <p:menuitem value="Año" update="messages content menuFiltro">
+                                <p:commandButton actionListener="#{SessionData.refresh()}"
+                                                 value="Filtrar"></p:commandButton>
                             </p:menuitem>
                         </p:submenu>
 
@@ -213,6 +218,9 @@
                 <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times"/>
             </p:confirmDialog>
 
+            <p:idleMonitor timeout="300000">
+                <p:ajax event="idle" oncomplete="location.reload(true);"/>
+            </p:idleMonitor>
         </h:form>
     </f:view>
     <p:outputPanel
@@ -224,10 +232,12 @@
             padding: 0;
             margin: 0;
         }
+
         body .ui-widget:not(.pi), body .ui-widget .ui-widget:not(.pi), body .ui-inputfield {
             font-size: 10px;
         }
-        body  table input:read-only {
+
+        body table input:read-only {
             border: none;
             width: 100%;
             background: transparent;
@@ -253,9 +263,11 @@
         .ui-outputlabel {
             display: block;
         }
+
         body .ui-datatable thead th {
             vertical-align: top;
         }
+
         body .ui-datatable .ui-datatable-data > tr .ui-row-editor .ui-icon.ui-icon-pencil {
             color: #007ad9;
             vertical-align: bottom;
@@ -400,19 +412,27 @@
             display: flex;
             flex-direction: column;;
         }
-        .footer{
+
+        .footer {
             position: fixed;
             bottom: 0px;
-            width:100%;
+            width: 100%;
             z-index: 102;
         }
+
+        .p-05 {
+            padding: 0.5em !important;
+        }
+
         @media print {
             .no-print {
                 display: none;
             }
+
             body .ui-datatable thead th .ui-sortable-column-icon {
                 display: none;
             }
+
             body .ui-datatable .ui-column-filter {
                 display: none;
             }
@@ -424,9 +444,11 @@
             body .ui-datatable thead th .ui-sortable-column-icon.ui-icon-carat-2-n-s {
                 display: none;
             }
+
             .operacional {
                 color: blue;
             }
+
             body input:read-only {
                 background: #fff !important;
                 border: 1px solid #a6a6a6 !important;
@@ -479,62 +501,74 @@
         }
 
         $(document).ready(function () {
-            const endpoint = "ws";
-            const host = document.location.host;
-            const pathname = document.location.pathname;
-            const prot = document.location.protocol === "http:" ? "ws://" :  "wss://";
+            setTimeout(function () {
 
-            const ws = new WebSocket(prot + host + pathname + endpoint);
-            PF('logDialog').toggleMinimize()
+                const endpoint = "ws";
+                const host = document.location.host;
+                const pathname = document.location.pathname;
+                const prot = document.location.protocol === "http:" ? "ws://" : "wss://";
 
-            ws.onopen = function (e) {
-                console.log("Connected ws", e);
-            };
+                const ws = new WebSocket(prot + host + pathname + endpoint);
+                PF('logDialog').toggleMinimize()
 
-            function connectWS() {
-                console.log("Connecting to: " + prot + host + pathname + endpoint)
-
-                ws.onclose = function (e) {
-                    reconnectWS(e);
-                    console.log("Disconnect", e);
+                ws.onopen = function (e) {
+                    console.log("Connected ws", e);
                 };
 
-                ws.onmessage = function (event) {
+                function connectWS() {
+                    console.log("Connecting to: " + prot + host + pathname + endpoint)
 
-                    const logContainer = $('#form\\:log');
+                    ws.onclose = function (e) {
+                        reconnectWS(e);
+                        console.log("Disconnect", e);
+                    };
 
-                    if (logContainer.children().length > 200) {
-                        logContainer.find('div:first').remove();
-                    }
+                    ws.onmessage = function (event) {
+                        setTimeout(function () {
 
-                    const data = JSON.parse(event.data);
+                            if (logContainer.children().length > 200) {
+                                logContainer.find('div:first').remove();
+                            }
 
-                    logContainer.append($(data.line));
-                };
+                            const data = JSON.parse(event.data);
 
-                ws.onerror = function (err) {
-                    console.error('Socket encountered error: ', err.message, 'Closing socket');
-                    ws.close();
-                };
+                            logContainer.append($(data.line));
+                        }, 10)
+                        const logContainer = $('#form\\:log');
 
-            }
+                    };
 
-            function reconnectWS(e) {
-                console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
-                setTimeout(function () {
-                    connectWS();
-                }, 1000);
-            }
+                    ws.onerror = function (err) {
+                        console.error('Socket encountered error: ', err.message, 'Closing socket');
+                        ws.close();
+                    };
 
-            connectWS();
+                }
 
-            PrimeFaces.widget.SelectOneMenu.prototype.handleEnterKey = function(event) {
+                function reconnectWS(e) {
+                    console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
+                    setTimeout(function () {
+                        connectWS();
+                    }, 1000);
+                }
+
+                connectWS();
+            }, 1000);
+
+
+            PrimeFaces.widget.SelectOneMenu.prototype.handleEnterKey = function (event) {
                 if (this.panel.is(':visible')) {
                     this.selectItem(this.getActiveItem());
                     event.preventDefault();
                     event.stopPropagation();
                 }
             }
+
+            $("li.ui-menuitem").click(function () {
+                $("li.ui-menuitem").removeClass("active");
+                $(this).addClass("active");
+            });
+
         });
     </script>
 </h:body>

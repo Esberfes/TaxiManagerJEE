@@ -38,6 +38,7 @@ public class ConductoresFace implements Serializable {
     private String nombre;
     private String empresa;
     private BigDecimal complementoIva;
+    private BigDecimal T000;
     private BigDecimal T065;
     private BigDecimal T060;
     private BigDecimal T055;
@@ -73,6 +74,7 @@ public class ConductoresFace implements Serializable {
             conductor.setNombre(this.nombre);
             conductor.setEmpresa(empresasBean.findSingleByName(this.empresa));
             conductor.setComplemento_iva(this.complementoIva);
+            conductor.setT000(this.T000);
             conductor.setT065(this.T065);
             conductor.setT060(this.T060);
             conductor.setT055(this.T055);
@@ -84,6 +86,7 @@ public class ConductoresFace implements Serializable {
             this.empresa = null;
             this.complementoIva = null;
             this.T065 = null;
+            this.T000 = null;
             this.T060 = null;
             this.T055 = null;
             this.T050 = null;
@@ -137,6 +140,14 @@ public class ConductoresFace implements Serializable {
 
     public void setComplementoIva(BigDecimal complementoIva) {
         this.complementoIva = complementoIva;
+    }
+
+    public BigDecimal getT000() {
+        return T000;
+    }
+
+    public void setT000(BigDecimal t000) {
+        T000 = t000;
     }
 
     public BigDecimal getT065() {

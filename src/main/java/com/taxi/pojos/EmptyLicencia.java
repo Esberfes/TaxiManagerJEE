@@ -11,4 +11,9 @@ public class EmptyLicencia extends Licencia{
         this.creado = new Date();
         this.actualizado = new Date();
     }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

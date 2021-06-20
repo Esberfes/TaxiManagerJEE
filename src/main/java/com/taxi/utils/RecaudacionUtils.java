@@ -12,11 +12,26 @@ import static com.taxi.utils.BigDecimalUtils.percentage;
 
 public abstract class RecaudacionUtils {
 
-    public static BigDecimal calculateSalario(Conductor conductor, RecaudacionIngreso recaudacionIngreso){
+    public static final Comparator<RecaudacionIngreso> RECAUDACION_INGRESO_COMPARATOR = (o1, o2) -> {
+        if (o1.getDia() > o2.getDia())
+            return 1;
+        if (o1.getDia() < o2.getDia())
+            return -1;
+        if (o1.getDia().equals(o2.getDia()) && o1.getTurno().equalsIgnoreCase("tarde"))
+            return 1;
+        if (o1.getDia().equals(o2.getDia()) && o1.getTurno().equalsIgnoreCase(o2.getTurno()))
+            return 0;
+
+        return -1;
+    };
+
+    public static BigDecimal calculateSalario(Conductor conductor, RecaudacionIngreso recaudacionIngreso) {
         BigDecimal total = conductor.getComplemento_iva();
 
-        if(recaudacionIngreso.getRecaudacion() != null)
-            if (recaudacionIngreso.getRecaudacion().doubleValue() <= conductor.getT065().doubleValue()) {
+        if (recaudacionIngreso.getRecaudacion() != null)
+            if (recaudacionIngreso.getRecaudacion().doubleValue() <= conductor.getT000().doubleValue()) {
+                total = total.add(percentage(recaudacionIngreso.getRecaudacion(), new BigDecimal(0)));
+            } else if (recaudacionIngreso.getRecaudacion().doubleValue() <= conductor.getT065().doubleValue()) {
                 total = total.add(percentage(recaudacionIngreso.getRecaudacion(), new BigDecimal(35)));
             } else if (recaudacionIngreso.getLiquido().doubleValue() <= conductor.getT060().doubleValue()) {
                 total = total.add(percentage(recaudacionIngreso.getRecaudacion(), new BigDecimal(40)));
@@ -30,7 +45,7 @@ public abstract class RecaudacionUtils {
     }
 
     public static BigDecimal calculateEfectivo(RecaudacionIngreso recaudacionIngreso, Recaudacion recaudacion) {
-      getRecaudacion(recaudacionIngreso, recaudacion);
+        getRecaudacion(recaudacionIngreso, recaudacion);
 
         BigDecimal liquido = recaudacionIngreso.getLiquido();
 
@@ -40,26 +55,11 @@ public abstract class RecaudacionUtils {
         if (recaudacionIngreso.getApp() != null)
             liquido = liquido.subtract(recaudacionIngreso.getApp());
 
-        return  recaudacionIngreso.getPagos() != null ? liquido.subtract(recaudacionIngreso.getPagos()) : liquido;
+        return recaudacionIngreso.getPagos() != null ? liquido.subtract(recaudacionIngreso.getPagos()) : liquido;
     }
 
     public static void setRecaudacion(List<RecaudacionIngreso> entities) {
-        entities.sort(new Comparator<RecaudacionIngreso>() {
-            @Override
-            public int compare(RecaudacionIngreso o1, RecaudacionIngreso o2) {
-                if (o1.getDia() > o2.getDia())
-                    return 1;
-                if (o1.getDia() < o2.getDia())
-                    return -1;
-                if (o1.getDia().equals(o2.getDia()) && o1.getTurno().equalsIgnoreCase("tarde"))
-                    return 1;
-                if (o1.getDia().equals(o2.getDia()) && o1.getTurno().equalsIgnoreCase(o2.getTurno()))
-                    return 0;
-
-                return -1;
-            }
-        });
-
+        entities.sort(RECAUDACION_INGRESO_COMPARATOR);
 
         for (int i = 0; i < entities.size(); i++) {
             try {
@@ -82,16 +82,17 @@ public abstract class RecaudacionUtils {
             }
         }
     }
+
     public static BigDecimal calculateLiquido(RecaudacionIngreso ingresos) {
         try {
             BigDecimal total = ingresos.getRecaudacion();
             BigDecimal liquido = total.add(ingresos.getConductor().getComplemento_iva());
 
-            if(ingresos.getT() == null) {
+            if (ingresos.getT() == null) {
                 if (ingresos.getRecaudacion().doubleValue() <= ingresos.getConductor().getT065().doubleValue() && ingresos.getConductor().getT065().doubleValue() != 0D) {
                     BigDecimal selected = new BigDecimal(35);
                     ingresos.setT(selected);
-                    liquido = liquido.subtract(percentage(ingresos.getRecaudacion(),selected));
+                    liquido = liquido.subtract(percentage(ingresos.getRecaudacion(), selected));
                 } else if (ingresos.getRecaudacion().doubleValue() <= ingresos.getConductor().getT060().doubleValue() && ingresos.getConductor().getT060().doubleValue() != 0D) {
                     BigDecimal selected = new BigDecimal(40);
                     liquido = liquido.subtract(percentage(ingresos.getRecaudacion(), selected));
@@ -100,13 +101,13 @@ public abstract class RecaudacionUtils {
                     BigDecimal selected = new BigDecimal(45);
                     liquido = liquido.subtract(percentage(ingresos.getRecaudacion(), selected));
                     ingresos.setT(selected);
-                } else if(ingresos.getConductor().getT050().doubleValue() != 0D){
+                } else if (ingresos.getConductor().getT050().doubleValue() != 0D) {
                     BigDecimal selected = new BigDecimal(50);
                     liquido = liquido.subtract(percentage(ingresos.getRecaudacion(), selected));
                     ingresos.setT(selected);
                 }
-            } else  {
-                liquido = liquido.subtract(percentage(ingresos.getRecaudacion(),ingresos.getT()));
+            } else {
+                liquido = liquido.subtract(percentage(ingresos.getRecaudacion(), ingresos.getT()));
             }
 
             return liquido;
@@ -120,18 +121,7 @@ public abstract class RecaudacionUtils {
         recaudacionIngresos.add(recaudacionIngreso);
         recaudacionIngresos.forEach(r -> r.setRecaudacionObj(recaudacion));
 
-        recaudacionIngresos.sort((o1, o2) -> {
-            if (o1.getDia() > o2.getDia())
-                return 1;
-            if (o1.getDia() < o2.getDia())
-                return -1;
-            if (o1.getDia().equals(o2.getDia()) && o1.getTurno().equalsIgnoreCase("tarde"))
-                return 1;
-            if (o1.getDia().equals(o2.getDia()) && o1.getTurno().equalsIgnoreCase(o2.getTurno()))
-                return 0;
-
-            return -1;
-        });
+        recaudacionIngresos.sort(RECAUDACION_INGRESO_COMPARATOR);
 
         for (int i = 0; i < recaudacionIngresos.size(); i++) {
             try {
@@ -150,7 +140,7 @@ public abstract class RecaudacionUtils {
                 ingresosEntity.setLiquido(calculateLiquido(ingresosEntity));
 
             } catch (Throwable e) {
-              return new BigDecimal("0.00");
+                return new BigDecimal("0.00");
             }
         }
 

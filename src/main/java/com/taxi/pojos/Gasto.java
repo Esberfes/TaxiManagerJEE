@@ -1,17 +1,22 @@
 package com.taxi.pojos;
 
 import com.taxi.entities.GastosEntity;
+import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.TreeNode;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.util.*;
+import java.util.stream.Collectors;
 
-public class Gasto {
+public class Gasto extends DefaultTreeNode implements Serializable, Comparable<Gasto>, TreeElement {
 
     private Long id;
     private Licencia licencia;
     private FormasPago formaPago;
     private TiposGasto tipoGasto;
     private BigDecimal importe;
+    private BigDecimal comun;
     private String definicion;
     private Integer mes;
     private Integer ano;
@@ -28,12 +33,19 @@ public class Gasto {
         this.formaPago = new FormasPago(gasto.getFormasPagosGastosEntity());
         this.tipoGasto = gasto.getTiposGastosEntity() != null ? new TiposGasto(gasto.getTiposGastosEntity()) : null;
         this.importe = gasto.getImporte();
+        this.comun = gasto.getComun();
         this.fechaFactura = gasto.getFechaFactura();
         this.definicion = gasto.getDefinicion();
         this.mes = gasto.getMes();
         this.ano = gasto.getAno();
         this.actualizado = gasto.getActualizado();
         this.creado = gasto.getCreado();
+        setChildren(new ArrayList<>());
+    }
+
+    @Override
+    public Gasto getData() {
+        return this;
     }
 
     public Long getId() {
@@ -124,4 +136,55 @@ public class Gasto {
     public void setAno(Integer ano) {
         this.ano = ano;
     }
+
+    public BigDecimal getComun() {
+        return comun;
+    }
+
+    public void setComun(BigDecimal comun) {
+        this.comun = comun;
+    }
+
+    @Override
+    public int compareTo(Gasto o) {
+        return id.compareTo(o.id);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<div class='node-root'><div><b>")
+                .append(getClass().getSimpleName()).append("</b></div>")
+                .append("<ul>");
+
+        sb.append(Arrays.stream(getClass().getDeclaredFields()).map(e -> {
+            try {
+                Object o = e.get(this);
+                return o != null? "<li>" + "<b>" + e.getName() + ": &nbsp;<b>" + o.toString() + "</li>": "";
+            } catch (IllegalAccessException illegalAccessException) {
+                return "<li>" + illegalAccessException.toString() + "</li>";
+            }
+        }).collect(Collectors.joining("\n")));
+
+
+        return sb.append("</ul>").append("</div>").toString();
+    }
+
+    @Override
+    public TreeElement buildTree(TreeNode parent) {
+        List<TreeNode> childs = new LinkedList<>();
+
+        setParent(parent);
+
+        if (tipoGasto != null)
+            childs.add(tipoGasto.buildTree(this));
+
+        if (formaPago != null)
+            childs.add(formaPago.buildTree(this));
+
+        setChildren(childs);
+
+        return this;
+    }
+
 }

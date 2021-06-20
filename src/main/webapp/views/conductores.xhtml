@@ -34,6 +34,13 @@
             </p:outputPanel>
 
             <p:outputPanel styleClass="p-col">
+                <p:outputLabel>T000</p:outputLabel>
+                <p:inputNumber converter="javax.faces.BigDecimal" value="#{ConductoresFace.t000}" style="width:100%"
+                               inputStyle="width: 100%"
+                               decimalPlaces="2"/>
+            </p:outputPanel>
+
+            <p:outputPanel styleClass="p-col">
                 <p:outputLabel>T065</p:outputLabel>
                 <p:inputNumber converter="javax.faces.BigDecimal" value="#{ConductoresFace.t065}" style="width:100%"
                                inputStyle="width: 100%"
@@ -73,7 +80,7 @@
                  lazy="true"
                  editable="true"
                  rows="10"
-                 paginator="true"
+                 rowEditMode="lazy"                 paginator="true"
                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                  currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
                  resizableColumns="true" liveResize="true" showGridlines="true"
@@ -115,6 +122,15 @@
                 <f:facet name="input"><p:inputNumber converter="javax.faces.BigDecimal"
                                                      value="#{conductor.complemento_iva}" style="width:100%"
                                                      decimalPlaces="2"/></f:facet>
+            </p:cellEditor>
+        </p:column>
+
+        <p:column headerText="T000" filterBy="#{conductor.t000}" sortBy="#{conductor.t000}">
+            <p:cellEditor>
+                <f:facet name="output"><p:inputNumber readonly="true" converter="javax.faces.BigDecimal"
+                                                      value="#{conductor.t000}"/></f:facet>
+                <f:facet name="input"><p:inputNumber converter="javax.faces.BigDecimal" value="#{conductor.t000}"
+                                                     style="width:100%" decimalPlaces="2"/></f:facet>
             </p:cellEditor>
         </p:column>
 

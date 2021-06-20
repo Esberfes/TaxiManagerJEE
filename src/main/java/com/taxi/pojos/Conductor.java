@@ -4,8 +4,10 @@ import com.taxi.entities.ConductorEntity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static com.taxi.utils.BigDecimalUtils.ensureNotNull;
 
@@ -15,6 +17,7 @@ public class Conductor implements Serializable {
     private String nombre;
     private Empresa empresa;
     private BigDecimal complemento_iva;
+    private BigDecimal t000;
     private BigDecimal t065;
     private BigDecimal t060;
     private BigDecimal t055;
@@ -30,26 +33,13 @@ public class Conductor implements Serializable {
         this.nombre = conductorEntity.getNombre();
         this.empresa = new Empresa(conductorEntity.getEmpresasEntity());
         this.complemento_iva = ensureNotNull(conductorEntity.getComplementoIva());
+        this.t000 = ensureNotNull(conductorEntity.getT000());
         this.t065 = ensureNotNull(conductorEntity.getT065());
         this.t060 = ensureNotNull(conductorEntity.getT060());
         this.t055 = ensureNotNull(conductorEntity.getT055());
         this.t050 = ensureNotNull(conductorEntity.getT050());
         this.creado = conductorEntity.getCreado();
         this.actualizado = conductorEntity.getActualizado();
-    }
-
-    public Conductor(String nombre, Empresa empresa, BigDecimal complemento_iva, BigDecimal t065, BigDecimal t060, BigDecimal t055, BigDecimal t050) {
-        this.nombre = nombre;
-        this.empresa = empresa;
-        this.complemento_iva = ensureNotNull(complemento_iva);
-        this.t065 = ensureNotNull(t065);
-        this.t060 = ensureNotNull(t060);
-        this.t055 = ensureNotNull(t055);
-        this.t050 = ensureNotNull(t050);
-    }
-
-    public Conductor(String name) {
-        this.nombre = name;
     }
 
     @Override
@@ -65,6 +55,25 @@ public class Conductor implements Serializable {
         return Objects.equals(id, that.id);
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<div class='node-root'><div><b>")
+                .append(getClass().getSimpleName()).append("</b></div>")
+                .append("<ul>");
+
+        sb.append(Arrays.stream(getClass().getDeclaredFields()).map(e -> {
+            try {
+                Object o = e.get(this);
+                return o != null? "<li>" + "<b>" + e.getName() + ": &nbsp;<b>" + o.toString() + "</li>": "";
+            } catch (IllegalAccessException illegalAccessException) {
+                return "<li>" + illegalAccessException.toString() + "</li>";
+            }
+        }).collect(Collectors.joining("\n")));
+
+
+        return sb.append("</ul>").append("</div>").toString();
+    }
     public Long getId() {
         return id;
     }
@@ -95,6 +104,14 @@ public class Conductor implements Serializable {
 
     public void setComplemento_iva(BigDecimal complemento_iva) {
         this.complemento_iva = complemento_iva;
+    }
+
+    public BigDecimal getT000() {
+        return t000;
+    }
+
+    public void setT000(BigDecimal t000) {
+        this.t000 = t000;
     }
 
     public BigDecimal getT065() {

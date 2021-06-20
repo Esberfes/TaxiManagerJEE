@@ -1,10 +1,16 @@
 package com.taxi.pojos;
 
 import com.taxi.entities.TiposGastosEntity;
+import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.TreeNode;
 
+import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
-public class TiposGasto {
+public class TiposGasto  extends DefaultTreeNode implements Serializable, Comparable<TiposGasto> , TreeElement {
 
     private Long id;
     private String nombre;
@@ -22,6 +28,31 @@ public class TiposGasto {
 
     public TiposGasto() {
 
+    }
+
+    @Override
+    public TiposGasto getData() {
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<div class='node-root'><div><b>")
+                .append(getClass().getSimpleName()).append("</b></div>")
+                .append("<ul>");
+
+        sb.append(Arrays.stream(getClass().getDeclaredFields()).map(e -> {
+            try {
+                Object o = e.get(this);
+                return o != null? "<li>" + "<b>" + e.getName() + ": &nbsp;<b>" + o.toString() + "</li>": "";
+            } catch (IllegalAccessException illegalAccessException) {
+                return "<li>" + illegalAccessException.toString() + "</li>";
+            }
+        }).collect(Collectors.joining("\n")));
+
+
+        return sb.append("</ul>").append("</div>").toString();
     }
 
     public Long getId() {
@@ -71,12 +102,12 @@ public class TiposGasto {
 
         TiposGasto that = (TiposGasto) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (nombre != null ? !nombre.equals(that.nombre) : that.nombre != null) return false;
-        if (es_operacional != null ? !es_operacional.equals(that.es_operacional) : that.es_operacional != null)
+        if (!Objects.equals(id, that.id)) return false;
+        if (!Objects.equals(nombre, that.nombre)) return false;
+        if (!Objects.equals(es_operacional, that.es_operacional))
             return false;
-        if (creado != null ? !creado.equals(that.creado) : that.creado != null) return false;
-        return actualizado != null ? actualizado.equals(that.actualizado) : that.actualizado == null;
+        if (!Objects.equals(creado, that.creado)) return false;
+        return Objects.equals(actualizado, that.actualizado);
     }
 
     @Override
@@ -87,5 +118,17 @@ public class TiposGasto {
         result = 31 * result + (creado != null ? creado.hashCode() : 0);
         result = 31 * result + (actualizado != null ? actualizado.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public int compareTo(TiposGasto o) {
+        return id.compareTo(o.id);
+    }
+
+    @Override
+    public TreeElement buildTree(TreeNode parent) {
+        setParent(parent);
+
+        return this;
     }
 }

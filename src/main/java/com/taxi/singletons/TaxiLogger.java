@@ -1,17 +1,16 @@
 package com.taxi.singletons;
 
-import com.google.gson.Gson;
 import org.apache.commons.io.input.Tailer;
 import org.apache.commons.io.input.TailerListenerAdapter;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.LocalBean;
-import javax.ejb.Lock;
-import javax.ejb.LockType;
-import javax.ejb.Singleton;
+import javax.ejb.*;
 import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
@@ -19,8 +18,11 @@ import javax.websocket.EncodeException;
 import javax.websocket.Session;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.CompletableFuture;
@@ -52,11 +54,24 @@ public class TaxiLogger extends TailerListenerAdapter implements Serializable {
         }
     }
 
+    public void dump() {
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                Arrays.stream(ManagementFactory.getThreadMXBean().dumpAllThreads(true, true))
+                        .forEach(t -> logger.info(t.toString()));
+            }
+        });
+    }
+
     @AroundInvoke
     public Object profile(InvocationContext invocation) throws Exception {
         long startTime = System.currentTimeMillis();
         try {
             return invocation.proceed();
+        }catch (org.hibernate.HibernateException e) {
+            error("Error DB " + invocation.getMethod().getName(), e);
+            throw e;
         } catch(Throwable e) {
             error("Error profiling " + invocation.getMethod().getName(), e);
             throw e;

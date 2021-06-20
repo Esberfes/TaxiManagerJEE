@@ -12,6 +12,8 @@ import org.primefaces.model.SortMeta;
 import org.primefaces.model.SortOrder;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -82,7 +84,9 @@ public class OutLicenciasFace implements Serializable {
             calculateTotaServicios();
             calculateTotaKilometros();
         } catch (Throwable e) {
-            logger.error("Error refrescando resultados licencias", e);
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, new Object(){}.getClass().getEnclosingMethod().getName(), e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            logger.error(new Object(){}.getClass().getEnclosingMethod().getName(), e);
             emptyIngresos();
         }
     }
@@ -102,26 +106,25 @@ public class OutLicenciasFace implements Serializable {
     private void calculateGastos() {
         if (licenciaObj != null) {
             Map<String, FilterMeta> filterMeta = new HashMap<>();
-            filterMeta.put("ano", new FilterMeta("ano", sessionData.getAno()));
-            filterMeta.put("mes", new FilterMeta("mes", sessionData.getMes()));
-            filterMeta.put("id_licencia", new FilterMeta("id_licencia", licenciaObj.getId()));
+           filterMeta.put("ano", new TaxiFilterMeta("recaudaciones.ano", sessionData.getAno(), MatchMode.EXACT));
+            filterMeta.put("mes", new TaxiFilterMeta("recaudaciones.mes", sessionData.getMes(), MatchMode.EXACT));
+            filterMeta.put("id_licencia", new TaxiFilterMeta("gastos.id_licencia", licenciaObj.getId(), MatchMode.EXACT));
+            filterMeta.put("es_operacional", new TaxiFilterMeta("tipos_gastos.es_operacional", 1, MatchMode.EXACT));
 
             Map<String, SortMeta> sortMeta = new HashMap<>();
             sortMeta.put("mes", new SortMeta("mes", "mes", SortOrder.ASCENDING, null));
 
             this.gastos = gastosBean.getData(0, 10000, sortMeta, filterMeta);
 
+           this.gastos.addAll( gastosBean.getGastosComunes(sessionData.getMes(), sessionData.getAno(), licenciaObj.getId()));
+
         }
     }
 
     private void calculateIngresos() {
         emptyIngresos();
-
-
         if (licenciaObj != null) {
             Map<String, FilterMeta> filterMeta = new HashMap<>();
-            filterMeta.put("ano", new TaxiFilterMeta("ano", sessionData.getAno(), MatchMode.EXACT));
-            filterMeta.put("mes", new TaxiFilterMeta("mes", sessionData.getMes(), MatchMode.EXACT));
             filterMeta.put("id_licencia", new TaxiFilterMeta("id_licencia", licenciaObj.getId(), MatchMode.EXACT));
 
             Map<String, SortMeta> sortMeta = new HashMap<>();

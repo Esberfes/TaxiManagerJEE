@@ -2,6 +2,8 @@ package com.taxi.entities;
 
 import com.taxi.pojos.EmptyLicencia;
 import com.taxi.pojos.Gasto;
+import org.hibernate.annotations.Formula;
+import org.hibernate.annotations.SqlFragmentAlias;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -52,6 +54,9 @@ public class GastosEntity {
     @Column(name = "actualizado")
     @Temporal(TemporalType.TIMESTAMP)
     private Date actualizado;
+
+    @Transient
+    private BigDecimal comun;
 
     public GastosEntity() {
 
@@ -193,5 +198,13 @@ public class GastosEntity {
 
     public void setAno(Integer ano) {
         this.ano = ano;
+    }
+
+    public BigDecimal getComun() {
+        return comun;
+    }
+
+    public void setComun(BigDecimal comun) {
+        this.comun = comun;
     }
 }

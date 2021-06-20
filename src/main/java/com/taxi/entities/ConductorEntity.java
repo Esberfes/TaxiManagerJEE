@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "conductores")
+@Table(name = "conductores" , uniqueConstraints = {@UniqueConstraint(columnNames={"nombre"})})
 public class ConductorEntity {
 
     @Id
@@ -25,6 +25,9 @@ public class ConductorEntity {
 
     @Column(name = "complemento_iva")
     private BigDecimal complementoIva;
+
+    @Column(name = "t000")
+    private BigDecimal t000 = BigDecimal.ZERO;
 
     @Column(name = "t065")
     private BigDecimal t065;
@@ -55,6 +58,7 @@ public class ConductorEntity {
         this.nombre = conductor.getNombre();
         this.empresasEntity = new EmpresasEntity(conductor.getEmpresa());
         this.complementoIva = conductor.getComplemento_iva();
+        this.t000 = conductor.getT000();
         this.t065 = conductor.getT065();
         this.t060 = conductor.getT060();
         this.t055 = conductor.getT055();
@@ -127,6 +131,14 @@ public class ConductorEntity {
 
     public void setComplementoIva(BigDecimal complementoIva) {
         this.complementoIva = complementoIva;
+    }
+
+    public BigDecimal getT000() {
+        return t000;
+    }
+
+    public void setT000(BigDecimal t000) {
+        this.t000 = t000;
     }
 
     public BigDecimal getT065() {

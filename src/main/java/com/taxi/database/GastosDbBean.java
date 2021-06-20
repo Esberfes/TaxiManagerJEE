@@ -15,10 +15,15 @@ import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.taxi.utils.FilterUtils.getFilterFieldValue;
 import static com.taxi.utils.FilterUtils.matchModeTranslation;
@@ -40,6 +45,44 @@ public class GastosDbBean {
 
     @Inject
     private TiposGastoDbBean tiposGastoDbBean;
+
+    public List<Gasto> getGastosComunes(int mes, int ano, Long id) {
+
+        String rawQuery = "SELECT g FROM GastosEntity g"+
+                " WHERE g.mes = :mes AND g.ano = :ano  AND g.licenciasEntity.id IS NULL AND g.tiposGastosEntity.nombre = 'GASTOS COMUNES'";
+        TypedQuery<GastosEntity> nativeQuery = em.createQuery(rawQuery, GastosEntity.class);
+        nativeQuery.setParameter("mes", mes);
+        nativeQuery.setParameter("ano", ano);
+
+
+        String sumQuery = "SELECT (SUM(r.kmTotalesFin) - SUM(r.kmTotalesInicio)) FROM RecaudacionesEntity r WHERE  r.mes = :mes AND r.ano = :ano";
+        TypedQuery<Long> sumQ = em.createQuery(sumQuery, Long.class);
+        sumQ.setParameter("mes", mes);
+        sumQ.setParameter("ano", ano);
+
+        String parQQuery = "SELECT (r.kmTotalesFin - r.kmTotalesInicio) FROM RecaudacionesEntity r WHERE  r.mes = :mes AND r.ano = :ano AND r.licenciasEntity.id =:id";
+        TypedQuery<Integer> parQ = em.createQuery(parQQuery, Integer.class);
+        parQ.setParameter("mes", mes);
+        parQ.setParameter("ano", ano);
+        parQ.setParameter("id", id);
+
+        // esta liucencia
+        Integer par = parQ.getSingleResult();
+
+        // todas las licencia
+        Long sum = sumQ.getSingleResult();
+        List<GastosEntity> resultList = nativeQuery.getResultList();
+        List<Gasto> collect = resultList.stream().map(Gasto::new).collect(Collectors.toList());
+
+        for(Gasto gastosEntity :collect) {
+            BigDecimal i = gastosEntity.getImporte()
+                    .multiply(new BigDecimal(par))
+                    .divide(new BigDecimal(sum), RoundingMode.CEILING);
+            gastosEntity.setImporte(i);
+        }
+
+        return collect;
+    }
 
     public List<GastosEntity> getData(int first, int pageSize, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
         StringBuilder rawQuery = new StringBuilder("SELECT * FROM  gastos " +
@@ -82,16 +125,16 @@ public class GastosDbBean {
                             rawQuery.append(" AND ").append(" licencias.codigo ").append(matchModeTranslation(entry.getValue().getFilterMatchMode())).append(":").append(entry.getKey());
                             break;
                         case "formaPago.nombre":
-                            rawQuery.append(" AND ").append(" formas_pagos_gastos ").append(matchModeTranslation(entry.getValue().getFilterMatchMode())).append(":").append(entry.getKey());
+                            rawQuery.append(" AND ").append(" formas_pagos_gastos. ").append(matchModeTranslation(entry.getValue().getFilterMatchMode())).append(":").append(entry.getKey());
                             break;
                         case "tipos_gastos.es_operacional":
                             rawQuery.append(" AND ").append(" tipos_gastos.es_operacional ").append(matchModeTranslation(entry.getValue().getFilterMatchMode())).append(":").append(entry.getKey());
                             break;
-                        case "tipos_gastos.enombre":
+                        case "tipos_gastos.nombre":
                             rawQuery.append(" AND ").append(" tipos_gastos.nombre ").append(matchModeTranslation(entry.getValue().getFilterMatchMode())).append(":").append(entry.getKey());
                             break;
                         default:
-                            rawQuery.append(" AND ").append("gastos.").append(entry.getKey()).append(" LIKE ").append(":").append(entry.getKey());
+                            rawQuery.append(" AND ").append(entry.getKey()).append(matchModeTranslation(entry.getValue().getFilterMatchMode())).append(":").append(entry.getKey());
                             break;
                     }
 
@@ -150,7 +193,7 @@ public class GastosDbBean {
             try {
                 TiposGastosEntity tiposGastosEntity = tiposGastoDbBean.findSingleByName(gasto.getTipoGasto().getNombre());
                 gastosEntity.setTiposGastosEntity(tiposGastosEntity);
-            }catch (Throwable e) {
+            } catch (Throwable e) {
                 gastosEntity.setTiposGastosEntity(null);
             }
         }

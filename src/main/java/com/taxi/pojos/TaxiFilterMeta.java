@@ -13,6 +13,11 @@ public class TaxiFilterMeta extends FilterMeta {
        this.matchMode = matchMode;
     }
 
+    public TaxiFilterMeta(String filterField, Object filterValue) {
+        super(filterField, filterValue);
+        this.matchMode = MatchMode.EXACT;
+    }
+
     public MatchMode getFilterMatchMode() {
         return matchMode;
     }

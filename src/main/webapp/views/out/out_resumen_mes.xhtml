@@ -15,37 +15,58 @@
              style="margin-bottom: 25px">
         <p:outputPanel styleClass="p-grid">
 
-        </p:outputPanel>
-        <p:outputPanel>
+            <p:panel styleClass="p-col-4 p-05" header="Recaudación">
+                <p:outputPanel>
+                    Recaudación total: <b>#{OutResumenMensual.resumen.recaudacion}€</b>
+                </p:outputPanel>
+            </p:panel>
+            <p:panel styleClass="p-col-4 p-05" header="Beneficio Operativo">
+                <p:outputPanel>
+                    Recaudación total: <b>#{OutResumenMensual.resumen.beneficioOp}€</b>
+                </p:outputPanel>
+            </p:panel>
+            <p:panel styleClass="p-col-4 p-05" header="Beneficio">
+                <p:outputPanel>
+                    Recaudación total: <b>#{OutResumenMensual.resumen.beneficio}€</b>
+                </p:outputPanel>
+            </p:panel>
 
+            <p:dataList styleClass="p-col-6" value="#{OutResumenMensual.resumen.gastosOp.entrySet().toArray()}"
+                        var="gasto" type="definition">
+                <f:facet name="header">
+                    Gastos Operativos
+                </f:facet>
+                #{gasto.key}: <b>#{gasto.value}€</b>
+                <f:facet name="footer">
+                    <div>
+                        Total gastos operativos:<b>#{OutResumenMensual.resumen.gastosOpTotal}€</b>
+                    </div>
+                </f:facet>
+            </p:dataList>
+            <p:dataList styleClass="p-col-6" value="#{OutResumenMensual.resumen.gastosGes.entrySet().toArray()}"
+                        var="gasto" type="definition">
+                <f:facet name="header">
+                    Gastos De Gestión
+                </f:facet>
+                #{gasto.key}: <b>#{gasto.value}€</b>
+                <f:facet name="footer">
+                    <div>
+                        Total gastos de gestión: <b>#{OutResumenMensual.resumen.gastosGesTotal}€</b>
+                    </div>
+                </f:facet>
+            </p:dataList>
         </p:outputPanel>
     </p:panel>
 
-    <p:outputPanel styleClass="p-grid">
-        <p:panel styleClass="p-col-12" header="Resumen mensual">
-            <p:dataTable widgetVar="outResumenMes" id="outResumenMes" var="res"
-                         value="#{OutResumenMensual.resumen}"
-                         rows="500"
-                         paginator="false"
-                         resizableColumns="true" liveResize="true" showGridlines="true">
-
-
-                <p:column headerText="Recaudacion">
-                    <h:outputText value="#{res.recaudacion}"/>
-                </p:column>
-
-                <p:column headerText="Salarios">
-                    <h:outputText value="#{res.salarios}"/>
-                </p:column>
-                <p:column headerText="Gastros Op.">
-                    <h:outputText value="#{res.gastosOp}"/>
-                </p:column>
-                <p:column headerText="Beneficio">
-                    <h:outputText value="#{res.beneficioOp}"/>
-                </p:column>
-
-            </p:dataTable>
-        </p:panel>
+    <p:outputPanel rendered="false" styleClass="p-grid">
+        <p:treeTable value="#{OutResumenMensual.root}" var="gasto" cellSeparator="true">
+            <f:facet name="header">
+                Document Viewer
+            </f:facet>
+            <p:column headerText="Data">
+                <h:outputText escape="false" value="#{gasto}"/>
+            </p:column>
+        </p:treeTable>
     </p:outputPanel>
 
 
